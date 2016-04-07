@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/light_linear_layout">
+
+    <TextView   android:layout_width="fill_parent"
+                android:layout_height="@dimen/label_height"
+                android:text="@string/light_label"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"/>
+
+    <Space  android:layout_width="fill_parent"
+            android:layout_height="@dimen/in_table_space_height"/>
+
+    <TableLayout    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+        <TableRow android:gravity="center_horizontal">
+            <TextView   android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:text="@string/current_light_label"
+                        android:textSize="@dimen/medium_font_size"
+                        android:gravity="center"/>
+
+            <Space  android:layout_width="@dimen/small_inline_space_width"
+                    android:layout_height="match_parent"/>
+
+            <TextView   android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/current_light_value"
+                        android:textSize="@dimen/medium_font_size"/>
+        </TableRow>
+
+
+        <Space android:layout_width="fill_parent"
+               android:layout_height="@dimen/medium_table_space_height" />
+    </TableLayout>
+
+
+    <Space  android:layout_width="fill_parent"
+            android:layout_height="@dimen/in_table_space_height"/>
+
+
+    <!-- To display only if manual control is active. -->
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:id="@+id/light_Manual_layout">
+
+        <TextView   android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wished_light_label"
+                    android:textSize="@dimen/medium_font_size"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+
+        <Space  android:layout_width="fill_parent"
+                android:layout_height="@dimen/small_space_height"/>
+
+
+        <LinearLayout   android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+
+            <SeekBar    android:layout_width="@dimen/seekbar_width"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/desired_light_seekbar"
+                        android:max="4"/>
+
+            <Space  android:layout_width="@dimen/small_inline_space_width"
+                    android:layout_height="wrap_content"/>
+
+            <TextView   android:layout_width="@dimen/label_width"
+                        android:layout_height="@dimen/label_height"
+                        android:id="@+id/desired_light_value"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+
+
+<!--
+
+
+            <TableRow android:gravity="center_horizontal">
+                <TextView   android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/exterior_temperature_label"
+                            android:textSize="@dimen/medium_font_size"
+                            android:gravity="center"/>
+
+                <Space  android:layout_width="@dimen/small_inline_space_width"
+                        android:layout_height="match_parent"/>
+
+                <TextView   android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/exterior_temperature_value"
+                            android:textSize="@dimen/medium_font_size"
+                            android:text="@string/unknown"/>
+            </TableRow>
+
+
+
+
+
+
+
+    <Space  android:layout_width="fill_parent"
+            android:layout_height="@dimen/in_table_space_height"/>
+
+<LinearLayout android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:id="@+id/temperature_Manual_layout" android:visibility="invisible">
+
+<TextView   android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/wished_temperature_label"
+            android:textSize="@dimen/medium_font_size"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+<Space  android:layout_width="fill_parent"
+        android:layout_height="@dimen/small_space_height"/>
+
+<ImageButton    android:layout_width="@dimen/temperature_button_width"
+                android:layout_height="@dimen/temperature_button_height"
+                android:layout_gravity="center"
+                android:onClick="temperatureIncrease"
+                android:background="@android:drawable/arrow_up_float"/>
+
+<EditText android:layout_width="@dimen/temperature_picker_width"
+          android:layout_height="@dimen/temperature_picker_height"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:text="45.5"
+          android:inputType="numberDecimal"
+          android:cursorVisible="false"
+          android:focusableInTouchMode="true"
+          android:maxLength="4"
+          android:ems="3"
+          android:id="@+id/desired_temperature_value"/>
+
+<ImageButton    android:layout_width="@dimen/temperature_button_width"
+                android:layout_height="@dimen/temperature_button_height"
+                android:layout_gravity="center"
+                android:onClick="temperatureDecrease"
+                android:background="@android:drawable/arrow_down_float"/>
+</LinearLayout>
+
+-->
+
+
+

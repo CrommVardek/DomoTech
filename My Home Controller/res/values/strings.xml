@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Home Controller</string>
+
+    <!-- Login form / Login activity-->
+    <string name="username_hint">Nom d\'utilisateur</string>
+    <string name="password_hint">*******</string>
+    <string name="confirm">Valider</string>
+
+    <!-- Menu -->
+    <string name="logout">Déconnexion</string>
+
+    <!-- Room Details-->
+    <string name="room_details_label">Détails de la pièce: </string>
+    <string name="temperature_label">Température:</string>
+    <string name="light_label">Intensité de lumière:</string>
+    <string name="toggle_on">Manuel</string>
+    <string name="toggle_off">Manuel</string>
+    <string name="current_temperature_label">Température de la pièce: </string>
+    <string name="wished_temperature_label">Température désirée</string>
+
+    <string name="exterior_temperature_label">Température extérieure: </string>
+    <string name="unknown">Unknown</string>
+
+    <string name="current_light_label">Luminosité de la pièce: </string>
+    <string name="wished_light_label">Degré de luminosité souhaité:</string>
+</resources>
