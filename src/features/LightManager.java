@@ -1,5 +1,8 @@
 package features;
 
+import java.time.*;
+import java.util.Date;
+
 import com.phidgets.*;
 
 public class LightManager {
@@ -84,6 +87,7 @@ public class LightManager {
 			 * LLL: 3/4 LEDs
 			 * NLL: 2/4 LEDs
 			 * RLL: 1/4 LEDs 
+			 * Higher: turn off the light 0/4 LEDs
 			 */
 			
 			switch(simplifiedSensorValue){
@@ -105,6 +109,7 @@ public class LightManager {
 			 * LLL: 3/4 LEDs
 			 * NLL: 2/4 LEDs
 			 * RLL: 1/4 LEDs 
+			 * Higher: turn off the light 0/4 LEDs
 			 */
 			//Compare old and new values
 			switch(simplifiedSensorValue){
@@ -122,6 +127,24 @@ public class LightManager {
 			
 	}
 	
+	public int onChangeLight(int lightVal){
+		
+		sensorValue = lightVal;
+		simplifiedSensorValue = SimplifyValue(sensorValue);
+		
+		return setLedPower(isNightTime());
+	}
 	
+	public boolean isNightTime(){
+		
+		int hour = LocalDateTime.now().getHour();
+		
+		if ((hour >= 23) || (hour <= 6)){
+			return true;
+		}
+		
+		return false;
+		
+	}
 	
 }

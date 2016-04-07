@@ -36,13 +36,6 @@ public class LightSensor {
 			}
 		});
 		
-		IFK.addSensorChangeListener(new SensorChangeListener()
-		{
-			public void sensorChanged(SensorChangeEvent oe)
-			{
-				System.out.println(oe);
-			}
-		});
 		
 		//Get Light Value (port number 1)
 		int lightValue = IFK.getSensorValue(1);
@@ -50,6 +43,24 @@ public class LightSensor {
 		//TODO create lightmanager
 		LightManager lm = new LightManager(room, lightValue);
 		
+		//Lis les données toutes les 100ms.
+		IFK.setDataRate(1, 100);
+
+		IFK.addSensorChangeListener(new SensorChangeListener()
+		{
+			public void sensorChanged(SensorChangeEvent oe)
+			{
+				try {
+					
+					//TODO
+					int lightVal = IFK.getSensorValue(1);
+					lm.onChangeLight(lightVal);
+					System.out.println(oe);
+				} catch (PhidgetException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
 		/*
 		 * LEDs Output:

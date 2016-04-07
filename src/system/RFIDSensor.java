@@ -46,7 +46,8 @@ public class RFIDSensor {
 			public void tagGained(TagGainEvent oe)
 			{
 				System.out.println("Tag Gained: " +oe.getValue() + " (Proto:"+ oe.getProtocol()+")");
-				//TODO Communication avec roue
+				//TODO Communication avec roue à épices
+				
 			}
 		});
 		
