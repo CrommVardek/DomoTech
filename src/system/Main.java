@@ -22,6 +22,7 @@ public class Main {
 			//Launch and init the sensors and the managers
 			TempSensor.LaunchTempSensor(rooms.get(0));
 			LightSensor.LaunchLightSensor(ifk, rooms.get(0));
+			RFIDSensor.LaunchRFIDSensor(); 
 			
 	}
 	

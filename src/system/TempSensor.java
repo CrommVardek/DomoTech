@@ -38,14 +38,6 @@ public class TempSensor {
 				System.out.println("error event for " + ee);
 			}
 		});
-		
-		tempsensor.addTemperatureChangeListener(new TemperatureChangeListener()
-		{
-			public void temperatureChanged(TemperatureChangeEvent oe)
-			{
-				System.out.println(oe);
-			}
-		});
 
 		tempsensor.openAny();
 		
@@ -55,7 +47,20 @@ public class TempSensor {
 		
 		HeatManager hm = new HeatManager(room, tempsensor.getTemperatureChangeTrigger(0));
 		
-		//TODO: On change listener.
+		//Lors d'un changement de température, le manager prend le relais.
+		tempsensor.addTemperatureChangeListener(new TemperatureChangeListener()
+		{
+			public void temperatureChanged(TemperatureChangeEvent oe)
+			{
+				try {
+					hm.onChangingTemp(tempsensor.getTemperatureChangeTrigger(0));
+				} catch (PhidgetException e) {
+					e.printStackTrace();
+				}
+				
+				System.out.println(oe);
+			}
+		});
 		
 	}
 	

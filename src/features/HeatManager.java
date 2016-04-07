@@ -4,23 +4,85 @@ public class HeatManager {
 
 	int room;
 	
-	//In Celsius
+	//Temp in Celsius
 	double sensorValue;
 	
-	//heat = true if the room temperature is too low, false else
-	boolean heat;
-	//difference between desired temperature and actual temperature of the room
-	int increase;
+	//Temp desired in Celsius
+	double desiredTemp;
+		
 	//heaterOn = true 
 	boolean heaterOn;
+	
+	//Power of the heater (0-5)
+	int power;
 	
 	public HeatManager(int room, double value){
 		this.room = room;
 		this.sensorValue = value;
-		this.heat = false;
-		this.increase = 0;
+		this.desiredTemp = value;
 		this.heaterOn = false;
+		power = 0;
 	}
 	
+	public void increaseTemp(double desiredTemp){
+		
+		this.desiredTemp = desiredTemp;
+		if(!heaterOn && desiredTemp>sensorValue){
+			turnOn();
+			power = poweredValue(desiredTemp-sensorValue);
+		}
+		
+	}
+	
+	private int poweredValue(double diff){
+		//If the desired temp is lower than the actual temp, then, diff is negative
+		if (diff < 0.0){
+			return 0;
+		}
+		
+		//Heater Power needed to efficiently heat the room. May differt depending on the heaters of the room, the room configuration and the surface of the room.
+		if (diff < 1.5){
+			return 1;
+		}
+		else{
+			if (diff < 2.5){
+				return 2;
+			}
+			else{
+				if (diff < 3.0){
+					return 3;
+				}
+				else {
+					if (diff < 4.0){
+						return 4;
+					}
+					else {
+						return 5;
+					}
+				}
+			}
+		}
+	}
+	
+	public void turnOn(){
+		heaterOn = true;
+	}
+	
+	public void turnOff(){
+		heaterOn = false;
+	}
+	
+	public void onChangingTemp(double newTemp){
+		
+		sensorValue = newTemp;
+		if (newTemp>desiredTemp){
+			turnOff();
+			power = 0;
+		}
+		else{
+			turnOn();
+			power = poweredValue(desiredTemp-sensorValue);
+		}
+	}
 	
 }
