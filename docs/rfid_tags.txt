@@ -1,5 +1,5 @@
-RFID TAGs:
------------------------
+RFID TAGs (read-only):
+---------------------------
 TAG 3M: 7000822d59
 Carte blanche: 2800b920f4
 A: 4a0012ee04
