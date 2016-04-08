@@ -127,12 +127,11 @@ public class LightManager {
 			
 	}
 	
-	public int onChangeLight(int lightVal){
+	public void onChangeLight(int lightVal){
 		
 		sensorValue = lightVal;
 		simplifiedSensorValue = SimplifyValue(sensorValue);
-		
-		return setLedPower(isNightTime());
+		ledPower = setLedPower(isNightTime());
 	}
 	
 	public boolean isNightTime(){
@@ -145,6 +144,10 @@ public class LightManager {
 		
 		return false;
 		
+	}
+	
+	public int getLedPower(){
+		return ledPower;
 	}
 	
 }

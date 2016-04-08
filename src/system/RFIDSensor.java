@@ -7,9 +7,11 @@ import com.phidgets.PhidgetException;
 import com.phidgets.RFIDPhidget;
 import com.phidgets.event.*;
 
+import distributeurEpices.RoueEpices;
+
 public class RFIDSensor {
 
-	protected static void LaunchRFIDSensor() throws PhidgetException, IOException{
+	protected static void LaunchRFIDSensor(RoueEpices re) throws PhidgetException, IOException{
 		
 		RFIDPhidget rfid;
 
@@ -47,7 +49,7 @@ public class RFIDSensor {
 			{
 				System.out.println("Tag Gained: " +oe.getValue() + " (Proto:"+ oe.getProtocol()+")");
 				//TODO Communication avec roue à épices
-				
+								
 			}
 		});
 		
@@ -89,6 +91,8 @@ public class RFIDSensor {
 		
 		System.out.println(" ok");
 		
+		
 	}
+	
 	
 }

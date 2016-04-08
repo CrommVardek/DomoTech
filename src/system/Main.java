@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import com.phidgets.*;
 
+import distributeurEpices.RoueEpices;
+
 public class Main {
 
 	public static void main(String args[]) throws Exception{
@@ -19,10 +21,14 @@ public class Main {
 			rooms.addElement(3);
 			rooms.addElement(4);
 
+			//Launch the spice round.
+			RoueEpices re = new RoueEpices();
+			
 			//Launch and initialize the sensors and the managers
 			TempSensor.LaunchTempSensor(rooms.get(0));
 			LightSensor.LaunchLightSensor(ifk, rooms.get(0));
-			RFIDSensor.LaunchRFIDSensor(); 
+			RFIDSensor.LaunchRFIDSensor(re); 
+			
 			
 	}
 	

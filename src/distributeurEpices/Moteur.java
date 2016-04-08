@@ -14,7 +14,7 @@ import com.phidgets.event.ServoPositionChangeListener;
 public class Moteur {
 
 /* Dorian Lecomte
- * Classe permettant le pilotage et le déplacement du moteur commandant la roue à épice.
+ * Classe permettant le pilotage et le dÃ©placement du moteur commandant la roue Ã  Ã©pice.
  */
 	
 /*
@@ -83,7 +83,7 @@ public class Moteur {
 	public void goToPosition(double position) throws PhidgetException
 	{
 		if ((position >= servo.getPositionMin(0)) && (position <= servo.getPositionMax(0)))  servo.setPosition(0, position);
-		else System.out.println("Impossible de déplacer la roue à l'emplacement spécifié : position incorrecte.");
+		else System.out.println("Impossible de dÃ©placer la roue Ã  l'emplacement spÃ©cifiÃ© : position incorrecte.");
 	}
 	
 	public double getPositionActuelle() throws PhidgetException
@@ -121,16 +121,16 @@ public class Moteur {
 	{
 		System.out.println("Informations techniques : " );
 		System.out.println("--------------------------" );
-		System.out.println("-> Moteur connecté   : " + servo.getMotorCount());
+		System.out.println("-> Moteur connectÃ©   : " + servo.getMotorCount());
 		System.out.println("-> Position minimale  : " + servo.getPositionMin(0));
 		System.out.println("-> Position maximale : " + servo.getPositionMax(0));
 		System.out.println("-> Position actuelle : " + servo.getPosition(0));
-		System.out.println("-> Velocité minimale : " + servo.getVelocityMin(0));
-		System.out.println("-> Vélocité maximale : " + servo.getVelocityMax(0));
-		System.out.println("-> Vélocité actuelle : " + servo.getVelocity(0));
-		System.out.println("-> Accélération minimale : " + servo.getAccelerationMin(0));
-		System.out.println("-> Accélératino maximale : " + servo.getAccelerationMax(0));
-		System.out.println("-> Accélération actuelle : " + servo.getAcceleration(0));
+		System.out.println("-> VelocitÃ© minimale : " + servo.getVelocityMin(0));
+		System.out.println("-> VÃ©locitÃ© maximale : " + servo.getVelocityMax(0));
+		System.out.println("-> VÃ©locitÃ© actuelle : " + servo.getVelocity(0));
+		System.out.println("-> AccÃ©lÃ©ration minimale : " + servo.getAccelerationMin(0));
+		System.out.println("-> AccÃ©lÃ©ratino maximale : " + servo.getAccelerationMax(0));
+		System.out.println("-> AccÃ©lÃ©ration actuelle : " + servo.getAcceleration(0));
 		System.out.println("--------------------------" );
 	}
 	
@@ -139,13 +139,13 @@ public class Moteur {
 		
 		servo.addAttachListener(new AttachListener() {
 			public void attached(AttachEvent ae) {
-				System.out.println("Moteur connecté => " + ae);
+				System.out.println("Moteur connectÃ© => " + ae);
 			}
 		});
 		
 		servo.addDetachListener(new DetachListener() {
 			public void detached(DetachEvent ae) {
-				System.out.println("Moteur déconnecté => " + ae);
+				System.out.println("Moteur dÃ©connectÃ© => " + ae);
 			}
 		});
 		

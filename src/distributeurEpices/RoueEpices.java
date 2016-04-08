@@ -35,7 +35,7 @@ public class RoueEpices {
 	
 	public void activer()
 	{
-		if (servo == null) System.out.println("Erreur moteur, impossible de l'activer : référence invalide !");
+		if (servo == null) System.out.println("Erreur moteur, impossible de l'activer : rÃ©fÃ©rence invalide !");
 		else 
 		{
 			try
@@ -52,7 +52,7 @@ public class RoueEpices {
 	
 	public void desactiver()
 	{
-		if (servo == null) System.out.println("Erreur moteur, impossible de le désactiver : référence invalide !");
+		if (servo == null) System.out.println("Erreur moteur, impossible de le dÃ©sactiver : rÃ©fÃ©rence invalide !");
 		else
 		{
 			try
@@ -74,7 +74,7 @@ public class RoueEpices {
 		}
 		catch (PhidgetException e)
 		{
-			// aucune opération a effectuer.
+			// aucune opÃ©ration a effectuer.
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class RoueEpices {
 	{
 		if ((emplacement > MAX) || (emplacement < MIN))
 		{
-			System.out.println("La valeur de l'emplacement spécifiée est incorrecte !");
+			System.out.println("La valeur de l'emplacement spÃ©cifiÃ©e est incorrecte !");
 			return false;
 		}
 		else if (emplacements[emplacement -1] != null) return false;
@@ -93,7 +93,7 @@ public class RoueEpices {
 	{
 		if ((emplacement > MAX) || (emplacement < MIN))
 		{
-			System.out.println("La valeur de l'emplacement spécifiée est incorrecte !");
+			System.out.println("La valeur de l'emplacement spÃ©cifiÃ©e est incorrecte !");
 			return;
 		}
 		else emplacements[emplacement - 1] = null;
@@ -103,7 +103,7 @@ public class RoueEpices {
 	{
 		if ((emplacement > MAX) || (emplacement < MIN))
 		{
-			System.out.println("La valeur de l'emplacement spécifiée est incorrecte !");
+			System.out.println("La valeur de l'emplacement spÃ©cifiÃ©e est incorrecte !");
 			return;
 		}
 		else emplacements[emplacement - 1 ] = epice;
@@ -113,7 +113,7 @@ public class RoueEpices {
 	{
 		if ((emplacement > MAX) || (emplacement < MIN))
 		{
-			System.out.println("goToEmplacement : La valeur de l'emplacement spécifiée est incorrecte !");
+			System.out.println("goToEmplacement : La valeur de l'emplacement spÃ©cifiÃ©e est incorrecte !");
 			return;
 		}
 		else if ( ! servo.estActif())
@@ -126,5 +126,9 @@ public class RoueEpices {
 			servo.goToPosition(positions[emplacement -1]);
 			Thread.sleep(8000);
 		}
-	}	
+	}
+	
+	public Epice[] getEmplacement(){
+		return emplacements;
+	}
 }
