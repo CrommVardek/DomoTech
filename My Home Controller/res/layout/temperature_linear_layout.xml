@@ -10,7 +10,8 @@
                 android:layout_height="@dimen/label_height"
                 android:text="@string/temperature_label"
                 android:gravity="center_horizontal"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="#99c236"/>
 
     <Space  android:layout_width="fill_parent"
             android:layout_height="@dimen/in_table_space_height"/>
@@ -23,7 +24,8 @@
                         android:layout_height="fill_parent"
                         android:text="@string/current_temperature_label"
                         android:textSize="@dimen/medium_font_size"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:textColor="#99c236"/>
 
             <Space  android:layout_width="@dimen/small_inline_space_width"
                     android:layout_height="match_parent"/>
@@ -32,7 +34,8 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/current_temperature_value"
                         android:textSize="@dimen/medium_font_size"
-                        android:text="35.6°C"/>
+                        android:text="35.6°C"
+                        android:textColor="#99c236"/>
         </TableRow>
 
         <Space android:layout_width="fill_parent"
@@ -44,7 +47,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/exterior_temperature_label"
                         android:textSize="@dimen/medium_font_size"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:textColor="#99c236"/>
 
             <Space  android:layout_width="@dimen/small_inline_space_width"
                     android:layout_height="match_parent"/>
@@ -53,7 +57,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/exterior_temperature_value"
                         android:textSize="@dimen/medium_font_size"
-                        android:text="@string/unknown"/>
+                        android:text="@string/unknown"
+                        android:textColor="#99c236"/>
         </TableRow>
     </TableLayout>
 
@@ -71,7 +76,8 @@
                     android:text="@string/wished_temperature_label"
                     android:textSize="@dimen/medium_font_size"
                     android:textStyle="bold"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:textColor="#99c236"/>
 
         <Space  android:layout_width="fill_parent"
                 android:layout_height="@dimen/small_space_height"/>
@@ -93,7 +99,8 @@
                   android:maxLength="4"
                   android:ems="3"
                   android:id="@+id/desired_temperature_value"
-                  android:background="#1676af"/>
+                  android:background="#1676af"
+                  android:textColor="#99c236"/>
 
         <ImageButton    android:layout_width="@dimen/temperature_button_width"
                         android:layout_height="@dimen/temperature_button_height"

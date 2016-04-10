@@ -8,32 +8,32 @@
 
     <ImageButton
             android:layout_width="@dimen/image_width"
-            android:layout_height="@dimen/image_height"
+            android:layout_height="@dimen/image_width"
             android:id="@+id/kitchen_button"
-            android:background="@drawable/kitchen"
+            android:background="@drawable/kitchen_color"
             android:onClick="handleClick"/>
 
 
     <ImageButton
             android:layout_width="@dimen/image_width"
-            android:layout_height="@dimen/image_height"
-            android:id="@+id/office_button"
-            android:background="@drawable/office"
+            android:layout_height="@dimen/image_width"
+            android:id="@+id/bathroom_button"
+            android:background="@drawable/bathroom_color"
             android:onClick="handleClick"/>
 
 
     <ImageButton
             android:layout_width="@dimen/image_width"
-            android:layout_height="@dimen/image_height"
+            android:layout_height="@dimen/image_width"
             android:id="@+id/living_room_button"
-            android:background="@drawable/living_room"
+            android:background="@drawable/living_color"
             android:onClick="handleClick"/>
 
 
     <ImageButton
             android:layout_width="@dimen/image_width"
-            android:layout_height="@dimen/image_height"
+            android:layout_height="@dimen/image_width"
             android:id="@+id/bedroom_button"
-            android:background="@drawable/bedroom"
+            android:background="@drawable/bedroom_color"
             android:onClick="handleClick"/>
 </GridLayout>

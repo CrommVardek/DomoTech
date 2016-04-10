@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/spices_linear_layout">
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:text="Sélecteur d'épices"/>
+    <TextView   android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spices_selection_label"
+                android:layout_gravity="center"
+                android:textSize="@dimen/medium_font_size"
+                android:textStyle="bold"
+                android:textColor="@color/homemade_green"/>
 
+    <RadioGroup android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
 
+        <RadioButton    android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/spices_radio_button"
+                        android:id="@+id/spices_radio_button"
+                        android:checked="true"
+                        android:onClick="onRadioButtonSelected"
+                        android:textColor="@color/homemade_green"/>
+
+        <Space  android:layout_width="@dimen/in_table_space_width"
+                android:layout_height="match_parent"/>
+
+        <RadioButton    android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/spot_radio_button"
+                        android:id="@+id/spot_radio_button"
+                        android:onClick="onRadioButtonSelected"
+                        android:textColor="@color/homemade_green"/>
+    </RadioGroup>
+
+    <Space  android:layout_width="fill_parent"
+            android:layout_height="@dimen/menu_space_height"/>
+
+    <!-- Layouts of the spices and spot selection. Displays one at a time -->
+    <include android:id="@+id/spices_selection_layout" layout="@layout/spices_selection_layout"/>
+    <include android:id="@+id/spot_selection_layout" layout="@layout/spot_selection_layout"/>
 </LinearLayout>

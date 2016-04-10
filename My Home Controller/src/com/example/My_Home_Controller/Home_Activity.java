@@ -18,7 +18,7 @@ public class Home_Activity extends Template_Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
-        getActionBar().setTitle("Page d'accueil test");
+        getActionBar().setTitle(getResources().getString(R.string.home_activity_title));
     }
 
 
@@ -38,7 +38,7 @@ public class Home_Activity extends Template_Activity {
                                             break;
             case R.id.bedroom_button:   intent.putExtra(chosen_room_extra_label, "Chambre à coucher");
                                         break;
-            case R.id.office_button:    intent.putExtra(chosen_room_extra_label, "Bureau");
+            case R.id.bathroom_button:    intent.putExtra(chosen_room_extra_label, "Salle de bains");
                                         break;
             default:    break;
         }

@@ -11,35 +11,47 @@ import android.widget.*;
  *
  * Created by Axel on 06-03-16.
  */
-public class Room_Details_Activity extends Template_Activity {
+public class Room_Details_Activity extends Template_Activity implements AdapterView.OnItemClickListener {
 
-    TextView ROOM_DETAILS_LABEL;
+    // Views used programmatically
     EditText desiredTemperatureValue;
     TextView desiredLightValue;
     SeekBar desiredLightSeekbar;
-    private final String chosen_room_extra_label = "chosenRoom";
-
-
+    ToggleButton manuel_auto_toggle;
     private ViewAnimator viewAnimator;
+    LinearLayout spices_selection;
+    LinearLayout spot_selection;
+    ListView listeEpices;
+    ListView listSpots;
+
+    // Constants and Variables
+    private final String chosen_room_extra_label = "chosenRoom";
     private float lastX;
+    String currentRoom;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.room_details_layout);
-
+        // Set the label of the activity which containts the name of the room.
         String label = getResources().getText(R.string.room_details_label).toString();
-        String room = getIntent().getStringExtra(chosen_room_extra_label);
-        getActionBar().setTitle(label+room);
+        currentRoom = getIntent().getStringExtra(chosen_room_extra_label);
+        getActionBar().setTitle(label+currentRoom);
 
         viewAnimator = (ViewAnimator) findViewById(R.id.viewAnimator);
-
-        ROOM_DETAILS_LABEL = (TextView) findViewById(R.id.room_details_label);
-        ROOM_DETAILS_LABEL.setText(getIntent().getStringExtra(chosen_room_extra_label));
-
+        manuel_auto_toggle = (ToggleButton) findViewById(R.id.manuel_auto_toggle);
         desiredTemperatureValue = (EditText) findViewById(R.id.desired_temperature_value);
         desiredLightValue = (TextView) findViewById(R.id.desired_light_value);
         desiredLightSeekbar = (SeekBar) findViewById(R.id.desired_light_seekbar);
+        spices_selection = (LinearLayout) findViewById(R.id.spices_selection_layout);
+        spot_selection = (LinearLayout) findViewById(R.id.spot_selection_layout);
+        listeEpices = (ListView) findViewById(R.id.spices_list);
+        listSpots = (ListView) findViewById(R.id.spot_list);
+
+        Temporary.populateSpices(listeEpices, this);
+        Temporary.populateSpots(listSpots,this);
+        listeEpices.setOnItemClickListener(this);
 
         // Seekbar listener to update text value on sliding.
         desiredLightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -73,6 +85,7 @@ public class Room_Details_Activity extends Template_Activity {
                 if (lastX < currentX) {
                     // If there aren't any other children, just break.
                     if (viewAnimator.getDisplayedChild() == 0) break;
+                    if (viewAnimator.getDisplayedChild() <= 2) manuel_auto_toggle.setVisibility(View.VISIBLE);
 
                     viewAnimator.setInAnimation(this, R.anim.slide_in_from_left);
                     viewAnimator.setOutAnimation(this, R.anim.slide_out_to_right);
@@ -82,7 +95,10 @@ public class Room_Details_Activity extends Template_Activity {
                 // Handling right to left screen swap.
                 if (lastX > currentX) {
                     // If there isn't a child (to the left), just break.
+                    if (!currentRoom.equals("Cuisine") && viewAnimator.getDisplayedChild() == 1) break;
                     if (viewAnimator.getDisplayedChild() == 2) break;
+                    // If we switch to the Spices selection, hide the auto/manual toggle
+                    if(viewAnimator.getDisplayedChild() == 1) manuel_auto_toggle.setVisibility(View.GONE);
 
                     viewAnimator.setInAnimation(this, R.anim.slide_in_from_right);
                     viewAnimator.setOutAnimation(this, R.anim.slide_out_to_left);
@@ -141,6 +157,32 @@ public class Room_Details_Activity extends Template_Activity {
             desiredTemperature.setVisibility(View.INVISIBLE);
             desiredLight.setVisibility(View.INVISIBLE);
         }
+    }
+
+    /**
+     * Handles the selection of a radio button.
+     * If the spices selection radio button is selected then:   - displays the list of spices available
+     *                                                          - asks the user to select one
+     * If the spot selection radio button is selected then:     - displays the range of possibilites
+     *                                                          - asks the user to select one
+     *
+     * @param view RadioButton clicked.
+     */
+    public void onRadioButtonSelected(View view){
+        RadioButton button = (RadioButton) view;
+        if (button.getText().toString().equals("Épices")){
+            spices_selection.setVisibility(View.VISIBLE);
+            spot_selection.setVisibility(View.GONE);
+        }
+        if (button.getText().toString().equals("Emplacement")){
+            spices_selection.setVisibility(View.GONE);
+            spot_selection.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    public void onItemClick(AdapterView<?> l, View view, int position, long id){
+        Toast.makeText(Room_Details_Activity.this, "Item "+id+" clicked at position "+position, Toast.LENGTH_SHORT).show();
     }
 }
 

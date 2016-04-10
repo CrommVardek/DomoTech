@@ -24,4 +24,17 @@
 
     <string name="current_light_label">Luminosité de la pièce: </string>
     <string name="wished_light_label">Degré de luminosité souhaité:</string>
+
+
+    <string name="spices_selection_label">Sélecteur d\'épices</string>
+    <string name="spices_radio_button">Épices</string>
+    <string name="spot_radio_button">Emplacement</string>
+
+    <string name="spot_selection_label">Emplacement souhaité:</string>
+    <string name="spice_selection_label">Épice souhaitée:</string>
+
+    <!-- Activities titles-->
+    <string name="home_activity_title">Gestion de la maison</string>
+    <string name="login_activity_title">My Home Controller - Identification</string>
+    <string name="room_details_activity_title">Gestion de </string>
 </resources>

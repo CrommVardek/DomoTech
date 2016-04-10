@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+                android:gravity="center">
+
+    <TextView   android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spot_selection_label"
+                android:id="@+id/spot_selection_label"
+                android:textSize="@dimen/medium_font_size"
+                android:textStyle="bold"
+                android:textColor="@color/homemade_green"/>
+
+    <Space  android:layout_width="fill_parent"
+            android:layout_height="@dimen/small_space_height"/>
+
+    <ListView   android:layout_width="fill_parent"
+                android:layout_height="@dimen/list_height"
+                android:id="@+id/spot_list"
+                android:textColor="@color/homemade_green"/>
+</LinearLayout>
