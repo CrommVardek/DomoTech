@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
+import com.example.My_Home_Controller.rest.GetInsideTemperatureAsyncTask;
 
 /**
  * Handles the control of a room.
@@ -11,7 +12,7 @@ import android.widget.*;
  *
  * Created by Axel on 06-03-16.
  */
-public class Room_Details_Activity extends Template_Activity implements AdapterView.OnItemClickListener {
+public class Room_Details_Activity extends Template_Activity implements AdapterView.OnItemClickListener{
 
     // Views used programmatically
     EditText desiredTemperatureValue;
@@ -23,6 +24,7 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
     LinearLayout spot_selection;
     ListView listeEpices;
     ListView listSpots;
+    TextView currentInsideTemperature;
 
     // Constants and Variables
     private final String chosen_room_extra_label = "chosenRoom";
@@ -48,6 +50,7 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
         spot_selection = (LinearLayout) findViewById(R.id.spot_selection_layout);
         listeEpices = (ListView) findViewById(R.id.spices_list);
         listSpots = (ListView) findViewById(R.id.spot_list);
+        currentInsideTemperature = (TextView) findViewById(R.id.current_temperature_value);
 
         Temporary.populateSpices(listeEpices, this);
         Temporary.populateSpots(listSpots,this);
@@ -66,6 +69,12 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+
+
+
+        // Asynchronous tasks
+        // TODO - Change, must be asynchronous (no .get()) !!!!!!
+        new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
     }
 
 

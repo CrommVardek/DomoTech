@@ -34,7 +34,6 @@
                         android:layout_height="fill_parent"
                         android:id="@+id/current_temperature_value"
                         android:textSize="@dimen/medium_font_size"
-                        android:text="35.6°C"
                         android:textColor="#99c236"/>
         </TableRow>
 

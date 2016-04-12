@@ -16,4 +16,5 @@
         <activity   android:name=".Home_Activity" android:screenOrientation="portrait"/>
         <activity   android:name=".Room_Details_Activity" android:screenOrientation="portrait"/>
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
