@@ -11,7 +11,7 @@ object ScalaWebServerBuild extends Build {
   val Name = "Scala Web Server"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.8"
-  val ScalatraVersion = "2.4.0"
+  val ScalatraVersion = "2.4.0.RC1"
 
   lazy val project = Project (
     "scala-web-server",
@@ -31,6 +31,9 @@ object ScalaWebServerBuild extends Build {
         "ch.qos.logback" % "logback-classic" % "1.1.5" % "runtime",
         "com.typesafe.akka" %% "akka-actor" % "2.4.2",
         "com.phidgets" % "phidget" % "2.1.8",
+        "org.scalatra" %% "scalatra-json" % "2.3.0",
+        "org.json4s" %% "json4s-native" % "3.2.9",
+        "org.json4s" %% "json4s-jackson" % "3.3.0",
         "org.eclipse.jetty" % "jetty-webapp" % "9.2.15.v20160210" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided"
       ),
