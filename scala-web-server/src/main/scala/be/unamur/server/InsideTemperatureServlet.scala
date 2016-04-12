@@ -39,7 +39,6 @@ case class Temperature(value:Double, unit:String)
 
 object TemperatureData{
   val all = List(
-    Temperature(15.0,"Fahrenheit"),
-    Temperature(20, "Celsius")
+    Temperature(50, "Celsius")
     )
 }
