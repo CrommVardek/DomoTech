@@ -2,9 +2,9 @@ RFID TAGs (read-only):
 ---------------------------
 TAG 3M: 7000822d59
 Carte blanche: 2800b920f4
-A: 4a0012ee04
-B: 4a0012fa94
-1: 5c005c8aeb
-2: 5c005cb6b9
-3: 5c005cc39b
-4: 5c005ce795
+A: 4a0012ee04 = muscade
+B: 4a0012fa94 = paprika
+1: 5c005c8aeb = piment
+2: 5c005cb6b9 = poivre
+3: 5c005cc39b = reglisse
+4: 5c005ce795 = vanille
