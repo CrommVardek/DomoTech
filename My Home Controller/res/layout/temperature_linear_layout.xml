@@ -36,29 +36,6 @@
                         android:textSize="@dimen/medium_font_size"
                         android:textColor="#99c236"/>
         </TableRow>
-
-        <Space android:layout_width="fill_parent"
-               android:layout_height="@dimen/medium_table_space_height" />
-
-
-        <TableRow android:gravity="center_horizontal">
-            <TextView   android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/exterior_temperature_label"
-                        android:textSize="@dimen/medium_font_size"
-                        android:gravity="center"
-                        android:textColor="#99c236"/>
-
-            <Space  android:layout_width="@dimen/small_inline_space_width"
-                    android:layout_height="match_parent"/>
-
-            <TextView   android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/exterior_temperature_value"
-                        android:textSize="@dimen/medium_font_size"
-                        android:text="@string/unknown"
-                        android:textColor="#99c236"/>
-        </TableRow>
     </TableLayout>
 
     <Space  android:layout_width="fill_parent"

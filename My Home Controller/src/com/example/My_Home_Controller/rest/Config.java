@@ -22,7 +22,7 @@ public class Config {
     }
 
     private Config() {
-        baseUrl = "http://192.168.1.12:8080/";
+        baseUrl = "http://192.168.1.13:8080/";
         //baseUrl = "http://localhost:8080/";
         insideTemperatureUrl = baseUrl + "rest/insideTemperature";
         insideLuminosityUrl = baseUrl + "rest/insideLuminosity";
@@ -30,7 +30,7 @@ public class Config {
         spotsUrl = baseUrl + "rest/spots";
     }
 
-
+    public String getBaseUrl(){return baseUrl;}
     public String getInsideTemperatureUrl(){
         return insideTemperatureUrl;
     }

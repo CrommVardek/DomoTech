@@ -1,10 +1,14 @@
 package com.example.My_Home_Controller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,6 +29,10 @@ public class Login_Activity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+
+        if (!isInternetAvailable()){
+            displayDialog();
+        }
     }
 
 
@@ -58,5 +66,51 @@ public class Login_Activity extends Activity {
             Intent nextScreen = new Intent(Login_Activity.this, Home_Activity.class);
             startActivity(nextScreen);
         }
+    }
+
+
+    private boolean isInternetAvailable(){
+        try{
+/*            InetAddress ipaddr = InetAddress.getByName(Config.getInstance().getBaseUrl());
+            if (ipaddr.equals("")){
+                return false;
+            } else {
+                return true;
+            }*/
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+            if(networkInfo != null && (networkInfo.isConnected()))
+            {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    private void displayDialog(){
+        new AlertDialog.Builder(Login_Activity.this)
+                .setTitle("Problème de connectivité")
+                .setMessage("Vous devez être connecté à internet pour accéder à cette application;")
+                .setPositiveButton(R.string.tryAgain, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(isInternetAvailable()){
+                            dialog.cancel();
+                        } else{
+                            displayDialog();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

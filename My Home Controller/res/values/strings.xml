@@ -39,4 +39,7 @@
     <string name="room_details_activity_title">Gestion de </string>
 
     <string name="synchronise">Synchronisation</string>
+
+    <string name="tryAgain">Réessayer</string>
+    <string name="cancel">Annuler</string>
 </resources>
