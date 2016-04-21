@@ -8,12 +8,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Asynchronous task to get the inside temperature of the house (of a specific room)
+ * Asynchronous task to get the inside temperature of the house (of a specific room).
+ * Contacts the server to get the temperature value; if an error occurs, the default value is ERROR_VALUE.
  *
  * Created by Axel on 12-04-16.
  */
@@ -30,8 +30,8 @@ public class GetInsideTemperatureAsyncTask extends AsyncTask<TextView, Void, Boo
             insideTemperatureTextView = args[0];
             HttpClient client = new DefaultHttpClient();
             HttpGet get = new HttpGet(Config.getInstance().getInsideTemperatureUrl());
-            get.setHeader("Content-type", "json");
-            get.setHeader("Accept", "json");
+            get.setHeader("Content-type", "application/json");
+            get.setHeader("Accept", "application/json");
             HttpResponse response = client.execute(get);
             if (response.getStatusLine().getStatusCode() == 200) {
                 String json = EntityUtils.toString(response.getEntity(), "UTF-8");
@@ -64,8 +64,7 @@ public class GetInsideTemperatureAsyncTask extends AsyncTask<TextView, Void, Boo
      */
     private Double extractTemperatureFromJson(String plainText){
         try {
-            JSONArray array = new JSONArray(plainText);
-            JSONObject json = array.getJSONObject(0);
+            JSONObject json = new JSONObject(plainText);
             return json.getDouble("value");
         } catch (JSONException e){
             Log.d(LOGGER_TAG,e.getMessage());

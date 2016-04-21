@@ -1,10 +1,11 @@
 package com.example.My_Home_Controller;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
-import com.example.My_Home_Controller.rest.GetInsideTemperatureAsyncTask;
+import com.example.My_Home_Controller.rest.*;
 
 /**
  * Handles the control of a room.
@@ -25,6 +26,7 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
     ListView listeEpices;
     ListView listSpots;
     TextView currentInsideTemperature;
+    TextView currentInsideLuminosity;
 
     // Constants and Variables
     private final String chosen_room_extra_label = "chosenRoom";
@@ -51,9 +53,8 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
         listeEpices = (ListView) findViewById(R.id.spices_list);
         listSpots = (ListView) findViewById(R.id.spot_list);
         currentInsideTemperature = (TextView) findViewById(R.id.current_temperature_value);
+        currentInsideLuminosity = (TextView) findViewById(R.id.current_light_value);
 
-        Temporary.populateSpices(listeEpices, this);
-        Temporary.populateSpots(listSpots,this);
         listeEpices.setOnItemClickListener(this);
 
         // Seekbar listener to update text value on sliding.
@@ -73,8 +74,11 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
 
 
         // Asynchronous tasks
-        // TODO - Change, must be asynchronous (no .get()) !!!!!!
+        new GetNumberSpotsAsyncTask().execute(listSpots);
+        new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
         new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
+        new GetListSpicesAsyncTask().execute(listeEpices);
+        new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
     }
 
 
@@ -192,6 +196,22 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
 
     public void onItemClick(AdapterView<?> l, View view, int position, long id){
         Toast.makeText(Room_Details_Activity.this, "Item "+id+" clicked at position "+position, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.synchronise:  new GetNumberSpotsAsyncTask().execute(listSpots);
+                                    new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
+                                    new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
+                                    new GetListSpicesAsyncTask().execute(listeEpices);
+                                    break;
+            default:break;
+        }
+
+        return true;
     }
 }
 

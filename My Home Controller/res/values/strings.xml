@@ -37,4 +37,6 @@
     <string name="home_activity_title">Gestion de la maison</string>
     <string name="login_activity_title">My Home Controller - Identification</string>
     <string name="room_details_activity_title">Gestion de </string>
+
+    <string name="synchronise">Synchronisation</string>
 </resources>

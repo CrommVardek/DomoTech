@@ -12,23 +12,29 @@ public class Config {
 
     private final String baseUrl;
     private final String insideTemperatureUrl;
+    private final String insideLuminosityUrl;
+    private final String spicesUrl;
+    private final String spotsUrl;
+
 
     public static Config getInstance() {
         return ourInstance;
     }
 
     private Config() {
-        baseUrl = "http://192.168.1.15:8080/";
+        baseUrl = "http://192.168.1.12:8080/";
         //baseUrl = "http://localhost:8080/";
         insideTemperatureUrl = baseUrl + "rest/insideTemperature";
+        insideLuminosityUrl = baseUrl + "rest/insideLuminosity";
+        spicesUrl = baseUrl + "rest/spices";
+        spotsUrl = baseUrl + "rest/spots";
     }
 
-
-    public String getBaseUrl(){
-        return baseUrl;
-    }
 
     public String getInsideTemperatureUrl(){
         return insideTemperatureUrl;
     }
+    public String getInsideLuminosityUrl(){return insideLuminosityUrl;}
+    public String getSpicesUrl(){return spicesUrl;}
+    public String getSpotsUrl(){return spotsUrl;}
 }
