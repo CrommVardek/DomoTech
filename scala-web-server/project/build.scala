@@ -29,12 +29,13 @@ object ScalaWebServerBuild extends Build {
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.5" % "runtime",
-        "com.typesafe.akka" %% "akka-actor" % "2.4.2",
+        "com.typesafe.akka" %% "akka-actor" % "2.3.15",
         "com.phidgets" % "phidget" % "2.1.8",
         "org.scalatra" %% "scalatra-json" % "2.3.0",
         "org.json4s" %% "json4s-native" % "3.2.9",
         "org.json4s" %% "json4s-jackson" % "3.3.0",
         "org.eclipse.jetty" % "jetty-webapp" % "9.2.15.v20160210" % "container",
+        "ch.qos.logback" % "logback-classic" % "1.1.1" % "runtime",
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>

@@ -1,13 +1,19 @@
 package be.unamur.server
 
+import _root_.akka.actor.ActorSystem
+import _root_.akka.util.Timeout
+import org.json4s.{DefaultFormats, Formats}
 import org.scalatra._
 import scalate.ScalateSupport
-import org.fusesource.scalate.{ TemplateEngine, Binding }
-import org.fusesource.scalate.layout.DefaultLayoutStrategy
-import javax.servlet.http.HttpServletRequest
-import collection.mutable
+
 
 trait ScalaWebServerStack extends ScalatraServlet with ScalateSupport {
+
+  val actorSystem = ActorSystem("Domotic")
+  //
+  protected implicit val jsonFormats: Formats = DefaultFormats
+
+  protected implicit val defaultTimeout = Timeout(3)
 
   notFound {
     // remove content type in case it was set through an action
@@ -18,5 +24,4 @@ trait ScalaWebServerStack extends ScalatraServlet with ScalateSupport {
       layoutTemplate(path)
     } orElse serveStaticResource() getOrElse resourceNotFound()
   }
-
 }
