@@ -1,66 +1,67 @@
 package system;
 
+import com.phidgets.InterfaceKitPhidget;
 import com.phidgets.PhidgetException;
-import com.phidgets.TemperatureSensorPhidget;
 import com.phidgets.event.AttachEvent;
 import com.phidgets.event.AttachListener;
 import com.phidgets.event.DetachEvent;
 import com.phidgets.event.DetachListener;
 import com.phidgets.event.ErrorEvent;
 import com.phidgets.event.ErrorListener;
-import com.phidgets.event.TemperatureChangeEvent;
-import com.phidgets.event.TemperatureChangeListener;
+import com.phidgets.event.SensorChangeEvent;
+import com.phidgets.event.SensorChangeListener;
 
 import features.HeatManager;
 
 public class TempSensor {
 
-	protected static void LaunchTempSensor(int room) throws PhidgetException{
-		
-		TemperatureSensorPhidget tempsensor;
-		
-		tempsensor = new TemperatureSensorPhidget();
-		
-		tempsensor.addAttachListener(new AttachListener() {
+	protected static void LaunchTempSensor(InterfaceKitPhidget IFK, int room) throws PhidgetException{
+				
+		IFK.addAttachListener(new AttachListener() {
 			public void attached(AttachEvent ae) {
 				System.out.println("attachment of " + ae);
 			}
 		});
 		
-		tempsensor.addDetachListener(new DetachListener() {
+		IFK.addDetachListener(new DetachListener() {
 			public void detached(DetachEvent ae) {
 				System.out.println("detachment of " + ae);
 			}
 		});
 		
-		tempsensor.addErrorListener(new ErrorListener() {
+		IFK.addErrorListener(new ErrorListener() {
 			public void error(ErrorEvent ee) {
 				System.out.println("error event for " + ee);
 			}
 		});
 
-		tempsensor.openAny();
 		
-		tempsensor.waitForAttachment();
-		
-		tempsensor.setTemperatureChangeTrigger(0, 0.1);
-		
-		HeatManager hm = new HeatManager(room, tempsensor.getTemperatureChangeTrigger(0));
-		
-		//Lors d'un changement de température, le manager prend le relais.
-		tempsensor.addTemperatureChangeListener(new TemperatureChangeListener()
-		{
-			public void temperatureChanged(TemperatureChangeEvent oe)
-			{
-				try {
-					hm.onChangingTemp(tempsensor.getTemperatureChangeTrigger(0));
-				} catch (PhidgetException e) {
-					e.printStackTrace();
-				}
+		//Get Light Value (port number 2)
+		int heatValue = IFK.getSensorValue(2);
 				
-				System.out.println(oe);
-			}
-		});
+		//Convert temp
+		double roomtemp = Math.round(((heatValue * 0.22222) - 61.11));
+		
+		HeatManager hm = new HeatManager(room, roomtemp);
+				
+		//Lis les données toutes les 100ms.
+		IFK.setDataRate(1, 100);
+
+		IFK.addSensorChangeListener(new SensorChangeListener()
+		{
+			public void sensorChanged(SensorChangeEvent oe)
+				{
+					try {
+						
+						int heatVal = IFK.getSensorValue(2);
+						double roomTemp = Math.round(((heatVal * 0.22222) - 61.11));
+						hm.onChangingTemp(roomTemp);
+						System.out.println(oe);
+						} catch (PhidgetException e) {
+							e.printStackTrace();
+						}
+					}
+				});
 		
 	}
 	

@@ -1,13 +1,15 @@
-package alarmeIncendie;
+package system;
+
+import alarmeIncendie.Pompier;
+import alarmeIncendie.PompierDefaut;
 
 import com.phidgets.InterfaceKitPhidget;
 import com.phidgets.PhidgetException;
 import com.phidgets.event.InputChangeEvent;
 import com.phidgets.event.InputChangeListener;
 
+public class SmokeSensor {
 
-public class DetecteurIncendie {
-	
 	/* Dorian Lecomte
 	 *  impulsion est le compteur du nombre de cr�tes dans le signal
 	 *  permettant d'identifier le moment auquel survient la d�tection d'un incendie
@@ -25,7 +27,7 @@ public class DetecteurIncendie {
 /*
  * CONSTRUCTEURS :
  */
-	public DetecteurIncendie(Pompier pom, int limiteImpulsions, int mode)
+	public SmokeSensor(Pompier pom, int limiteImpulsions, int mode)
 	{
 		// instanciation des variables
 		this.pom = pom;
@@ -75,19 +77,19 @@ public class DetecteurIncendie {
 		}
 	}
 	
-	public DetecteurIncendie(int limiteImpulsions)
+	public SmokeSensor(int limiteImpulsions)
 	{
 		this(new PompierDefaut(), limiteImpulsions, 1);
 		System.out.println("Instanciation d'un objet d�tecteur incendie avec une limite d'impulsions pr�cis�e");
 	}
 	
-	public DetecteurIncendie(int limiteImpulsions, int mode)
+	public SmokeSensor(int limiteImpulsions, int mode)
 	{
 		this(new PompierDefaut(), limiteImpulsions, mode);
 		System.out.println("Instanciation d'un objet d�tecteur incendie avec une limite d'impulsions et un mode pr�cis�s");
 	}
 	
-	public DetecteurIncendie()
+	public SmokeSensor()
 	{
 		this(new PompierDefaut(), 10, 1);
 		System.out.println("Instanciation d'un objet d�tecteur incendie avec les param�tres par d�faut");
@@ -186,4 +188,5 @@ public class DetecteurIncendie {
 			System.out.println(" Erreur : " + e.toString());
 		}
 	}
+	
 }
