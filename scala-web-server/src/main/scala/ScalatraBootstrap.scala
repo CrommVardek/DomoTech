@@ -1,4 +1,4 @@
-import _root_.akka.actor.{Props, ActorSystem}
+import _root_.akka.actor.ActorSystem
 import be.unamur.server._
 import org.scalatra._
 import javax.servlet.ServletContext
@@ -7,7 +7,7 @@ class ScalatraBootstrap extends LifeCycle {
 
   // Get a handle to an ActorSystem and a reference to one of your actors
   val system = ActorSystem()
-  val myActor = system.actorOf(Props[ActorTest])
+  //val myActor = system.actorOf(Props[ActorTest])
 
 
   override def init(context: ServletContext) {

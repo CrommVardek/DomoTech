@@ -2,13 +2,13 @@ package be.unamur.server
 
 import akka.actor.Props
 import be.unamur.actors.SpiceActor
-import be.unamur.models.Spice
+import be.unamur.commonsObjects.Spice
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
 import akka.pattern.ask
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.util.parsing.json.JSONObject
+import scala.util.parsing.json.{JSONArray, JSONObject}
 
 /**
   * Servlet to handle requests regarding the spices and the spice wheel.
@@ -33,11 +33,24 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
   get("/") {
     logger.info("Get Request on /rest/spices")
 
-    def futureResult = ask(actor, "Get spices list")
+/*    def futureResult = ask(actor, "Get spices list")
     val res = Await.result(futureResult, 15.seconds).asInstanceOf[List[Spice]]
 
-    for (i <- res) response.getWriter.write(i.toJson.toString())
+    var json =  {
+                  """Spices""" + ":["
+                  //(for (i <- res) (i.toJson.toString() + ",")) + "]"
+                }
 
+    for (i <- res) (json += i.toJson.toString() + ",")
+
+    json += "]"
+
+    println(json)
+
+    //response.getWriter.write(json.toString())
+
+    for (i <- res) response.getWriter.write(i.toJson.toString())
+*/
     actor ! "Kill"
   }
 

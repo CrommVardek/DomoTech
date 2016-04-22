@@ -2,12 +2,9 @@ package be.unamur.server
 
 import akka.actor.Props
 import be.unamur.actors.HeatManagerActor
-import be.unamur.models.Temperature
+
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
-import akka.pattern.ask
-import scala.concurrent.Await
-import scala.concurrent.duration._
 
 /**
   * Servlet to handle request about the inside temperature.
@@ -35,11 +32,11 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
     logger.info("Get Request on /rest/insideTemperature")
 
     // Get the current inside temperature and wait for the result.
-    def futureResult = ask(actor, "Get inside temperature")
+/*    def futureResult = ask(actor, "Get inside temperature")
     val res = Await.result(futureResult, 15.seconds).asInstanceOf[List[Temperature]]
 
     for (i <- res) response.getWriter.write(i.toJson.toString())
-
+*/
     actor ! "Kill"
   }
 
@@ -49,7 +46,7 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
   post("/"){
     logger.info("POST Request on /rest/insideTemperature")
     // Retrieve the JSON as a Temperature entity.
-    val temperature = parsedBody.extract[Temperature]
+  /*  val temperature = parsedBody.extract[Temperature]
 
     def futureResult = ask(actor, "Set inside temperature")
     val res = Await.result(futureResult, 15.seconds).asInstanceOf[Boolean]
@@ -61,7 +58,7 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
       logger.info("POST Request failure.")
       response.setStatus(500)
     }
-
+*/
     actor ! "Kill"
     logger.info("POST Request done (Actor killed)")
   }

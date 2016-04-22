@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.Await
 import akka.pattern.ask
 import scala.concurrent.duration._
-import be.unamur.models.Spot
+
 
 import scala.util.parsing.json.JSONObject
 
@@ -29,12 +29,12 @@ class SpotsServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
   get("/") {
     logger.info("Get Request on /rest/spices")
-
+/*
     def futureResult = ask(actor, "Get number spots")
     val res = Await.result(futureResult, 15.seconds).asInstanceOf[Spot]
 
     response.getWriter.write(res.toJson.toString())
-
+*/
     actor ! "Kill"
   }
 

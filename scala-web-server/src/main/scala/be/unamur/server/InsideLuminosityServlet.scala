@@ -2,12 +2,10 @@ package be.unamur.server
 
 import akka.actor.Props
 import be.unamur.actors.LightManagerActor
-import be.unamur.models.Luminosity
+
 import org.scalatra.json.JacksonJsonSupport
 import akka.pattern.ask
 import org.slf4j.LoggerFactory
-import scala.concurrent.Await
-import scala.concurrent.duration._
 
 /**
   * Servlet to handle Requests regarding the inside luminosity.
@@ -32,10 +30,10 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
 
     def futureResult = ask(actor,"Get inside luminosity")
 
-    val res = Await.result(futureResult, 15.seconds).asInstanceOf[Luminosity]
+/*    val res = Await.result(futureResult, 15.seconds).asInstanceOf[Luminosity]
 
     response.getWriter.write(res.toJson.toString())
-
+*/
     actor ! "Kill"
 
     logger.info("Get Request done (Actor killed)")
@@ -45,7 +43,7 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
   post("/"){
     logger.info("POST Request on /rest/insideLuminosity")
 
-    val luminosity = parsedBody.extract[Luminosity]
+  /*  val luminosity = parsedBody.extract[Luminosity]
 
     // TODO add luminosity value when asking actor.
 
@@ -60,7 +58,7 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
       logger.info("An error occured during the actor treatment...")
       response.setStatus(500)
     }
-
+*/
     actor ! "Kill"
 
     logger.info("POST Request done (Actor killed)")

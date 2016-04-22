@@ -1,7 +1,7 @@
 package be.unamur.actors
 
 import akka.actor.Actor
-import be.unamur.models.LuminosityData
+//import be.unamur.commonsObjects.LuminosityData
 import com.phidgets.InterfaceKitPhidget
 import org.slf4j.LoggerFactory
 
@@ -15,7 +15,7 @@ class LightManagerActor extends Actor{
   val logger =  LoggerFactory.getLogger(getClass)
 
   def receive = {
-    case "Get inside luminosity" => sender ! LuminosityData.all
+    case "Get inside luminosity" => sender ! ""//LuminosityData.all
     case "Set inside luminosity" => sender ! true
     case "Kill" => context stop self
     case message:String => logger.info("Error: Message not understood...\t"+message)

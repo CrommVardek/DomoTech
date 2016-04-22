@@ -1,7 +1,7 @@
 package be.unamur.server
 
 import _root_.akka.actor.{Props, ActorSystem, Actor}
-import be.unamur.models.LuminosityData
+//import be.unamur.commonsObjects.LuminosityData
 
 
 class HomeServlet extends ScalaWebServerStack {
@@ -9,7 +9,7 @@ class HomeServlet extends ScalaWebServerStack {
   get("/") {
 
     implicit val system = ActorSystem("Test")
-    val myActor = system.actorOf(Props[ActorTest], "testActor")
+    //val myActor = system.actorOf(Props[ActorTest], "testActor")
     //myActor ! "Test"
     <html>
       <body>
@@ -22,12 +22,3 @@ class HomeServlet extends ScalaWebServerStack {
   }
 
 }
-
-
-
-
-class ActorTest extends Actor{
-  def receive = {
-    case "do" => sender ! LuminosityData.all
-    case _ => print("no")
-}}
