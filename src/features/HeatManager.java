@@ -66,12 +66,12 @@ public class HeatManager {
 	
 	public void turnOn(){
 		heaterOn = true;
-		System.out.println("the heater is turned on");
+		System.out.println("The heater is turned on");
 	}
 	
 	public void turnOff(){
 		heaterOn = false;
-		System.out.println("the heater is turned off");
+		System.out.println("The heater is turned off");
 	}
 	
 	public void onChangingTemp(double newTemp){
@@ -79,7 +79,7 @@ public class HeatManager {
 		sensorValue = newTemp;
 		if (newTemp>desiredTemp){
 			turnOff();
-			System.out.println("the new temperature is:" + newTemp + "°C");
+			System.out.println("The new temperature is:" + newTemp + "°C");
 			power = 0;
 			System.out.println("Power is at " + power);
 		}
