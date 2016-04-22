@@ -1,7 +1,9 @@
 package commonsObjects;
 
-public class Wrapper {
-	
+
+public class Wrapper implements Container {
+
+	private static final long serialVersionUID = 2367431101680899716L;
 	private Request req;
 	private Container container;
 	private String string;

@@ -662,6 +662,7 @@ public class StorageClient {
 			logger.debug("  -> Operating system : " + System.getProperty("os.arch") + ", " + System.getProperty("os.version"));
 			logger.debug("  -> Working directory : " +  System.getProperty("user.dir"));
 			logger.debug("  -> User's name : " + System.getProperty("user.name"));
+			logger.debug("  -> Path to configuration file : " + path );
 			logger.debug("----------------------------------");
 			logger.debug("");
 	        

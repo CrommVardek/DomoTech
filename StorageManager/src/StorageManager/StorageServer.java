@@ -133,7 +133,7 @@ public class StorageServer implements Runnable {
 			catch (IOException | ClassCastException | ClassNotFoundException e) 
 			{
 				if (e.getMessage().compareToIgnoreCase("Socket Closed") != 0)
-				logger.warn("Error(s) while dispatching an incoming request :\n" + e.getMessage());
+				logger.warn("Error(s) while dispatching an incoming request :\n" + e.toString());
 			} 
 		}
 		
