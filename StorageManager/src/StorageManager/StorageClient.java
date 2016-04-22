@@ -50,11 +50,13 @@ public class StorageClient {
 /* METHODES D'INVOCATION AU SERVEUR : */
 	
  // Room
-	public String createRoom(Room room) throws StorageManagerException
+	public String createRoom(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.createRoom, room));
+			if ((w.getRequest() != Request.createRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
 			if (w.getString().equals(msgOK)) return msgOK;
 			else return ((Message) w.getContainer()).getMessage();
 		}
@@ -65,13 +67,12 @@ public class StorageClient {
 		}
 	}
 	
-	public Room readRoomByName(String name) throws StorageManagerException
+	public Room readRoomByName(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Room room = new Room();
-			room.setName(name);
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readRoomByName, room));
+			if ((w.getRequest() != Request.readRoomByName) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return (Room) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -83,13 +84,13 @@ public class StorageClient {
 		}
 	}
 	
-	public Room readRoomById(String Id) throws StorageManagerException
+	public Room readRoomById(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Room room = new Room();
-			room.setName(name);
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readRoomById, room));
+			if ((w.getRequest() != Request.readRoomById) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return (Room) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -117,11 +118,12 @@ public class StorageClient {
 		}
 	}
 	
-	public String updateRoom (Room room) throws StorageManagerException
+	public String updateRoom (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.updateRoom, room));
+			if ((w.getRequest() != Request.updateRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -133,11 +135,13 @@ public class StorageClient {
 		}
 	}
 	
-	public String deleteRoom(Room room) throws StorageManagerException
+	public String deleteRoom(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.deleteRoom, room));
+			if ((w.getRequest() != Request.deleteRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -150,11 +154,13 @@ public class StorageClient {
 	}
 
 //Action
-	public String createAction(Action action) throws StorageManagerException
+	public String createAction(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.createAction, action));
+			if ((w.getRequest() != Request.createAction) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
 			if (w.getString().equals(msgOK)) return msgOK;
 			else return ((Message) w.getContainer()).getMessage();
 		}
@@ -165,13 +171,14 @@ public class StorageClient {
 		}
 	}
 	
-	public Action readActionById (String Id) throws StorageManagerException
+	public Action readActionById (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Action action = new Action();
-			action.setActionId(Id);
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readRoomById, action));
+
+			if ((w.getRequest() != Request.readActionById) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return (Action) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -183,13 +190,14 @@ public class StorageClient {
 		}
 	}
 	
-	public Action readActionByName(String name) throws StorageManagerException
+	public Action readActionByName(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Action action = new Action();
-			action.setName(name);
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readActionByName, action));
+
+			if ((w.getRequest() != Request.readActionByName) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return (Action) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -216,11 +224,13 @@ public class StorageClient {
 		}
 	}
 	
-	public String updateAction(Action action) throws StorageManagerException
+	public String updateAction(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.updateAction, action));
+			if ((w.getRequest() != Request.updateAction) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -232,11 +242,12 @@ public class StorageClient {
 		}
 	}
 	
-	public String deleteAction(Action action) throws StorageManagerException
+	public String deleteAction(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.deleteAction, action));
+			if ((w.getRequest() != Request.deleteAction) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -249,11 +260,12 @@ public class StorageClient {
 	}
 
 //Agenda
-	public String createAgenda(Agenda agenda) throws StorageManagerException
+	public String createAgenda(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.createAgenda, agenda));
+			if ((w.getRequest() != Request.createAgenda) || ( ! w.getContainer().getClass().isInstance(Agenda.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -266,11 +278,14 @@ public class StorageClient {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Agenda> readAgendaByDayNumber(String dayNumber) throws StorageManagerException
+	public List<Agenda> readAgendaByDayNumber(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readAgendaByDayNumber));
+			if ((w.getRequest() != Request.readAgendaByDayNumber) || ( ! w.getContainer().getClass().isInstance(Agenda.class))) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(w);
+			
 			if (w.getString().equals(msgOK)) return (List<Agenda>) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -281,11 +296,12 @@ public class StorageClient {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Agenda> readAgendaByRoomId(String roomId) throws StorageManagerException
+	public List<Agenda> readAgendaByRoomId(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readAgendaByRoomId));
+			if ((w.getRequest() != Request.readAgendaByRoomId) || ( ! w.getContainer().getClass().isInstance(Agenda.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 			if (w.getString().equals(msgOK)) return (List<Agenda>) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -310,11 +326,12 @@ public class StorageClient {
 		}
 	}
 	
-	public String deleteAgenda(Agenda agenda) throws StorageManagerException
+	public String deleteAgenda(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.deleteAgenda, agenda));
+			if ((w.getRequest() != Request.deleteAgenda) || ( ! w.getContainer().getClass().isInstance(Agenda.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -327,11 +344,12 @@ public class StorageClient {
 	}
 
 //Spice
-	public String createSpice(Spice spice) throws StorageManagerException
+	public String createSpice(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.createSpice, spice));
+			if ((w.getRequest() != Request.createSpice) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -343,13 +361,13 @@ public class StorageClient {
 		}
 	}
 	
-	public Spice readSpiceById(String Id) throws StorageManagerException
+	public Spice readSpiceById(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Spice spice = new Spice();
-			spice.setSpiceId(Id);
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readSpiceById, spice));
+			if ((w.getRequest() != Request.readSpiceById) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
+
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return (Spice) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -361,14 +379,13 @@ public class StorageClient {
 		}
 	}
 	
-	public Spice readSpiceByName (String name) throws StorageManagerException
+	public Spice readSpiceByName (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Spice spice = new Spice();
-			spice.setName(name);
+			if ((w.getRequest() != Request.readSpiceByName) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readSpiceById, spice));
+			 w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return (Spice) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -396,11 +413,12 @@ public class StorageClient {
 		}
 	}
 	
-	public String updateSpice(Spice spice) throws StorageManagerException
+	public String updateSpice(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.updateSpice, spice));
+			if ((w.getRequest() != Request.updateSpice) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -412,11 +430,12 @@ public class StorageClient {
 		}
 	}
 	
-	public String deleteSpice(Spice spice) throws StorageManagerException
+	public String deleteSpice(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.deleteSpice, spice));
+			if ((w.getRequest() != Request.deleteSpice) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -429,15 +448,12 @@ public class StorageClient {
 	}
 
 //Parameter
-	public String createParameter(String key, String param) throws StorageManagerException
+	public String createParameter(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Parameter p = new Parameter();
-			p.setKey(key);
-			p.setParam(param);
-			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.createParameter, p));
+			if ((w.getRequest() != Request.createParameter) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -449,14 +465,13 @@ public class StorageClient {
 		}
 	}
 	
-	public String readParameterByKey(String key) throws StorageManagerException
+	public String readParameterByKey(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Parameter p = new Parameter();
-			p.setKey(key);
-			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readParameterByKey, p));
+			if ((w.getRequest() != Request.readParameterByKey) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
+
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return ((Parameter) w.getContainer()).getParam();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -468,15 +483,13 @@ public class StorageClient {
 		}
 	}
 	
-	public String updateParameter(String key, String param) throws StorageManagerException
+	public String updateParameter(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Parameter p = new Parameter();
-			p.setKey(key);
-			p.setParam(param);
+			if ((w.getRequest() != Request.updateParameter) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
 			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.updateParameter, p));
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -488,14 +501,13 @@ public class StorageClient {
 		}
 	}
 	
-	public String deleteParameterByKey(String key) throws StorageManagerException
+	public String deleteParameterByKey(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Parameter p = new Parameter();
-			p.setKey(key);
+			if ((w.getRequest() != Request.deleteParameterByKey) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
 			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.deleteParameterByKey, p));
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -508,13 +520,13 @@ public class StorageClient {
 	}
 
 //SpiceBox
-	public Spice readSpiceBoxContent(String boxNumber) throws StorageManagerException
+	public Spice readSpiceBoxContent(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Spice spice = new Spice();
+			if ((w.getRequest() != Request.readSpiceBoxContent) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readSpiceBoxContent, spice, boxNumber ));
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals("Full_Box")) return (Spice) w.getContainer();
 			else if (w.getString().equals("Empty_Box")) return new Spice("Empty", "Empty", "Empty", "Empty");
@@ -527,14 +539,13 @@ public class StorageClient {
 		}
 	}
 	
-	public String updateSpiceBoxContent(String boxNumber, String spiceId) throws StorageManagerException
+	public String updateSpiceBoxContent(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Spice spice = new Spice();
-			spice.setSpiceId(spiceId);
+			if ((w.getRequest() != Request.updateSpiceBoxContent) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.updateSpiceBoxContent, spice, boxNumber ));
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals("Full_Box")) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -546,13 +557,13 @@ public class StorageClient {
 		}
 	}
 	
-	public String deleteSpiceBoxContent(String boxNumber) throws StorageManagerException
+	public String deleteSpiceBoxContent(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Spice spice = new Spice();
+			if ((w.getRequest() != Request.deleteSpiceBoxContent) || (! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 			
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.deleteSpiceBoxContent, spice, boxNumber ));
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals("Full_Box")) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -565,11 +576,12 @@ public class StorageClient {
 	}
 
 // LightSensor
-	public String createLightSensorMonitoring(LightSensorMonitoring lsm) throws StorageManagerException
+	public String createLightSensorMonitoring(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.createLightSensorMonitoring, lsm));
+			if ((w.getRequest() != Request.createLightSensorMonitoring) || (! w.getContainer().getClass().isInstance(LightSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -598,11 +610,12 @@ public class StorageClient {
 	}
 
 //TemperatureSensor
-	public String createTemperatureSensorMonitoring(TemperatureSensorMonitoring tsm) throws StorageManagerException
+	public String createTemperatureSensorMonitoring(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.createTemperatureSensorMonitoring, tsm));
+			if ((w.getRequest() != Request.createTemperatureSensorMonitoring) || (! w.getContainer().getClass().isInstance(TemperatureSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
+			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -615,18 +628,20 @@ public class StorageClient {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<TemperatureSensorMonitoring> readTemperatureSensorMonitoringList (TemperatureSensorMonitoring tsm) throws StorageManagerException
+	public List<TemperatureSensorMonitoring> readTemperatureSensorMonitoringList (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readLightSensorMonitoringList));
+			if (w.getRequest() != Request.readTemperatureSensorMonitoringList) throw new StorageManagerException("invalid wrapper !");
+			
+			w = this.exchangeWrapper(new Wrapper(Request.readTemperatureSensorMonitoringList));
 			
 			if (w.getString().equals(msgOK)) return (List<TemperatureSensorMonitoring>) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
 		catch (StorageManagerException | ClassCastException e)
 		{
-			throw new StorageManagerException(" Client in readSpiceList \n" + e.toString());
+			throw new StorageManagerException(" Client in readTemperatureSensorMonitoringList \n" + e.toString());
 		}
 	}
 	
