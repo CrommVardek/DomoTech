@@ -74,6 +74,10 @@ public class HeatManager {
 		System.out.println("The heater is turned off");
 	}
 	
+	public double getDesiredTemp(){
+		return desiredTemp;
+	}
+	
 	public void onChangingTemp(double newTemp){
 		
 		sensorValue = newTemp;
@@ -86,6 +90,7 @@ public class HeatManager {
 		else{
 			turnOn();
 			power = poweredValue(desiredTemp-sensorValue);
+			System.out.println("The new temperature is:" + newTemp + "°C");
 			System.out.println("Power is at " + power);
 		}
 	}

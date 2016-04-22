@@ -65,6 +65,10 @@ public class Main {
            
             //319110 is the serial number.
             ifk.open(319110);
+            
+            lightManager.addIFK(ifk);
+            
+            heatManager.increaseTemp(25.0);
 			
 			//Launch the spice round.
             
