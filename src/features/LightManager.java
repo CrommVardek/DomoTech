@@ -1,7 +1,6 @@
 package features;
 
 import java.time.*;
-import java.util.Date;
 
 import com.phidgets.*;
 
@@ -132,6 +131,7 @@ public class LightManager {
 		sensorValue = lightVal;
 		simplifiedSensorValue = SimplifyValue(sensorValue);
 		ledPower = setLedPower(isNightTime());
+		
 	}
 	
 	public boolean isNightTime(){
