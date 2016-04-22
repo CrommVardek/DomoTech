@@ -22,12 +22,14 @@ public class IFKSensorListener implements SensorChangeListener{
 			case 1: 
 				int val = sce.getValue();
 				lm.onChangeLight(val);
+				lm.turnOnLeds();
 				break;
 			case 2: 
 				//Convert temp
 				int val2 = sce.getValue();
 				double roomtemp = Math.round(((val2 * 0.22222) - 61.11));
 				hm.onChangingTemp(roomtemp);
+				System.out.println(hm.getDesiredTemp());
 				break;
 			default: 
 				System.out.println("Index = " + sce.getIndex());

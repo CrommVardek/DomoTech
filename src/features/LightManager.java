@@ -13,6 +13,8 @@ public class LightManager {
 	int ledPower = 0;
 	//Light On or Off
 	boolean lightOn = false;
+	
+	InterfaceKitPhidget ifk = null;
 
 	public LightManager (int room, int value) throws PhidgetException{
 		
@@ -131,6 +133,7 @@ public class LightManager {
 		sensorValue = lightVal;
 		simplifiedSensorValue = SimplifyValue(sensorValue);
 		ledPower = setLedPower(isNightTime());
+		System.out.println("Led Power is at " + ledPower);
 		
 	}
 	
@@ -148,6 +151,78 @@ public class LightManager {
 	
 	public int getLedPower(){
 		return ledPower;
+	}
+	
+	public void addIFK(InterfaceKitPhidget ifk){
+		this.ifk = ifk;
+	}
+	
+	public void turnOnLeds(){
+		if (ifk != null){
+			int ledPower = getLedPower();
+			
+			try {
+				
+			switch (ledPower){
+			   case 0: turnOffLeds();
+			   break;
+			   case 1: 
+				   ifk.setOutputState(0,true);
+				   ifk.setOutputState(2,false);
+				   ifk.setOutputState(4,false);
+				   ifk.setOutputState(6,false);
+			   break;
+			   case 2: 
+				   ifk.setOutputState(0,true);
+				   ifk.setOutputState(2,true);
+				   ifk.setOutputState(4,false);
+				   ifk.setOutputState(6,false);
+			   break;
+			   case 3:
+				   ifk.setOutputState(0,true);
+				   ifk.setOutputState(2,true);
+				   ifk.setOutputState(4,true);
+				   ifk.setOutputState(6,false);
+			   break;
+			   case 4:
+				   ifk.setOutputState(0,true);
+				   ifk.setOutputState(2,true);
+				   ifk.setOutputState(4,true);
+				   ifk.setOutputState(6,true);
+				
+			   break;
+			   default: break;
+				}
+			}
+			
+			catch (PhidgetException e) {
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	public void turnOffLeds(){
+		if (ifk != null){
+			
+			try {
+				
+				ifk.setOutputState(0,false);
+				ifk.setOutputState(1,false);
+				ifk.setOutputState(2,false);
+				ifk.setOutputState(3,false);
+				ifk.setOutputState(4,false);
+				ifk.setOutputState(5,false);
+				ifk.setOutputState(6,false);
+				ifk.setOutputState(7,false);
+			
+			}
+			
+			catch (PhidgetException e) {
+				e.printStackTrace();
+			}
+			
+		}
 	}
 	
 }
