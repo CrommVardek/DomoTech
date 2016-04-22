@@ -19,7 +19,7 @@ class DatabaseTemperatureSensorActor extends Actor{
       case Request.readTemperatureSensorMonitoringList => ???
       case _ => logger.debug("Wrapper error with actor DatabaseTemperatureSensorActor")
     }
-    case _ => logger.debug("Message error with actor DatabaseTemperatureSensorActor)
+    case _ => logger.debug("Message error with actor DatabaseTemperatureSensorActor")
   }
 
 }

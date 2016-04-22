@@ -1,7 +1,7 @@
 package be.unamur.actors
 
 import akka.actor.Actor
-import be.unamur.commonsObjects.{Request, Wrapper}
+import be.unamur.commonsObjects.{StorageClient, Request, Wrapper}
 import org.slf4j.LoggerFactory
 
 /**
@@ -12,10 +12,22 @@ class DatabaseActionActor extends Actor{
   // Logger of the Actor.
   val logger =  LoggerFactory.getLogger(getClass)
 
+  val storageClient = new StorageClient()
+
+
   def receive = {
                   case wrapper:Wrapper => wrapper.getRequest match{
-                                            case Request.createAction => ???
-                                            case Request.readActionById => ???
+                                            case Request.createAction =>  {
+                                                                            try{
+                                                                              val res = storageClient.createAction(wrapper)
+                                                                              if (res.equals("OK")){sender ! true}
+                                                                              else{
+                                                                                sender ! false
+                                                                                logger.debug(res)
+                                                                              }
+                                                                            } catch{case e:Exception => sender ! false}
+                                                                          }
+                                            case Request.readActionById => {}
                                             case Request.readActionByName => ???
                                             case Request.readActionList => ???
                                             case Request.updateAction => ???
