@@ -1,40 +1,44 @@
 package system;
 
 import java.io.IOException;
-import java.util.Vector;
 
 import listeners.IFKInputListener;
 import listeners.IFKOutputListener;
 import listeners.IFKSensorListener;
 
-import com.phidgets.*;
+import com.phidgets.InterfaceKitPhidget;
 import com.phidgets.event.AttachEvent;
 import com.phidgets.event.AttachListener;
 import com.phidgets.event.DetachEvent;
 import com.phidgets.event.DetachListener;
 import com.phidgets.event.ErrorEvent;
 import com.phidgets.event.ErrorListener;
-import com.phidgets.event.InputChangeEvent;
-import com.phidgets.event.InputChangeListener;
-import com.phidgets.event.OutputChangeEvent;
-import com.phidgets.event.OutputChangeListener;
-import com.phidgets.event.SensorChangeEvent;
-import com.phidgets.event.SensorChangeListener;
-import com.phidgets.event.SensorUpdateEvent;
-import com.phidgets.event.SensorUpdateListener;
 
-import alarmeIncendie.DetecteurIncendie;
-import distributeurEpices.RoueEpices;
+import features.HeatManager;
+import features.LightManager;
 
 public class Main {
 
 	public static void main(String args[]) throws Exception{
 		
-			IFKSensorListener ifkce = new IFKSensorListener();
+		    /** 
+		     * IFK informations:
+		     * Analog Index: | Sensor Type:
+		     *      1        |     Light
+		     *      2        |  Temperature
+		     */
+		
+			//Initialize the managers for the room #1
+			
+			HeatManager heatManager = new HeatManager(1, 0.0);
+			LightManager lightManager = new LightManager(1, 0); 
+		
+			//Initialize the IFK
+		
+			IFKSensorListener ifkce = new IFKSensorListener(heatManager, lightManager);
 			IFKOutputListener ifkol = new IFKOutputListener();
 			IFKInputListener ifkil = new IFKInputListener();
 		
-			//Initialize the IFK
 			InterfaceKitPhidget ifk = new InterfaceKitPhidget();
 			
 			ifk.addAttachListener(new AttachListener() {
@@ -58,28 +62,20 @@ public class Main {
             ifk.addSensorChangeListener(ifkce);
             ifk.addInputChangeListener(ifkil);
             ifk.addOutputChangeListener(ifkol);
-                                    
+           
+            //319110 is the serial number.
             ifk.open(319110);
 			
-			//Initialize the rooms of the house
-			Vector<Integer> rooms  = new Vector<Integer>(2);
-			
-			rooms.addElement(0);
-			rooms.addElement(1);
-			rooms.addElement(2);
-			rooms.addElement(3);
-			rooms.addElement(4);
-
 			//Launch the spice round.
+            
 			//RoueEpices re = new RoueEpices();
-			System.out.println("test");
-			//Launch and initialize the sensors and the managers
-			//TempSensor.LaunchTempSensor(ifk, rooms.get(0));
-			//LightSensor.LaunchLightSensor(ifk, rooms.get(0));
+            
 			//RFIDSensor.LaunchRFIDSensor(re); 
 
 			//Launch Fire/smoke detector
+            
 			//DetecteurIncendie alarme = new DetecteurIncendie(20);
+            
 			//alarme.activer();
 				
 			/*
