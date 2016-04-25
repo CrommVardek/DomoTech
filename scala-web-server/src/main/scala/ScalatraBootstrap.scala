@@ -1,7 +1,9 @@
 import _root_.akka.actor.ActorSystem
-import be.unamur.server._
+
 import org.scalatra._
 import javax.servlet.ServletContext
+
+import server._
 
 class ScalatraBootstrap extends LifeCycle {
 
