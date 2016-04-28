@@ -35,6 +35,7 @@ class DatabaseParameterActor extends Actor{
                                                                                 } catch {case e:Exception => sender ! false}
                                             case _ => logger.debug("Wrapper error with actor DatabaseParameterActor")
                                           }
+                  case "Kill" => context stop self
                   case _ => logger.debug("Message error with actor DatabaseParameterActor")
                 }
 }

@@ -1,11 +1,17 @@
 package server
 
-import actors.HeatManagerActor
+import actors.DatabaseTemperatureSensorActor
 import akka.actor.Props
-
+import commonsObjects.{Request, Wrapper, TemperatureSensorMonitoring}
+import commonsObjects.List
 
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
+
+import scala.concurrent.Await
+import akka.pattern.ask
+import scala.concurrent.duration._
+import scala.util.parsing.json.JSONObject
 
 /**
   * Servlet to handle request about the inside temperature.
@@ -18,8 +24,7 @@ import org.slf4j.LoggerFactory
 class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSupport {
   // Logger used for debugging
   private val logger = LoggerFactory.getLogger(getClass)
-  // Actor to do the job
-  private def actor = actorSystem.actorOf(Props[HeatManagerActor])
+
 
   // Before every action runs, set the content type to be in JSON format.
   before() {
@@ -32,13 +37,21 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
   get("/") {
     logger.info("Get Request on /rest/insideTemperature")
 
-    // Get the current inside temperature and wait for the result.
-/*    def futureResult = ask(actor, "Get inside temperature")
-    val res = Await.result(futureResult, 15.seconds).asInstanceOf[List[Temperature]]
+    val myActor = actorSystem.actorOf(Props[DatabaseTemperatureSensorActor], "dbTempActor")
 
-    for (i <- res) response.getWriter.write(i.toJson.toString())
-*/
-    actor ! "Kill"
+    val myTemperature = new TemperatureSensorMonitoring()
+    val myWrapper = new Wrapper(Request.readTemperatureSensorMonitoringList, myTemperature)
+
+    def futureResult = ask(myActor, myWrapper)
+    val res = Await.result(futureResult, 30.seconds).asInstanceOf[List[TemperatureSensorMonitoring]]
+
+    if(!res.isEmpty){
+      val currentTemp = res.getLast
+      val json = JSONObject.apply(Map(("value",currentTemp.getTemperature)))
+      response.getWriter.write(json.toString())
+    }
+
+    myActor ! "Kill"
   }
 
   /**
@@ -60,7 +73,7 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
       response.setStatus(500)
     }
 */
-    actor ! "Kill"
+    //myActor ! "Kill"
     logger.info("POST Request done (Actor killed)")
   }
 }

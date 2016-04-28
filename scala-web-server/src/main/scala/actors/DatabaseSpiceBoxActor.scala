@@ -30,6 +30,7 @@ class DatabaseSpiceBoxActor extends Actor{
                                                                                   } catch {case e:Exception => logger.debug(e.getMessage); sender ! false}
                                             case _ => logger.debug("Wrapper error with actor DatabaseSpiceBoxActor")
                                           }
+                  case "Kill" => context stop self
                   case _ => logger.debug("Message error with actor DatabaseSpiceBoxActor")
                 }
 }

@@ -1,12 +1,17 @@
 package server
 
-import actors.LightManagerActor
+import actors.DatabaseLightSensorActor
 import akka.actor.Props
+import commonsObjects.{Wrapper, Request, LightSensorMonitoring, List}
 
 
 import org.scalatra.json.JacksonJsonSupport
 import akka.pattern.ask
+import scala.concurrent.duration._
 import org.slf4j.LoggerFactory
+
+import scala.concurrent.Await
+import scala.util.parsing.json.JSONObject
 
 /**
   * Servlet to handle Requests regarding the inside luminosity.
@@ -20,7 +25,7 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
 
   val logger = LoggerFactory.getLogger(getClass)
 
-  def actor = actorSystem.actorOf(Props[LightManagerActor])
+
 
   before(){
     contentType= formats("json")
@@ -29,16 +34,25 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
   get("/") {
     logger.info("Get Request on /rest/insideLuminosity")
 
-    def futureResult = ask(actor,"Get inside luminosity")
+    val actor = actorSystem.actorOf(Props[DatabaseLightSensorActor], "dbLuminosityActor")
 
-/*    val res = Await.result(futureResult, 15.seconds).asInstanceOf[Luminosity]
+    val myLight = new LightSensorMonitoring()
+    val myWrapper = new Wrapper(Request.readLightSensorMonitoringList, myLight)
 
-    response.getWriter.write(res.toJson.toString())
-*/
+    def futureResult = ask(actor, myWrapper)
+    val res = Await.result(futureResult, 30.seconds).asInstanceOf[List[LightSensorMonitoring]]
+
+    if (!res.isEmpty){
+      val currentLight = res.getLast
+      val json = JSONObject.apply(Map(("value", currentLight.getInsideLight)))
+      response.getWriter.write(json.toString())
+    } else {logger.info("is empty")}
+
     actor ! "Kill"
 
     logger.info("Get Request done (Actor killed)")
   }
+
 
   // TODO
   post("/"){
@@ -60,7 +74,7 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
       response.setStatus(500)
     }
 */
-    actor ! "Kill"
+    //actor ! "Kill"
 
     logger.info("POST Request done (Actor killed)")
   }

@@ -79,9 +79,4 @@ public class TemperatureSensorMonitoring  implements Container{
 				+ (temperature != null ? "temperature=" + temperature + ", " : "")
 				+ (roomId != null ? "room=" + roomId + ", " : "") + "heatingState=" + heatingState + "]";
 	}
-	
-	
-	
-	
-
 }

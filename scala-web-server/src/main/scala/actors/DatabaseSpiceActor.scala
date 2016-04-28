@@ -1,7 +1,9 @@
 package actors
 
+import java.net.InetAddress
+
 import akka.actor.Actor
-import commonsObjects.{StorageClient, Request, Wrapper}
+import commonsObjects.{StorageClient, Request, Wrapper, List}
 import org.slf4j.LoggerFactory
 
 /**
@@ -12,8 +14,7 @@ class DatabaseSpiceActor extends Actor {
   // Logger of the Actor.
   val logger =  LoggerFactory.getLogger(getClass)
 
-  val storageClient = new StorageClient()
-
+  val storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"))
   /**
     * Receive wrapper object representing the request to the database.
     *
@@ -34,7 +35,7 @@ class DatabaseSpiceActor extends Actor {
                                                                             } catch {case e:Exception => logger.debug(e.getMessage); sender ! null }
                                             case Request.readSpiceList => try{
                                                                               sender ! storageClient.readSpiceList()
-                                                                          } catch {case e:Exception =>logger.debug(e.getMessage); sender ! List.empty}
+                                                                          } catch {case e:Exception =>logger.info(e.getMessage); sender ! new List()}
                                             case Request.updateSpice => try{
                                                                             val res = storageClient.updateSpice(wrapper)
                                                                             if (res.equals("OK")) sender ! true
@@ -47,6 +48,7 @@ class DatabaseSpiceActor extends Actor {
                                                                         } catch{case e:Exception => logger.debug(e.getMessage); sender ! false}
                                             case _ => logger.debug("Wrapper error with DatabaseSpiceActor")
                                           }
+                  case "Kill" => context stop self
                   case _ => logger.debug("Message error with DatabaseSpiceActor.")
                 }
 }

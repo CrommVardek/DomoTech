@@ -69,8 +69,4 @@ public class Spice implements Container {
 				+ (description != null ? "description=" + description + ", " : "")
 				+ (barCode != null ? "barCode=" + barCode : "") + "]";
 	}
-	
-	
-	
-
 }

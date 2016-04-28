@@ -1,6 +1,6 @@
 package commonsObjects;
 
-import be.unamur.exception.StorageManagerException;
+import exception.StorageManagerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -391,7 +391,7 @@ public class StorageClient {
 		{
 			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readSpiceList));
 			
-			if (w.getString().equals(msgOK)) return (List<Spice>) w.getContainer();
+			if (w.getString().equals(msgOK)) {System.out.println(w.getContainer().toString()); return (List<Spice>) w.getContainer();}
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
 		catch (StorageManagerException | ClassCastException e)
@@ -636,10 +636,13 @@ public class StorageClient {
 
 	private synchronized void loadParametersFromFile() throws StorageManagerException
 	{
-		String path = "./../StorageClient.properties";
+		//String path = "./../StorageClient.properties";
+		String path = "C:\\Users\\Axel\\Unamur\\Synchro\\scala-web-server\\src\\main\\scala\\StorageClient.properties";
 		Properties properties = new Properties();
+
 		InputStream input = null;
-		
+
+
 		try
 		{	
 			logger.info("TECHNICAL PIECES OF INFORMATION :");
@@ -649,13 +652,16 @@ public class StorageClient {
 			logger.info("  -> Operating system : " + System.getProperty("os.arch") + ", " + System.getProperty("os.version"));
 			logger.info("  -> Working directory : " +  System.getProperty("user.dir"));
 			logger.info("  -> User's name : " + System.getProperty("user.name"));
-
+			logger.info("  -> Path : " + path);
+			logger.info("  -> input :" + input);
 			logger.debug("----------------------------------");
 			logger.debug("");
-	        
-			input = StorageClient.class.getResourceAsStream(path); 
+
+
+			//input = StorageClient.class.getResourceAsStream(path);
 			properties.load(input);
-				
+
+
 			// chargement des param�tres :
 			logger.info("LOADED PARAMETERS :");
 			logger.info("-------------------");
@@ -677,37 +683,37 @@ public class StorageClient {
 		{
 			throw new StorageManagerException(""
 			+ " The  file '"+ path +"' was not found."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage() );
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
 		}
 		catch (UnknownHostException e)
 		{
 			throw new StorageManagerException(""
 			+ " Unknown IP address specified in the file '"+ path +"'."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage() );
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
 		}
 		catch (IOException e)
 		{
 			throw new StorageManagerException(""
 			+ " Input/Output error(s) with the file '"+ path +"' while opening the file."
-			+ " Abording creation of Storage client'" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
 		}
 		catch (NullPointerException e)
 		{
 			throw new StorageManagerException(""
 			+ " Null pointer with the file '"+ path +"' while opening the file."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
 		}
 		catch (NumberFormatException e)
 		{
 			throw new StorageManagerException(""
 			+ " Null pointer with the file '"+ path +"' during conversion of parameters from string to int."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
 		}
 		catch (Exception e)
 		{
 			throw new StorageManagerException(""
 			+ " Global error with the file '"+ path +"'."
-			+ " Abording creation of Storage client'" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
 		}
 		
 		finally

@@ -1,13 +1,18 @@
 package server
 
 import akka.actor.Props
-import actors.SpiceActor
+import actors.{DatabaseSpiceActor, DatabaseLightSensorActor, SpiceActor}
+import commonsObjects.{Request, Wrapper, Spice, List}
+
+
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
 import akka.pattern.ask
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.util.parsing.json.{JSONArray, JSONObject}
+import scala.util.parsing.json.JSONObject
+
+
 
 /**
   * Servlet to handle requests regarding the spices and the spice wheel.
@@ -32,25 +37,67 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
   get("/") {
     logger.info("Get Request on /rest/spices")
 
-/*    def futureResult = ask(actor, "Get spices list")
-    val res = Await.result(futureResult, 15.seconds).asInstanceOf[List[Spice]]
+    val actor = actorSystem.actorOf(Props[DatabaseSpiceActor], "dbSpiceActor")
 
-    var json =  {
-                  """Spices""" + ":["
-                  //(for (i <- res) (i.toJson.toString() + ",")) + "]"
-                }
+    val spiceMonitoring = new Spice()
+    val wrapper = new Wrapper(Request.readSpiceList, spiceMonitoring)
 
-    for (i <- res) (json += i.toJson.toString() + ",")
+    def futureResult = ask(actor, wrapper)
+    val res = Await.result(futureResult, 30.seconds).asInstanceOf[List[Spice]]
 
+    logger.info("Result received!")
+    logger.info(res.size().toString)
+
+
+    var json = //"\"Spices\"" + ":["
+                "["
+    val iterator = res.iterator()
+    logger.info("Iterator ready")
+    while(iterator.hasNext){
+      logger.info("In Iterator")
+      val spice = iterator.next()
+      logger.info(spice.toString)
+      json += JSONObject.apply(Map(("name",spice.getName),("description",spice.getDescription)))
+      if(iterator.hasNext) json += ","
+    }
     json += "]"
 
-    println(json)
+    logger.info("Done iterating")
 
-    //response.getWriter.write(json.toString())
+    // TODO: Parse JSON
 
-    for (i <- res) response.getWriter.write(i.toJson.toString())
-*/
+
+
+      response.getWriter.write(json.toString())
+      actor ! "Kill"
+
+      logger.info("Get Request done")
+
+/*
+
+
+//      for (i <- (res.size()-1)){
+      for(i:Spice <- test){
+        json += JSONObject.apply(Map(("name",i.getName),("description",i.getDescription)))
+        json += ","
+      }
+      json += "]"*/
+
+
+
+  /*  if (!res.isEmpty){
+      val currentLight = res.getLast
+      val json = JSONObject.apply(Map(("value", currentLight.getInsideLight)))
+
+      //      val json = JSONObject.apply(Map(("value",currentTemp.getTemperature)))
+
+      response.getWriter.write(json.toString())
+    } else {logger.info("is empty")}
+
     actor ! "Kill"
+
+    logger.info("Get Request done (Actor killed)")
+*/
   }
 
 
