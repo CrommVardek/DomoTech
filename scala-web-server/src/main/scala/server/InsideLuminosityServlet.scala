@@ -3,6 +3,7 @@ package server
 import actors.DatabaseLightSensorActor
 import akka.actor.Props
 import commonsObjects.{Wrapper, Request, LightSensorMonitoring, List}
+import org.json4s.native.JsonParser
 
 
 import org.scalatra.json.JacksonJsonSupport
@@ -58,23 +59,12 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
   post("/"){
     logger.info("POST Request on /rest/insideLuminosity")
 
-  /*  val luminosity = parsedBody.extract[Luminosity]
+    val json = readJsonFromBody(request.body)
+    val value = json.children.head.extract[String]
 
-    // TODO add luminosity value when asking actor.
+    logger.info("The extracted value from the JSON is: " +value)
 
-    def futureResult = ask(actor, "Set inside luminosity")
-
-    val res = Await.result(futureResult,15.seconds).asInstanceOf[Boolean]
-
-    if (res) {
-      response.setStatus(200)
-      logger.info("Success")
-    } else{
-      logger.info("An error occured during the actor treatment...")
-      response.setStatus(500)
-    }
-*/
-    //actor ! "Kill"
+    // TODO: Send data to manager
 
     logger.info("POST Request done (Actor killed)")
   }
