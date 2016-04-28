@@ -1,7 +1,9 @@
 package main;
 import java.util.Scanner;
 
+import SensorReader.SensorReader;
 import StorageManager.StorageServer;
+import exception.SensorReaderException;
 
 public class Main {
 
@@ -10,11 +12,22 @@ public class Main {
 	{
 		System.out.println("         Welcome to Storage Manager :       ");
 		System.out.println("-------------------------------------------");
-		System.out.println("   Version 1.5, written by Dorian Lecomte  ");
+		System.out.println("   Version 2.0, written by Dorian Lecomte  ");
 		System.out.println("-------------------------------------------");
 		
 		StorageServer ss = new StorageServer();
 		String input;
+		SensorReader sr = null;
+		try
+		{
+			sr = new SensorReader();
+		} 
+		catch (SensorReaderException e4)
+		{
+			System.out.println("Oups...");
+			System.out.println(e4.toString());
+		}
+		
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -28,6 +41,7 @@ public class Main {
 					try
 					{
 						ss.enable();
+						if (sr != null) sr.enable();
 					}
 					catch (Exception e1)
 					{
@@ -41,6 +55,7 @@ public class Main {
 					try
 					{
 						ss.disable();
+						if (sr != null) sr.disable();
 					}
 					catch (Exception e2)
 					{
@@ -54,6 +69,7 @@ public class Main {
 					try
 					{
 						ss.reload();
+						if (sr != null) sr.reload();
 					}
 					catch (Exception e3)
 					{

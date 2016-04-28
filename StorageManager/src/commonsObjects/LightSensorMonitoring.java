@@ -26,7 +26,7 @@ public class LightSensorMonitoring implements Container {
 	
 	public LightSensorMonitoring()
 	{
-		this(new Timestamp(0), "0", "0", "0");
+		this(new Timestamp(0), "0", "0", "1");
 	}
 
 

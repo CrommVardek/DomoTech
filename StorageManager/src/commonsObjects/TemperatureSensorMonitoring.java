@@ -25,7 +25,7 @@ public class TemperatureSensorMonitoring  implements Container{
 	
 	public TemperatureSensorMonitoring()
 	{
-		this(new Timestamp(0), "Empty_Temperature", "0", false);
+		this(new Timestamp(0), "0", "1", false);
 	}
 
 /* GETTERS ET SETTERS */

@@ -546,7 +546,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.readAgendaByDayNumber.close();
+				this.readAgendaByDayNumber.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -583,7 +583,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.readAgendaByRoomId.close();
+				this.readAgendaByRoomId.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -758,6 +758,7 @@ public class MySqlDriver {
 				spice.setName(set.getString(2));
 				spice.setDescription(set.getString(3));
 				spice.setBarCode(set.getString(4));
+				list.add(spice);
 			}
 		}
 		catch (SQLException e)
@@ -845,7 +846,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.createParameter.close();
+				this.createParameter.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -874,7 +875,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.readParameterByKey.close();
+				this.readParameterByKey.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -903,7 +904,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.updateParameter.close();
+				this.updateParameter.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -930,7 +931,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.deleteParameterByKey.close();
+				this.deleteParameterByKey.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -964,7 +965,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.readSpiceBoxContent.close();
+				this.readSpiceBoxContent.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -1039,7 +1040,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.createLightSensorMonitoring.close();
+				this.createLightSensorMonitoring.clearParameters();
 			}
 			catch (SQLException e)
 			{
@@ -1080,8 +1081,7 @@ public class MySqlDriver {
 			this.createTemperatureSensorMonitoring.setString(1, tsm.getTemperature());
 			this.createTemperatureSensorMonitoring.setBoolean(2, tsm.getHeatingState());
 			this.createTemperatureSensorMonitoring.setString(3, tsm.getRoomId());
-			this.createTemperatureSensorMonitoring.setTimestamp(4, tsm.getCreate_time());
-			
+						
 			int status = this.createTemperatureSensorMonitoring.executeUpdate();
 			if (status == 1) logger.info("MySqlDriver in createTemperatureSensorMonitoring, new line in temperatureSensorMonitoring table inserted.");
 			else throw new MySqlDriverException("Failed to inset a parameter in database, the state of request is : " + status);
@@ -1094,7 +1094,7 @@ public class MySqlDriver {
 		{
 			try
 			{
-				this.createTemperatureSensorMonitoring.close();
+				this.createTemperatureSensorMonitoring.clearParameters();
 			}
 			catch (SQLException e)
 			{

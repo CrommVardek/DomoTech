@@ -580,7 +580,7 @@ public class StorageClient {
 	{
 		try
 		{
-			if ((w.getRequest() != Request.createLightSensorMonitoring) || (! w.getContainer().getClass().isInstance(LightSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.createLightSensorMonitoring) || (! w.getContainer().getClass().isInstance(LightSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
@@ -614,7 +614,7 @@ public class StorageClient {
 	{
 		try
 		{
-			if ((w.getRequest() != Request.createTemperatureSensorMonitoring) || (! w.getContainer().getClass().isInstance(TemperatureSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.createTemperatureSensorMonitoring) || (! w.getContainer().getClass().isInstance(TemperatureSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return msgOK;
@@ -655,6 +655,7 @@ public class StorageClient {
 		
 		try
 		{	
+			
 			logger.debug("TECHNICAL PIECES OF INFORMATION :");
 			logger.debug("---------------------------------");
 			logger.debug("  -> java.class.path : " + System.getProperty("java.class.path"));
@@ -690,37 +691,37 @@ public class StorageClient {
 		{
 			throw new StorageManagerException(""
 			+ " The  file '"+ path +"' was not found."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage() );
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
 		}
 		catch (UnknownHostException e)
 		{
 			throw new StorageManagerException(""
 			+ " Unknown IP address specified in the file '"+ path +"'."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage() );
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
 		}
 		catch (IOException e)
 		{
 			throw new StorageManagerException(""
 			+ " Input/Output error(s) with the file '"+ path +"' while opening the file."
-			+ " Abording creation of Storage client'" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
 		}
 		catch (NullPointerException e)
 		{
 			throw new StorageManagerException(""
 			+ " Null pointer with the file '"+ path +"' while opening the file."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
 		}
 		catch (NumberFormatException e)
 		{
 			throw new StorageManagerException(""
 			+ " Null pointer with the file '"+ path +"' during conversion of parameters from string to int."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
 		}
 		catch (Exception e)
 		{
 			throw new StorageManagerException(""
 			+ " Global error with the file '"+ path +"'."
-			+ " Abording creation of Storage client'" + name + "': \n" + e.getMessage());
+			+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
 		}
 		
 		finally
@@ -751,7 +752,7 @@ public class StorageClient {
 			Socket socket;
 			socket = new Socket(ip, port);
 		
-			System.out.println("Socket client: " + socket);
+			//System.out.println("Socket client: " + socket);
 
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
