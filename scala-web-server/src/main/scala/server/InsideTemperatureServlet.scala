@@ -59,21 +59,14 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
     */
   post("/"){
     logger.info("POST Request on /rest/insideTemperature")
-    // Retrieve the JSON as a Temperature entity.
-  /*  val temperature = parsedBody.extract[Temperature]
 
-    def futureResult = ask(actor, "Set inside temperature")
-    val res = Await.result(futureResult, 15.seconds).asInstanceOf[Boolean]
+    val json = readJsonFromBody(request.body)
+    val value = json.children.head.extract[String]
 
-    if (res){
-      logger.info("POST Request successful.")
-      response.setStatus(200)
-    } else{
-      logger.info("POST Request failure.")
-      response.setStatus(500)
-    }
-*/
-    //myActor ! "Kill"
+    logger.info("The extracted value from the JSON is: " +value)
+
+    // TODO: Send data to manager
+
     logger.info("POST Request done (Actor killed)")
   }
 }

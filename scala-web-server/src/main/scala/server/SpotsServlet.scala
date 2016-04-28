@@ -1,15 +1,8 @@
 package server
 
-import akka.actor.Props
-import actors.SpotActor
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
-import scala.concurrent.Await
-import akka.pattern.ask
-import scala.concurrent.duration._
 
-
-import scala.util.parsing.json.JSONObject
 
 /**
   * Created by Axel on 13-04-16.
@@ -18,8 +11,6 @@ class SpotsServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
   // Logger used for debugging
   private val logger = LoggerFactory.getLogger(getClass)
-
-
 
   // Before every action runs, set the content type to be in JSON format.
   before() {
@@ -31,12 +22,20 @@ class SpotsServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
     response.getWriter.write("{\"value\" : \"6\"}")
 
-    /*
-    def futureResult = ask(actor, "Get number spots")
-    val res = Await.result(futureResult, 15.seconds).asInstanceOf[Spot]
+    logger.info("GET Request successful")
+  }
 
-    response.getWriter.write(res.toJson.toString())
-*/
 
+  post("/"){
+    logger.info("POST Request on /rest/insideLuminosity")
+
+    val json = readJsonFromBody(request.body)
+    val value = json.children.head.extract[String]
+
+    logger.info("The extracted value from the JSON is: " +value)
+
+    // TODO: Send data to manager
+
+    logger.info("POST Request done (Actor killed)")
   }
 }

@@ -19,13 +19,12 @@ public class PostDesiredSpotAsyncTask extends AsyncTask<Integer, Void, Boolean> 
 
     protected Boolean doInBackground(Integer... args){
         try{
-            JSONObject json = new JSONObject();
-            json.put("value",args[0]);
+            String json = "{\"value\" : \"" + args[0] + "\"}";
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(Config.getInstance().getSpotsUrl());
             post.addHeader("Content-type","application/json");
             post.addHeader("type","application/json");
-            HttpEntity entity = new StringEntity(json.toString());
+            HttpEntity entity = new StringEntity(json);
             post.setEntity(entity);
             HttpResponse response = client.execute(post);
             if (response.getStatusLine().getStatusCode() == 200){

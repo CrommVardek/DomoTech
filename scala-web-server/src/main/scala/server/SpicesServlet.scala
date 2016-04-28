@@ -1,9 +1,8 @@
 package server
 
 import akka.actor.Props
-import actors.{DatabaseSpiceActor, DatabaseLightSensorActor, SpiceActor}
+import actors.{DatabaseSpiceActor, SpiceActor}
 import commonsObjects.{Request, Wrapper, Spice, List}
-
 
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
@@ -49,12 +48,11 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
     logger.info(res.size().toString)
 
 
-    var json = //"\"Spices\"" + ":["
-                "["
+    var json = "["
+
     val iterator = res.iterator()
-    logger.info("Iterator ready")
+
     while(iterator.hasNext){
-      logger.info("In Iterator")
       val spice = iterator.next()
       logger.info(spice.toString)
       json += JSONObject.apply(Map(("name",spice.getName),("description",spice.getDescription)))
@@ -62,63 +60,24 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
     }
     json += "]"
 
-    logger.info("Done iterating")
-
     // TODO: Parse JSON
-
-
-
-      response.getWriter.write(json.toString())
-      actor ! "Kill"
-
-      logger.info("Get Request done")
-
-/*
-
-
-//      for (i <- (res.size()-1)){
-      for(i:Spice <- test){
-        json += JSONObject.apply(Map(("name",i.getName),("description",i.getDescription)))
-        json += ","
-      }
-      json += "]"*/
-
-
-
-  /*  if (!res.isEmpty){
-      val currentLight = res.getLast
-      val json = JSONObject.apply(Map(("value", currentLight.getInsideLight)))
-
-      //      val json = JSONObject.apply(Map(("value",currentTemp.getTemperature)))
-
-      response.getWriter.write(json.toString())
-    } else {logger.info("is empty")}
-
+    response.getWriter.write(json)
     actor ! "Kill"
 
-    logger.info("Get Request done (Actor killed)")
-*/
+    logger.info("Get Request done")
   }
 
 
   post("/"){
     logger.info("POST Request on /rest/spices")
 
-    val json = parsedBody.extract[JSONObject]
-    val spice = json.obj.get("name")
+    val json = readJsonFromBody(request.body)
+    val value = json.children.head.extract[String]
 
-    def futureResult = ask(actor, "Get spice")
-    val res = Await.result(futureResult, 15.seconds).asInstanceOf[Boolean]
+    logger.info("The extracted value from the JSON is: " +value)
 
-    if (res){
-      logger.info("POST Request successful")
-      response.setStatus(200)
-    } else{
-      logger.info("POST Request failure")
-      response.setStatus(500)
-    }
+    // TODO: Send data to manager
 
-    actor ! "Kill"
-    logger.info("POST Request done (actor killed)")
+    logger.info("POST Request done (Actor killed)")
   }
 }

@@ -8,7 +8,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
 
 /**
  * Created by Axel on 13-04-16.
@@ -19,13 +18,12 @@ public class PostDesiredTemperatureAsyncTask extends AsyncTask<Double, Void, Boo
 
     protected Boolean doInBackground(Double... args){
         try{
-            JSONObject json = new JSONObject();
-            json.put("value", args[0]);
+            String json = "{\"value\" : \"" + args[0] + "\"}";
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(Config.getInstance().getInsideTemperatureUrl());
             post.addHeader("Content-type", "application/json");
             post.addHeader("Application", "application/json");
-            HttpEntity entity = new StringEntity(json.toString());
+            HttpEntity entity = new StringEntity(json);
             post.setEntity(entity);
             HttpResponse response = client.execute(post);
             if (response.getStatusLine().getStatusCode() == 200){
