@@ -87,11 +87,11 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
 
 
         // Asynchronous tasks
-        new GetNumberSpotsAsyncTask().execute(listSpots);
-        new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
-        new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
-        new GetListSpicesAsyncTask().execute(listeEpices);
-        //new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
+        //new GetNumberSpotsAsyncTask().execute(listSpots);
+        //new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
+        //new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
+        //new GetListSpicesAsyncTask().execute(listeEpices);
+        new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
     }
 
 

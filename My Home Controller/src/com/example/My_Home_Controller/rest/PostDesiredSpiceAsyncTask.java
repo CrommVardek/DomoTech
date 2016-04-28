@@ -19,13 +19,12 @@ public class PostDesiredSpiceAsyncTask extends AsyncTask<String, Void, Boolean>{
 
     protected Boolean doInBackground(String... args){
         try{
-            JSONObject json = new JSONObject();
-            json.put("name",args[0]);
+            String json = "{\"name\" : \"" + args[0] + "\"}";
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(Config.getInstance().getSpicesUrl());
             post.addHeader("Content-type","application/json");
             post.addHeader("Application","application/json");
-            HttpEntity entity = new StringEntity(json.toString());
+            HttpEntity entity = new StringEntity(json);
             post.setEntity(entity);
             HttpResponse response = client.execute(post);
             if (response.getStatusLine().getStatusCode() == 200){
