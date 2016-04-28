@@ -2,6 +2,9 @@ package system;
 
 import java.io.IOException;
 
+import listeners.RFIDTagGainListener;
+import listeners.RFIDTagLossListener;
+
 import com.phidgets.Phidget;
 import com.phidgets.PhidgetException;
 import com.phidgets.RFIDPhidget;
@@ -43,31 +46,13 @@ public class RFIDSensor {
 			}
 		});
 		
-		rfid.addTagGainListener(new TagGainListener()
-		{
-			public void tagGained(TagGainEvent oe)
-			{
-				System.out.println("Tag Gained: " +oe.getValue() + " (Proto:"+ oe.getProtocol()+")");
-				//TODO Communication avec roue à épices
-								
-			}
-		});
+		//Set up listeners
+		RFIDTagGainListener rfidtgl = new RFIDTagGainListener();
+		RFIDTagLossListener rfidtll = new RFIDTagLossListener();
 		
-		rfid.addTagLossListener(new TagLossListener()
-		{
-			public void tagLost(TagLossEvent oe)
-			{
-				System.out.println(oe);
-			}
-		});
-		
-		rfid.addOutputChangeListener(new OutputChangeListener()
-		{
-			public void outputChanged(OutputChangeEvent oe)
-			{
-				System.out.println(oe);
-			}
-		});
+		//Ajout des listeners
+		rfid.addTagGainListener(rfidtgl);
+		rfid.addTagLossListener(rfidtll);
 
 		rfid.openAny();
 		System.out.println("waiting for RFID attachment...");

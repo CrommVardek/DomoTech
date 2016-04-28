@@ -2,9 +2,6 @@ package alarmeIncendie;
 
 import com.phidgets.InterfaceKitPhidget;
 import com.phidgets.PhidgetException;
-import com.phidgets.event.InputChangeEvent;
-import com.phidgets.event.InputChangeListener;
-
 
 public class DetecteurIncendie {
 	
@@ -33,61 +30,19 @@ public class DetecteurIncendie {
 		this.limiteImpulsions = limiteImpulsions;
 		this.activee = false;
 		this.mode = mode;
-		try
-		{
-			ifkp = new InterfaceKitPhidget();
-			
-			// définition du listener pour détecter les modulations sur les entrées (= incendie)
-			ifkp.addInputChangeListener(new InputChangeListener()
-			{
-				public void inputChanged(InputChangeEvent ice)
-				{
-					if (activee && (++nbrImpulsions >= limiteImpulsions)) 
-					{
-						switch (mode)
-						{
-						case 1 : pom.AlerteIncendie();
-								 break;
-						case 2 : nbrImpulsions = 0;
-								 pom.AlerteIncendie();
-								 break;
-						case 3 : activee = false;
-								 nbrImpulsions = 0;
-								 pom.AlerteIncendie();
-								 break;
-						default : System.out.println("Erreur : mode inconnu ! ");
-								break;
-						}
-
-					}
-				}
-			});
-			
-			// connexion � l'interface kit du phidget.
-			ifkp.openAny();
-			System.out.print("En attente de connexion de l'interface kit... ");
-			ifkp.waitForAttachment();
-			System.out.println("P�riph�rique connect� !");
-		}
-		catch (PhidgetException e)
-		{
-			System.out.println("Error lors de l'instanciation du d�tecteur � incendie : " + e.toString());
-		}
 	}
 	
-	public DetecteurIncendie(int limiteImpulsions)
-	{
+	public DetecteurIncendie(int limiteImpulsions){
 		this(new PompierDefaut(), limiteImpulsions, 1);
-		System.out.println("Instanciation d'un objet d�tecteur incendie avec une limite d'impulsions pr�cis�e");
 	}
 	
-	public DetecteurIncendie(int limiteImpulsions, int mode)
+	public DetecteurIncendie(int limiteImpulsions, int mode, InterfaceKitPhidget ifk)
 	{
 		this(new PompierDefaut(), limiteImpulsions, mode);
 		System.out.println("Instanciation d'un objet d�tecteur incendie avec une limite d'impulsions et un mode pr�cis�s");
 	}
 	
-	public DetecteurIncendie()
+	public DetecteurIncendie(InterfaceKitPhidget ifk)
 	{
 		this(new PompierDefaut(), 10, 1);
 		System.out.println("Instanciation d'un objet d�tecteur incendie avec les param�tres par d�faut");
@@ -160,6 +115,60 @@ public class DetecteurIncendie {
 	{
 		if ((mode > 3) || (mode < 1)) System.out.println("Erreur : le mode sp�cifi� est incorrect !");
 		else this.mode = mode;
+	}
+	
+	public void setIFK(InterfaceKitPhidget ifk){
+		this.ifkp = ifk;
+	}
+	
+	public void changeMode(){
+		try{
+			
+			if (ifkp != null && activee && (++nbrImpulsions >= limiteImpulsions)) 
+			
+			{
+				switch (mode)
+				{
+				case 1 : pom.AlerteIncendie();
+					ifkp.setOutputState(7, false);
+					break;
+				case 2 : nbrImpulsions = 0;
+					pom.AlerteIncendie();
+					ifkp.setOutputState(7, false);
+					break;
+				case 3 : activee = false;
+					nbrImpulsions = 0;
+					pom.AlerteIncendie();
+					ifkp.setOutputState(7, false);
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						//
+					}
+					switchAlarmOff();
+					break;
+				default : 
+					switchAlarmOff();
+					System.out.println("Erreur : mode inconnu ! ");
+					break;
+			}
+			}
+		} catch (PhidgetException e) {
+			//
+		}
+	}
+	
+	//Permet simplement d'arrêter l'alarme sans la désactiver.
+	public void switchAlarmOff() {
+		
+		nbrImpulsions = 0;
+		try {
+			System.out.println("Success to switch the alarm off");
+			ifkp.setOutputState(7, true);
+		} catch (PhidgetException e) {
+			System.out.println("Failed to switch off the alarm");
+			// e.printStackTrace();
+		}
 	}
 	
 	public void displayInfo()
