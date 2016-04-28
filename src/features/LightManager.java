@@ -153,6 +153,14 @@ public class LightManager {
 		return ledPower;
 	}
 	
+	public String getSensorValue(){
+		return String.valueOf(sensorValue);
+	}
+	
+	public String getSimplifiedValue() {
+		return String.valueOf(simplifiedSensorValue);
+	}
+	
 	public void addIFK(InterfaceKitPhidget ifk){
 		this.ifk = ifk;
 	}
