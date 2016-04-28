@@ -32,6 +32,7 @@ public class StorageClient {
 	private int port;
 	private InetAddress ip;
 	private final String msgOK = "OK";
+	private String path = "./../StorageClient.properties";
 	
 /* CONSTRUCTEURS : */
 	
@@ -42,9 +43,14 @@ public class StorageClient {
 		this.ip = ip;
 	}
 	
+	public StorageClient(String path) throws StorageManagerException
+	{
+		this.loadParametersFromFile(path);
+	}
+	
 	public StorageClient() throws StorageManagerException
 	{
-		this.loadParametersFromFile();
+		this.loadParametersFromFile(path);
 	}
 	
 /* METHODES D'INVOCATION AU SERVEUR : */
@@ -54,7 +60,7 @@ public class StorageClient {
 	{
 		try
 		{
-			if ((w.getRequest() != Request.createRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.createRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
 			
 			w = this.exchangeWrapper(w);
 			if (w.getString().equals(msgOK)) return msgOK;
@@ -71,7 +77,7 @@ public class StorageClient {
 	{
 		try
 		{
-			if ((w.getRequest() != Request.readRoomByName) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.readRoomByName) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
 		
 			if (w.getString().equals(msgOK)) return (Room) w.getContainer();
@@ -88,7 +94,7 @@ public class StorageClient {
 	{
 		try
 		{
-			if ((w.getRequest() != Request.readRoomById) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.readRoomById) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
 			
 			w = this.exchangeWrapper(w);
 		
@@ -647,9 +653,8 @@ public class StorageClient {
 	
 // méthodes utilitaires :
 
-	private synchronized void loadParametersFromFile() throws StorageManagerException
+	private synchronized void loadParametersFromFile(String path) throws StorageManagerException
 	{
-		String path = "./../StorageClient.properties";
 		Properties properties = new Properties();
 		InputStream input = null;
 		

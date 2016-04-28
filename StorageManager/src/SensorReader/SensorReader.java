@@ -27,7 +27,8 @@ public class SensorReader implements Runnable {
 	private int cptTemperature;
 	private int cptRefreshParameter;
 	private StorageClient stoCli;
-	private String path = "./../SensorReader.properties";
+	private String sensorReader = "./../SensorReader.properties";
+	private String sensorReaderConnexion = "./../SensorReaderConnexion.properties";
 	
 	
 /* CONSTRUCTEURS */
@@ -42,10 +43,10 @@ public class SensorReader implements Runnable {
 	
 	public SensorReader () throws SensorReaderException
 	{
-		this.loadParametersFromFile(path);
+		this.loadParametersFromFile(sensorReader);
 		try
 		{
-			this.stoCli = new StorageClient();
+			this.stoCli = new StorageClient(sensorReaderConnexion);
 		} 
 		catch (StorageManagerException e)
 		{
@@ -104,7 +105,7 @@ public class SensorReader implements Runnable {
 				try
 				{
 					// chargement des paramètres depuis le fichier
-					this.loadParametersFromFile(this.path);
+					this.loadParametersFromFile(sensorReader);
 					// réinitialisation de la valeur du compteur
 					refreshCmptr = this.cptRefreshParameter;
 				} 
