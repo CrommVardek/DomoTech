@@ -27,11 +27,15 @@ public class HeatManager {
 	public void increaseTemp(double desiredTemp){
 		
 		this.desiredTemp = desiredTemp;
-		if(!heaterOn && desiredTemp>sensorValue){
+		if(!heaterOn){
 			turnOn();
+		}
+		if (desiredTemp>sensorValue){
 			power = poweredValue(desiredTemp-sensorValue);
 		}
-		
+		else{
+			turnOff();
+		}
 	}
 	
 	private int poweredValue(double diff){
@@ -72,6 +76,10 @@ public class HeatManager {
 	public void turnOff(){
 		heaterOn = false;
 		System.out.println("The heater is turned off");
+	}
+	
+	public boolean isHeaterOn(){
+		return heaterOn;
 	}
 	
 	public double getDesiredTemp(){
