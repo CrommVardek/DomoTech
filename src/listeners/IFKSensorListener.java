@@ -1,5 +1,7 @@
 package listeners;
 
+import alarmeIncendie.DetecteurIncendie;
+
 import com.phidgets.event.SensorChangeEvent;
 import com.phidgets.event.SensorChangeListener;
 
@@ -10,12 +12,20 @@ public class IFKSensorListener implements SensorChangeListener{
 
 	private HeatManager hm;
 	private LightManager lm;
+	private DetecteurIncendie di;
 	
-	public IFKSensorListener(HeatManager hM, LightManager lM){
+	public IFKSensorListener(HeatManager hM, LightManager lM, DetecteurIncendie di){
 		this.hm = hM;
 		this.lm = lM;
+		this.di = di;
 	}
 
+	/**
+	 * Port 1: Senseur de lumière
+	 * Port 2: Senseur de temp
+	 * Port 3: Senseur de touché 
+	 */
+	
 	public void sensorChanged(SensorChangeEvent sce) {
 		
 		switch (sce.getIndex()){
@@ -30,6 +40,11 @@ public class IFKSensorListener implements SensorChangeListener{
 				double roomtemp = Math.round(((val2 * 0.22222) - 61.11));
 				hm.onChangingTemp(roomtemp);
 				System.out.println(hm.getDesiredTemp());
+				break;
+			case 3: 
+				if (sce.getValue() > 499){
+					di.switchAlarmOff();
+				}	
 				break;
 			default: 
 				System.out.println("Index = " + sce.getIndex());

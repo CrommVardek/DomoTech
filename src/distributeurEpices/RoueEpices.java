@@ -4,11 +4,15 @@ import com.phidgets.PhidgetException;
 
 public class RoueEpices {
 	
+	private final int MAXEPICES = 999;
 	private final int MAX = 6;
 	private final int MIN = 1;
 	private Epice[] emplacements = new Epice[MAX];
 	private double[] positions = new double[MAX];
 	private Moteur servo;
+	private RFIDReader rfid;
+	//Base de Connaissances Epices / RFID
+	private Epice[] BDCEpices = new Epice[MAXEPICES];
 	
 	public RoueEpices()
 	{
@@ -20,6 +24,16 @@ public class RoueEpices {
 		catch (PhidgetException e)
 		{
 			System.out.println("Une erreur est survenue lors de l'initalisation du bloc moteur : " + e.toString());
+		}
+		
+		// initialisation du lecteur RFID
+		try
+		{
+			rfid = new RFIDReader();
+		} 
+		catch (PhidgetException e)
+		{
+			System.out.println("Une erreur est survenue lors de l'initalisation du lecteur RFID : " + e.toString());
 		}
 		
 		// initialisation des emplacements et des positions :
@@ -128,7 +142,76 @@ public class RoueEpices {
 		}
 	}
 	
+	//Renvoie l'emplacement "box" en fonction de la position du servomoteur et du nombre de "box" de la roue. 
+	public int getEmplActuel() throws PhidgetException{
+		
+		double posAct;
+		posAct = servo.getPositionActuelle();
+		double divVal = (180/MAX);
+		
+		if ((posAct/divVal)<MAX){
+			return (int) ((posAct/divVal)+1);
+		}
+		//Could be dangerous
+		else return -1;
+	}
+	
 	public Epice[] getEmplacement(){
 		return emplacements;
 	}
+	
+	public Boolean isInBDC(String tagRFID){
+		for(int i=0; i < MAXEPICES; i++){
+			if (BDCEpices[i].getRFID() == tagRFID ){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public String getNomBDCE(String tagRFID){
+		for(int i=0; i < MAXEPICES; i++){
+			if (BDCEpices[i].getRFID() == tagRFID ){
+				return BDCEpices[i].getNom();
+			}
+		}
+		return null;
+	}
+	
+	public String getDescBDCE(String tagRFID){
+		for(int i=0; i < MAXEPICES; i++){
+			if (BDCEpices[i].getRFID() == tagRFID ){
+				return BDCEpices[i].getDescription();
+			}
+		}
+		return null;
+	}
+	
+	public void initialisationEmplacements() throws Exception, PhidgetException{
+		
+		for(int i = 0; i < MAX; i++) {
+			
+			//Va à l'emplcement
+			goToEmplacement(i);
+			//MàJ des emplcements
+			if (isInBDC(rfid.getTag())){
+				emplacements[i].setNom(getNomBDCE(rfid.getTag()));
+				emplacements[i].setDescription(getDescBDCE(rfid.getTag()));
+				emplacements[i].setRFID(rfid.getTag());
+			}
+			//TODO: MàJ BDD			
+		}
+		
+	}
+	
+	public void majEmplacements() throws PhidgetException {
+		
+		emplacements[getEmplActuel()].setNom(getNomBDCE(rfid.getTag()));
+		emplacements[getEmplActuel()].setDescription(getDescBDCE(rfid.getTag()));
+		emplacements[getEmplActuel()].setRFID(rfid.getTag());
+		
+		//TODO: MàJ BDD	
+	}
+	
+	
 }

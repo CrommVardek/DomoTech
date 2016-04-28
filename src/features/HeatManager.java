@@ -78,6 +78,10 @@ public class HeatManager {
 		return desiredTemp;
 	}
 	
+	public double getTemp(){
+		return sensorValue;
+	}
+	
 	public void onChangingTemp(double newTemp){
 		
 		sensorValue = newTemp;
