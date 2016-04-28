@@ -42,4 +42,7 @@
 
     <string name="tryAgain">Réessayer</string>
     <string name="cancel">Annuler</string>
+
+    <string name="default_temperature">20</string>
+    <string name="default_luminosity">0</string>
 </resources>

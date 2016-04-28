@@ -37,4 +37,7 @@
 
     <dimen name="logo_width">150dp</dimen>
     <dimen name="logo_height">150dp</dimen>
+
+    <dimen name="valid_button_width">60dp</dimen>
+    <dimen name="valid_button_height">60dp</dimen>
 </resources>

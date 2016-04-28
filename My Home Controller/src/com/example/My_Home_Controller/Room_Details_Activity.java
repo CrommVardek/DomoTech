@@ -55,7 +55,9 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
         currentInsideTemperature = (TextView) findViewById(R.id.current_temperature_value);
         currentInsideLuminosity = (TextView) findViewById(R.id.current_light_value);
 
+        // OnClickListener for ListViews (Spices and Spots)
         listeEpices.setOnItemClickListener(this);
+        listSpots.setOnItemClickListener(this);
 
         // Seekbar listener to update text value on sliding.
         desiredLightSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
@@ -72,13 +74,24 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
         });
 
 
+        // Clear content of EditText when focused.
+        desiredTemperatureValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    desiredTemperatureValue.setText("");
+                } else{
+                    desiredTemperatureValue.setText(R.string.default_temperature);
+                }
+            }});
+
 
         // Asynchronous tasks
         new GetNumberSpotsAsyncTask().execute(listSpots);
         new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
         new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
         new GetListSpicesAsyncTask().execute(listeEpices);
-        new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
+        //new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
     }
 
 
@@ -125,29 +138,35 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
 
 
     /**
-     * Increases the value of the desired temperature.
+     * Increases the value of the desired temperature. (Max value is 25)
      *
      * @param view Button pressed (must only be the "up" button).
      */
     public void temperatureIncrease(View view){
-        // TODO:    Send request to server
-        //          Add checks on the value
-        //          Decide max and min value
         double oldValue = Double.parseDouble(desiredTemperatureValue.getText().toString());
         double newValue = oldValue + 0.5;
-        desiredTemperatureValue.setText(String.valueOf(newValue));
+
+        if(newValue > 25){
+            Toast.makeText(Room_Details_Activity.this, "Valeur maximale atteinte...", Toast.LENGTH_SHORT).show();
+        } else{
+            desiredTemperatureValue.setText(String.valueOf(newValue));
+        }
     }
 
     /**
-     * Decreases the value of the desired temperature.
+     * Decreases the value of the desired temperature. (Min value is 15)
      *
      * @param view Button pressed (must only be the "down" button)
      */
     public void temperatureDecrease(View view){
-        // TODO: Send request to server
         double oldValue = Double.parseDouble(desiredTemperatureValue.getText().toString());
         double newValue = oldValue - 0.5;
-        desiredTemperatureValue.setText(String.valueOf(newValue));
+
+        if(newValue < 15){
+            Toast.makeText(Room_Details_Activity.this, "Valeur minimale atteinte.", Toast.LENGTH_SHORT).show();
+        } else {
+            desiredTemperatureValue.setText(String.valueOf(newValue));
+        }
     }
 
     /**
@@ -158,7 +177,6 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
      * @param view Button pressed (must only be toggle button).
      */
     public void handleToggle(View view){
-        // TODO: Request new value when displaying the linear layout
         ToggleButton toggle = (ToggleButton) view;
         LinearLayout desiredTemperature = (LinearLayout) findViewById(R.id.temperature_Manual_layout);
         LinearLayout desiredLight = (LinearLayout) findViewById(R.id.light_Manual_layout);
@@ -210,8 +228,14 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
                                     break;
             default:break;
         }
-
         return true;
+    }
+
+
+    public void submitTemperature(View view){
+        desiredTemperatureValue.getText().toString();
+        // Add check
+        // TODO: send to server
     }
 }
 

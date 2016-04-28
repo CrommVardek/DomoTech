@@ -27,6 +27,7 @@ public class GetInsideTemperatureAsyncTask extends AsyncTask<TextView, Void, Boo
 
     protected Boolean doInBackground(TextView... args) {
         try{
+            System.out.println("Inside");
             insideTemperatureTextView = args[0];
             HttpClient client = new DefaultHttpClient();
             HttpGet get = new HttpGet(Config.getInstance().getInsideTemperatureUrl());

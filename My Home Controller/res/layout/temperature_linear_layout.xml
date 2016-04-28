@@ -45,7 +45,8 @@
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="vertical"
-                  android:id="@+id/temperature_Manual_layout" android:visibility="invisible">
+                  android:id="@+id/temperature_Manual_layout"
+                  android:visibility="invisible">
 
         <TextView   android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -68,7 +69,7 @@
                   android:layout_height="@dimen/temperature_picker_height"
                   android:layout_gravity="center"
                   android:gravity="center"
-                  android:text="45.5"
+                  android:text="@string/default_temperature"
                   android:inputType="numberDecimal"
                   android:cursorVisible="false"
                   android:focusableInTouchMode="true"
@@ -83,5 +84,14 @@
                         android:layout_gravity="center"
                         android:onClick="temperatureDecrease"
                         android:background="@android:drawable/arrow_down_float"/>
+
+        <Space android:layout_height="@dimen/small_space_height"
+                android:layout_width="fill_parent" />
+
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/confirm"
+                android:id="@+id/submitTemperature"/>
     </LinearLayout>
 </LinearLayout>
