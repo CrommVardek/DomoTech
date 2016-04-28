@@ -55,7 +55,7 @@ public class Main {
 		
 			//Initialize the IFK
 		
-			IFKSensorListener ifkce = new IFKSensorListener(heatManager, lightManager);
+			IFKSensorListener ifkce = new IFKSensorListener(heatManager, lightManager, alarme);
 			IFKOutputListener ifkol = new IFKOutputListener();
 			IFKInputListener ifkil = new IFKInputListener(alarme);
 		
