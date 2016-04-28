@@ -9,14 +9,20 @@ import com.phidgets.RFIDPhidget;
 public class RFIDReader {
 
 	private RFIDPhidget rfid;
+	private RoueEpices re;
 	
-	public RFIDReader () throws PhidgetException{
+	public RFIDReader (RoueEpices re) throws PhidgetException{
 		
+		this.re = re;
 		rfid = new RFIDPhidget();
-		
+		addListeners();
+	}
+	
+	public void addListeners(){
+
 		//Set up listeners
-		RFIDTagGainListener rfidtgl = new RFIDTagGainListener();
-		RFIDTagLossListener rfidtll = new RFIDTagLossListener();
+		RFIDTagGainListener rfidtgl = new RFIDTagGainListener(re);
+		RFIDTagLossListener rfidtll = new RFIDTagLossListener(re);
 				
 		//Ajout des listeners
 		rfid.addTagGainListener(rfidtgl);
@@ -28,5 +34,9 @@ public class RFIDReader {
 			return rfid.getLastTag();
 		}
 		else return null;
+	}
+	
+	public void setRoueEpices(RoueEpices re) {
+		this.re = re;
 	}
 }

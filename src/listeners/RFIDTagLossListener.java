@@ -3,13 +3,21 @@ package listeners;
 import com.phidgets.event.TagLossEvent;
 import com.phidgets.event.TagLossListener;
 
+import distributeurEpices.RoueEpices;
+
 public class RFIDTagLossListener implements TagLossListener {
 
-	public RFIDTagLossListener() {
-		
+	RoueEpices re;
+	
+	public RFIDTagLossListener(RoueEpices re) {
+		this.re = re;
 	}
 
 	public void tagLost(TagLossEvent tle) {
+		
+		if(re.isRFIDActivated()){
+			re.marquerEmplacementVide(re.getEmplActuel());
+		}
 		
 	}
 

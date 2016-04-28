@@ -11,8 +11,9 @@ public class RoueEpices {
 	private double[] positions = new double[MAX];
 	private Moteur servo;
 	private RFIDReader rfid;
-	//Base de Connaissances Epices / RFID
+	//Base de Connaissances Epices / RFID ==> A récupérer de la BDD en priori.
 	private Epice[] BDCEpices = new Epice[MAXEPICES];
+	private boolean activatedRFID =false;
 	
 	public RoueEpices()
 	{
@@ -29,7 +30,8 @@ public class RoueEpices {
 		// initialisation du lecteur RFID
 		try
 		{
-			rfid = new RFIDReader();
+			rfid = new RFIDReader(this);
+			activatedRFID = true;
 		} 
 		catch (PhidgetException e)
 		{
@@ -45,6 +47,14 @@ public class RoueEpices {
 		positions[3] = 90.00;
 		positions[4] = 120.00;
 		positions[5] = 150.00;
+		
+		//Initialisation des épices de la roue.
+		try {
+			initialisationEmplacements();
+		} catch (Exception e) {
+			//
+		}
+		
 	}
 	
 	public void activer()
@@ -111,6 +121,7 @@ public class RoueEpices {
 			return;
 		}
 		else emplacements[emplacement - 1] = null;
+		//TODO: MàJ BDD	
 	}
 	
 	public void attribuerEpiceEmplacement(int emplacement, Epice epice)
@@ -143,17 +154,25 @@ public class RoueEpices {
 	}
 	
 	//Renvoie l'emplacement "box" en fonction de la position du servomoteur et du nombre de "box" de la roue. 
-	public int getEmplActuel() throws PhidgetException{
+	public int getEmplActuel(){
 		
-		double posAct;
-		posAct = servo.getPositionActuelle();
-		double divVal = (180/MAX);
+		try{
+			double posAct;
+			posAct = servo.getPositionActuelle();
+			double divVal = (180/MAX);
 		
-		if ((posAct/divVal)<MAX){
-			return (int) ((posAct/divVal)+1);
+			if ((posAct/divVal)<MAX){
+				return (int) ((posAct/divVal)+1);
+			}
+			//Could be dangerous
+			else return -1;
 		}
-		//Could be dangerous
-		else return -1;
+		catch (PhidgetException e)
+		{
+			System.out.println("Une Erreur moteur est survenue : " + e.toString());
+			return -1;
+		}
+		
 	}
 	
 	public Epice[] getEmplacement(){
@@ -187,6 +206,10 @@ public class RoueEpices {
 		return null;
 	}
 	
+	/*
+	 * Initialisation de la roue à épices, s'utilise à la création de la roue à épices et lors de mise à niveau de la roue
+	 */
+	
 	public void initialisationEmplacements() throws Exception, PhidgetException{
 		
 		for(int i = 0; i < MAX; i++) {
@@ -204,14 +227,56 @@ public class RoueEpices {
 		
 	}
 	
-	public void majEmplacements() throws PhidgetException {
+	/*
+	 * Mets à jour le contenu d'un emplacement de la roue, s'utilise à chaque modification du contenu physique de la roue à épices. 
+	 */
+	
+	public void majEmplacements(){
 		
-		emplacements[getEmplActuel()].setNom(getNomBDCE(rfid.getTag()));
-		emplacements[getEmplActuel()].setDescription(getDescBDCE(rfid.getTag()));
-		emplacements[getEmplActuel()].setRFID(rfid.getTag());
-		
+		try {
+			emplacements[getEmplActuel()].setNom(getNomBDCE(rfid.getTag()));
+			emplacements[getEmplActuel()].setDescription(getDescBDCE(rfid.getTag()));
+			emplacements[getEmplActuel()].setRFID(rfid.getTag());
+		} catch (PhidgetException e) {
+			System.out.println("Impossible de mettre à jour l'emplacement actuel");
+			e.printStackTrace();
+		}		
 		//TODO: MàJ BDD	
 	}
 	
+	/*
+	 * Activer ou désactiver le lecteur RFID
+	 */
+	
+	public void activateRFID(){
+		activatedRFID = true;
+	}
+	
+	public void desactivateRFID(){
+		activatedRFID = false;
+	}
+	
+	public boolean isRFIDActivated(){
+		return activatedRFID;
+	}
+	
+	/*
+	 * A Appeller si on veut sélectionner une épice
+	 */
+	
+	public void askEpice(String name){
+		desactivateRFID();
+		for (int i = 0; i < MAX; i++){
+			if (emplacements[i].getNom() == name){
+
+				try {
+					goToEmplacement(i+1);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		activateRFID();
+	}
 	
 }

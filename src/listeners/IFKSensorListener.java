@@ -23,7 +23,7 @@ public class IFKSensorListener implements SensorChangeListener{
 	/**
 	 * Port 1: Senseur de lumière
 	 * Port 2: Senseur de temp
-	 * Port 3: Senseur de touché 
+	 * Port 3: Senseur de touché ou de force
 	 */
 	
 	public void sensorChanged(SensorChangeEvent sce) {
@@ -42,7 +42,7 @@ public class IFKSensorListener implements SensorChangeListener{
 				System.out.println(hm.getDesiredTemp());
 				break;
 			case 3: 
-				if (sce.getValue() > 499){
+				if (sce.getValue() > 399){
 					di.switchAlarmOff();
 				}	
 				break;

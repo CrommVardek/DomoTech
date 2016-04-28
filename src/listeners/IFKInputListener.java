@@ -19,8 +19,7 @@ public class IFKInputListener implements InputChangeListener {
 			switch (ice.getIndex())
 			{
 				case 0 : 
-					di.changeMode();	
-					
+					di.changeMode();
 					break;
 				default: 
 					break;

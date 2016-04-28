@@ -3,14 +3,21 @@ package listeners;
 import com.phidgets.event.TagGainEvent;
 import com.phidgets.event.TagGainListener;
 
+import distributeurEpices.RoueEpices;
+
 public class RFIDTagGainListener implements TagGainListener{
 
-	public RFIDTagGainListener() {
-		
+	RoueEpices re;
+	
+	public RFIDTagGainListener(RoueEpices re) {
+		this.re = re;
 	}
 	
 	public void tagGained(TagGainEvent tge) {
 		
+		if(re.isRFIDActivated()){
+			re.majEmplacements();
+		}
 		
 	}
 

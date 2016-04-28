@@ -28,6 +28,7 @@ public class Main {
 		     * Analog Index: | Sensor Type:
 		     *      1        |     Light
 		     *      2        |  Temperature
+		     *      3        |Touch or Force
 		     * --------------------------------
 		     * Digital Input |    Entries:
 		     *      G        |   Black wire
@@ -100,10 +101,8 @@ public class Main {
 			
 			//Launch the spice round.
             
-			//RoueEpices re = new RoueEpices();
-            
-			//RFIDSensor.LaunchRFIDSensor(re);
-				
+			RoueEpices re = new RoueEpices();
+            				
 			/*
 			 * Ici bas la m�canique de cloture du programme, sans int�ret pour l'alarme incendie mais n�cessaire quand m�me :
 			 */
