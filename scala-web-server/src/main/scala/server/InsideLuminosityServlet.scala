@@ -1,6 +1,6 @@
 package server
 
-import actors.DatabaseLightSensorActor
+import actors.{LightManagerActor, DatabaseLightSensorActor}
 import akka.actor.Props
 import commonsObjects.{Wrapper, Request, LightSensorMonitoring, List}
 
@@ -61,7 +61,10 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
 
     logger.info("The extracted value from the JSON is: " +value)
 
-    // TODO: Send data to manager
+    val lightManagerActor = actorSystem.actorOf(Props[LightManagerActor], "lightManagerActor")
+
+    lightManagerActor ! "Increase Luminosity " +value
+    lightManagerActor ! "Kill"
 
     logger.info("POST Request done (Actor killed)")
   }

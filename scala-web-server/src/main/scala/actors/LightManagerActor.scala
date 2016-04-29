@@ -21,6 +21,18 @@ class LightManagerActor extends Actor{
 
   def receive = {
     case "Kill" => context stop self
-    case message:String => logger.info("Error: Message not understood...\t"+message)
+    case message:String => {
+                              logger.info("Message received = " + message)
+                              if (message.startsWith("Increase Luminosity"))
+                              {
+                                // Retrieve the integer at the end of the message
+                                val intensity = message.split(" ").last
+                                manager.setLedPower(false, intensity.toInt)
+                                logger.info("Message treated - Light was adjusted.")
+                              }
+                              else{
+                                logger.info("Error: Message not understood... \t"+message)
+                              }
+                          }
   }
 }
