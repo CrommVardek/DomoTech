@@ -128,6 +128,24 @@ public class LightManager {
 			
 	}
 	
+	public void setLedPower(boolean night, int power){
+		if(!lightOn){
+			
+			if (night){
+				ledPower = 1;
+			}
+			else {
+			
+				lightOn = true;
+				ledPower = power;
+			}
+			
+		}
+		else{
+			ledPower = power;
+		}
+	}
+	
 	public void onChangeLight(int lightVal){
 		
 		sensorValue = lightVal;
