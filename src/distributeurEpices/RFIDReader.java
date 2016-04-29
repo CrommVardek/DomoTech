@@ -15,6 +15,8 @@ public class RFIDReader {
 		
 		this.re = re;
 		rfid = new RFIDPhidget();
+		rfid.openAny();
+		rfid.waitForAttachment();
 		addListeners();
 	}
 	
