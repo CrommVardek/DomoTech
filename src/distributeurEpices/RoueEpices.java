@@ -1,5 +1,8 @@
 package distributeurEpices;
 
+import listeners.MotorAttachListener;
+import listeners.MotorDetachListener;
+
 import com.phidgets.PhidgetException;
 
 public class RoueEpices {
@@ -54,6 +57,14 @@ public class RoueEpices {
 		} catch (Exception e) {
 			//
 		}
+		
+		//Initialisation et ajout des listeners attach et detach pour le moteur.
+		
+		MotorAttachListener mal = new MotorAttachListener(this);
+		MotorDetachListener mdl = new MotorDetachListener(this);
+		
+		servo.addAttachListener(mal);
+		servo.addDetachListener(mdl);
 		
 	}
 	
@@ -216,7 +227,7 @@ public class RoueEpices {
 			
 			//Va à l'emplcement
 			goToEmplacement(i);
-			//MàJ des emplcements
+			//MàJ des emplacements
 			if (isInBDC(rfid.getTag())){
 				emplacements[i].setNom(getNomBDCE(rfid.getTag()));
 				emplacements[i].setDescription(getDescBDCE(rfid.getTag()));

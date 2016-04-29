@@ -102,6 +102,31 @@ public class Main {
 			//Launch the spice round.
             
 			RoueEpices re = new RoueEpices();
+			try
+			{
+				re.activer();
+				re.goToEmplacement(1);
+				re.goToEmplacement(2);
+				re.goToEmplacement(3);
+				re.goToEmplacement(4);
+				re.goToEmplacement(5);
+				re.goToEmplacement(6);
+				re.goToEmplacement(5);
+				re.goToEmplacement(4);
+				re.goToEmplacement(3);
+				re.goToEmplacement(2);
+				re.goToEmplacement(1);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Une erreur est survenue : " + e.toString());
+			}
+			finally
+			{
+				re.desactiver();
+				re.cloturer();
+			}
+			System.out.println("Fin du programme");
             				
 			/*
 			 * Ici bas la m�canique de cloture du programme, sans int�ret pour l'alarme incendie mais n�cessaire quand m�me :

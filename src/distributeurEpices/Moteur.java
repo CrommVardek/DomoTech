@@ -1,5 +1,8 @@
 package distributeurEpices;
 
+import listeners.MotorAttachListener;
+import listeners.MotorDetachListener;
+
 import com.phidgets.AdvancedServoPhidget;
 import com.phidgets.PhidgetException;
 import com.phidgets.event.AttachEvent;
@@ -38,7 +41,8 @@ public class Moteur {
 		servo.setVelocityLimit(0, velocityLimit);
 		servo.setAcceleration(0, acceleration);
 		servo.setSpeedRampingOn(0, true);
-		this.defineListeners(servo);	
+		this.defineListeners(servo);
+				
 	}
 	
 	public Moteur() throws PhidgetException
@@ -136,19 +140,7 @@ public class Moteur {
 	
     	
 	private void defineListeners( AdvancedServoPhidget servo){
-		
-		servo.addAttachListener(new AttachListener() {
-			public void attached(AttachEvent ae) {
-				System.out.println("Moteur connecté => " + ae);
-			}
-		});
-		
-		servo.addDetachListener(new DetachListener() {
-			public void detached(DetachEvent ae) {
-				System.out.println("Moteur déconnecté => " + ae);
-			}
-		});
-		
+				
 		servo.addErrorListener(new ErrorListener() {
 			public void error(ErrorEvent ee) {
 				System.out.println("Erreur moteur => " + ee);
@@ -163,6 +155,18 @@ public class Moteur {
 				System.out.println("Changement de position du moteur : " + positionActuelle);
 			}
 		});
+	}
+
+	public void addAttachListener(MotorAttachListener mal) {
+		
+		servo.addAttachListener(mal);
+				
+	}
+	
+	public void addDetachListener(MotorDetachListener mdl){
+		
+		servo.addDetachListener(mdl);
+		
 	}
 
 }
