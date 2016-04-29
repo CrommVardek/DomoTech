@@ -434,6 +434,20 @@ public class StorageServer implements Runnable {
 				logger.info("[" +this.label + "]-> Read Spice By Name demand ended by an error : " + e.toString());
 				return new Wrapper(Request.readSpiceByName, new Message("ERROR : " + e.getExceptionList()), msgKO);
 			}
+		
+		case readSpiceByBarCode :
+			logger.info("[" +this.label + "]-> Read Spice By Name demand received !");	
+			try
+			{
+				Spice spice = sqlDriver.readSpiceByBarCode(((Spice) wrapper.getContainer()).getBarCode());
+				logger.info("[" +this.label + "]-> Read Spice By barCode demand answered !");
+				return new Wrapper(Request.readSpiceByBarCode, spice, msgOK);
+			}
+			catch(MySqlDriverException e)
+			{
+				logger.info("[" +this.label + "]-> Read Spice By barCode demand ended by an error : " + e.toString());
+				return new Wrapper(Request.readSpiceByBarCode, new Message("ERROR : " + e.getExceptionList()), msgKO);
+			}
 				
 		case readSpiceList :
 			logger.info("[" +this.label + "]-> Read Spice List demand received !");	

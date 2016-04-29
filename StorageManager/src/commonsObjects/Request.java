@@ -29,6 +29,7 @@ public enum Request {
 	createSpice,
 	readSpiceById,
 	readSpiceByName,
+	readSpiceByBarCode,
 	readSpiceList,
 	updateSpice,
 	deleteSpice,

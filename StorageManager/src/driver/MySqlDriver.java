@@ -78,6 +78,7 @@ public class MySqlDriver {
 	private PreparedStatement createSpice;
 	private PreparedStatement readSpiceById;
 	private PreparedStatement readSpiceByName;
+	private PreparedStatement readSpiceByBarCode;
 	private PreparedStatement readSpiceList;
 	private PreparedStatement updateSpice;
 	private PreparedStatement deleteSpice;
@@ -745,6 +746,40 @@ public class MySqlDriver {
 		return spice;
 	}
 	
+	public synchronized Spice readSpiceByBarCode (String barCode) throws MySqlDriverException
+	{
+		Spice spice= new Spice();
+		
+		try
+		{
+			this.readSpiceByName.setString(1, barCode);
+			ResultSet set = this.readSpiceByName.executeQuery();
+			while (set.next())
+			{
+				spice.setSpiceId(set.getString(1));
+				spice.setName(set.getString(2));
+				spice.setDescription(set.getString(3));
+				spice.setBarCode(set.getString(4));
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new MySqlDriverException ("MySqlDriver error in readSpiceByBarCode : " + e.toString());
+		}
+		finally
+		{
+			try 
+			{
+				this.readSpiceByBarCode.clearParameters();
+			}
+			catch (SQLException e)
+			{
+				// ignore
+			}
+		}
+		return spice;
+	}
+	
 	public synchronized List<Spice> readSpiceList () throws MySqlDriverException
 	{
 		List<Spice> list = new List<Spice>();
@@ -1377,6 +1412,7 @@ public class MySqlDriver {
 			this.createSpice = connexion.prepareStatement(properties.getProperty("createSpice"));
 			this.readSpiceById = connexion.prepareStatement(properties.getProperty("readSpiceById"));
 			this.readSpiceByName = connexion.prepareStatement(properties.getProperty("readSpiceByName"));
+			this.readSpiceByBarCode = connexion.prepareStatement(properties.getProperty("readSpiceByBarCode"));
 			this.readSpiceList = connexion.prepareStatement(properties.getProperty("readSpiceList"));
 			this.updateSpice = connexion.prepareStatement(properties.getProperty("updateSpice"));
 			this.deleteSpice = connexion.prepareStatement(properties.getProperty("deleteSpice"));
@@ -1474,6 +1510,7 @@ public class MySqlDriver {
 			this.createSpice.close();
 			this.readSpiceById.close();
 			this.readSpiceByName.close();
+			this.readSpiceByBarCode.close();
 			this.readSpiceList.close();
 			this.updateSpice.close();
 			this.deleteSpice.close();
