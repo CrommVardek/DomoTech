@@ -6,14 +6,12 @@ import org.json4s.{DefaultFormats, Formats}
 import org.scalatra._
 import scalate.ScalateSupport
 
-
 trait ScalaWebServerStack extends ScalatraServlet with ScalateSupport {
 
-  val actorSystem = ActorSystem("Domotic")
-  //
   protected implicit val jsonFormats: Formats = DefaultFormats
-
   protected implicit val defaultTimeout = Timeout(6000000)
+
+  val actorSystem = ActorSystem("Domotic")
 
   notFound {
     // remove content type in case it was set through an action

@@ -1,18 +1,26 @@
 package actors
 
+import java.net.InetAddress
+
 import akka.actor.Actor
 import commonsObjects.{Request, Wrapper, StorageClient}
 import org.slf4j.LoggerFactory
 
 /**
+  * Actor to handle database interactions related to the Agenda.
+  * All messages must come in a Wrapper.
+  *
+  * @see commonsObjects.Agenda
+  * @see commonsObjects.Wrapper
+  *
   * Created by Axel on 22-04-16.
   */
 class DatabaseAgendaActor extends Actor{
 
   // Logger of the Actor.
   val logger =  LoggerFactory.getLogger(getClass)
-
-  val storageClient = new StorageClient()
+  // Interface to the database.
+  val storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"))
 
   def receive = {
                   case wrapper:Wrapper => wrapper.getRequest match{

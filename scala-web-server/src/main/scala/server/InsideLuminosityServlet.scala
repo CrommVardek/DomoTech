@@ -3,8 +3,6 @@ package server
 import actors.DatabaseLightSensorActor
 import akka.actor.Props
 import commonsObjects.{Wrapper, Request, LightSensorMonitoring, List}
-import org.json4s.native.JsonParser
-
 
 import org.scalatra.json.JacksonJsonSupport
 import akka.pattern.ask
@@ -25,7 +23,6 @@ import scala.util.parsing.json.JSONObject
 class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
   val logger = LoggerFactory.getLogger(getClass)
-
 
 
   before(){

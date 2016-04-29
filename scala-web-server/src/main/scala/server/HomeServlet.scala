@@ -1,50 +1,52 @@
 package server
 
-import _root_.akka.actor.{Props, ActorSystem, Actor}
-import actors.DatabaseActionActor
-import commonsObjects.{Request, Wrapper, Action}
-
-
-import scala.concurrent.Await
-import akka.pattern.ask
-import scala.concurrent.duration._
-
+import _root_.akka.actor.Props
+import actors.{SpiceActor, LightManagerActor, HeatManagerActor}
+import commonsObjects._
+import org.slf4j.LoggerFactory
 
 
 class HomeServlet extends ScalaWebServerStack {
 
+  private val logger = LoggerFactory.getLogger(getClass)
+  var done:Boolean = false
+
+
   get("/") {
+    logger.info("Get Request on main page")
+    if(!done) {
 
-    implicit val system = ActorSystem("Test")
+      // Instantiation of managers and InterfaceKit actors
+      val heatManagerActor = actorSystem.actorOf(Props[HeatManagerActor], "HeatManagerActor")
+      val lightManagerActor = actorSystem.actorOf(Props[LightManagerActor], "LightManagerActor")
 
-    val myActor = system.actorOf(Props[DatabaseActionActor], "test1")
+      logger.info("Heat and Light Actors initiated !")
 
-    val myAction = new Action()
-    val myWrapper = new Wrapper(Request.createAction, myAction)
+      // Temporary Actor
+      val tempActor = actorSystem.actorOf(Props[SpiceActor], "temporary")
 
-    def futureResult = ask(myActor, myWrapper)
-    val res = Await.result(futureResult, 15.seconds).asInstanceOf[Boolean]
+      val heatManager = new HeatManager(1, 0.0)
+      val lightManager = new LightManager(1, 0)
 
-    if (res) {
-      println("success")
+      logger.info("Managers initiated !")
+
+      val interfaceKit = new InterfaceKit(heatManager, lightManager)
+
+      logger.info("InterfaceKit instantiated !")
+
+      heatManagerActor.tell(heatManager, tempActor)
+      lightManagerActor.tell(lightManager, tempActor)
+
+      logger.info("Messages sent to Actors !")
+
+      done = true
     }
-    else {
-      println("failure")
-    }
 
-
-
-
-    //val myActor = system.actorOf(Props[ActorTest], "testActor")
-    //myActor ! "Test"
     <html>
       <body>
         <h1>Welcome</h1>
         Welcome to the Home Automation Web Page
       </body>
     </html>
-
-
   }
-
 }

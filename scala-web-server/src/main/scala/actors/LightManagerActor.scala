@@ -1,6 +1,8 @@
 package actors
 
 import akka.actor.Actor
+import commonsObjects.LightManager
+
 //import be.unamur.commonsObjects.LuminosityData
 import com.phidgets.InterfaceKitPhidget
 import org.slf4j.LoggerFactory
@@ -14,31 +16,11 @@ class LightManagerActor extends Actor{
 
   val logger =  LoggerFactory.getLogger(getClass)
 
+  private var manager:LightManager = null
+
   def receive = {
-    case "Get inside luminosity" => sender ! ""//LuminosityData.all
-    case "Set inside luminosity" => sender ! true
+    case manager:LightManager => this.manager = manager
     case "Kill" => context stop self
     case message:String => logger.info("Error: Message not understood...\t"+message)
-  }
-}
-
-
-
-class LEDActor extends Actor{
-
-  def receive = ???
-}
-
-/**
-  * Actor to handle the Phidget Precision Light Sensor
-  *
-  * This Actor read the inside temperature of a room and sends it to the LightActor.
-  */
-class LightSensorActor(IFK:InterfaceKitPhidget, room:Integer) extends Actor{
-
-  def receive = {
-    case "Init" => ??? // Initialiaze the Sensor
-    case "Stop" => context stop self
-    case _ => ???
   }
 }

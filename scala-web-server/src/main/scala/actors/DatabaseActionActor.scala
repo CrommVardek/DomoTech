@@ -7,13 +7,19 @@ import commonsObjects.{Request, Wrapper, StorageClient}
 import org.slf4j.LoggerFactory
 
 /**
+  * Actor to handle database interactions related to Action Objects.
+  * All messages must come in a Wrapper.
+  *
+  * @see commonsObjects.Wrapper.
+  * @see commonsObjects.Action
+  *
   * Created by Axel on 22-04-16.
   */
 class DatabaseActionActor extends Actor{
 
   // Logger of the Actor.
   val logger =  LoggerFactory.getLogger(getClass)
-
+  // Interface to the database.
   val storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"))
 
 
