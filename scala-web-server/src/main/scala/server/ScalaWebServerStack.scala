@@ -1,7 +1,8 @@
 package server
 
-import _root_.akka.actor.ActorSystem
+import _root_.akka.actor.{Props, ActorSystem}
 import _root_.akka.util.Timeout
+import actors.{LightManagerActor, HeatManagerActor}
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra._
 import scalate.ScalateSupport

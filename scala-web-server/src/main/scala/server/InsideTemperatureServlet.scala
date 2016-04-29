@@ -1,6 +1,6 @@
 package server
 
-import actors.DatabaseTemperatureSensorActor
+import actors.{HeatManagerActor, DatabaseTemperatureSensorActor}
 import akka.actor.Props
 import commonsObjects.{Request, Wrapper, TemperatureSensorMonitoring}
 import commonsObjects.List
@@ -63,9 +63,16 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
     val json = readJsonFromBody(request.body)
     val value = json.children.head.extract[String]
 
+//    val heatManagerActor = actorSystem.actorOf(Props[HeatManagerActor], "heatManagerActor")
+
+
+
     logger.info("The extracted value from the JSON is: " +value)
 
     // TODO: Send data to manager
+    heatManagerActor ! "Increase Temperature " +value
+
+    heatManagerActor ! "Kill"
 
     logger.info("POST Request done (Actor killed)")
   }

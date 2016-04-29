@@ -1,7 +1,7 @@
 package actors
 
 import akka.actor.Actor
-import commonsObjects.HeatManager
+import commonsObjects.{ManagersConfig, HeatManager}
 import org.slf4j.LoggerFactory
 
 /**
@@ -11,12 +11,9 @@ class HeatManagerActor extends Actor{
 
   val logger = LoggerFactory.getLogger(getClass)
 
-  //val manager:HeatManager = new HeatManager(1, 0.0)
-
-  private var manager:HeatManager = null
+  private val manager:HeatManager = ManagersConfig.getInstance().getHeatManager;
 
   def receive = {
-    case manager:HeatManager => this.manager = manager
     case "Kill" => context stop self; logger.info("Actor Terminated")
     case "Get Manager" => logger.info("Sending manager..."); sender ! manager; logger.info("Manager sent!")
     case message:String =>  {

@@ -17,11 +17,12 @@ public class LightManager {
 	
 	InterfaceKitPhidget ifk = null;
 
-	public LightManager (int room, int value) throws PhidgetException{
+	public LightManager (int room, int value){
 		
 		this.room = room;
 		sensorValue = value;
-		simplifiedSensorValue = SimplifyValue(sensorValue);
+		try{simplifiedSensorValue = SimplifyValue(sensorValue);}
+		catch(Exception e){simplifiedSensorValue = -1;}
 		
 	}
 	

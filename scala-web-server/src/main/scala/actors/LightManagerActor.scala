@@ -1,7 +1,7 @@
 package actors
 
 import akka.actor.Actor
-import commonsObjects.LightManager
+import commonsObjects.{ManagersConfig, LightManager}
 
 //import be.unamur.commonsObjects.LuminosityData
 import com.phidgets.InterfaceKitPhidget
@@ -16,10 +16,10 @@ class LightManagerActor extends Actor{
 
   val logger =  LoggerFactory.getLogger(getClass)
 
-  private var manager:LightManager = null
+  private val manager:LightManager = ManagersConfig.getInstance().getLightManager;
+
 
   def receive = {
-    case manager:LightManager => this.manager = manager
     case "Kill" => context stop self
     case message:String => logger.info("Error: Message not understood...\t"+message)
   }
