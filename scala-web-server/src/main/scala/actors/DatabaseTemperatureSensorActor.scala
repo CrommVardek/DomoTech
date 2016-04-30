@@ -15,8 +15,8 @@ class DatabaseTemperatureSensorActor extends Actor{
   // Logger of the Actor.
   val logger =  LoggerFactory.getLogger(getClass)
 
-  val storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"))
-
+  //val storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"))
+  val storageClient = new StorageClient()
 
   def receive = {
     case wrapper:Wrapper => wrapper.getRequest match{

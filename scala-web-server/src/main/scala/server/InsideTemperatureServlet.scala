@@ -68,9 +68,7 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
 
     logger.info("The extracted value from the JSON is: " +value)
 
-    // TODO: Send data to manager
     heatManagerActor ! "Increase Temperature " +value
-
     heatManagerActor ! "Kill"
 
     logger.info("POST Request done (Actor killed)")

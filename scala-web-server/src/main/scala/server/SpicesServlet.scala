@@ -2,7 +2,8 @@ package server
 
 import akka.actor.Props
 import actors.{DatabaseSpiceActor, SpiceActor}
-import commonsObjects.{Request, Wrapper, Spice, List}
+import commonsObjects._
+import exception.SpiceNotPresentException
 
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
@@ -77,6 +78,23 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
     logger.info("The extracted value from the JSON is: " +value)
 
     // TODO: Send data to manager
+
+
+/*    def futureResult = ask(actor, wrapper)
+    val res = Await.result(futureResult, 30.seconds).asInstanceOf[List[Spice]]
+
+
+    val iterator = res.iterator()
+
+    while(iterator.hasNext){
+      val spice = iterator.next()
+      if (spice.getName.equals(value)){
+  */      try{
+          ManagersConfig.getInstance().getRoueEpices.goToEmplacement(5);
+          ManagersConfig.getInstance().getRoueEpices.askEpice(value); response.setStatus(200);
+        } catch{case e:SpiceNotPresentException=> response.setStatus(501)}
+    /*  }
+    }*/
 
     logger.info("POST Request done (Actor killed)")
   }

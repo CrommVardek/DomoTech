@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Properties;
 
-
 public class StorageClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(StorageClient.class);
@@ -19,30 +18,36 @@ public class StorageClient {
 	private int port;
 	private InetAddress ip;
 	private final String msgOK = "OK";
-	
+	private String path = "SensorReader.properties";
+
 /* CONSTRUCTEURS : */
-	
+
 	public StorageClient (String name, int port, InetAddress ip)
 	{
 		this.name = name;
 		this.port = port;
 		this.ip = ip;
 	}
-	
+
+	public StorageClient(String path) throws StorageManagerException
+	{
+		this.loadParametersFromFile(path);
+	}
+
 	public StorageClient() throws StorageManagerException
 	{
-		this.loadParametersFromFile();
+		this.loadParametersFromFile(path);
 	}
-	
+
 /* METHODES D'INVOCATION AU SERVEUR : */
-	
- // Room
+
+	// Room
 	public String createRoom(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			if ((w.getRequest() != Request.createRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
-			
+			//if ((w.getRequest() != Request.createRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+
 			w = this.exchangeWrapper(w);
 			if (w.getString().equals(msgOK)) return msgOK;
 			else return ((Message) w.getContainer()).getMessage();
@@ -53,14 +58,14 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public Room readRoomByName(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			if ((w.getRequest() != Request.readRoomByName) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.readRoomByName) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return (Room) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -70,15 +75,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public Room readRoomById(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			if ((w.getRequest() != Request.readRoomById) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
-			
+			//if ((w.getRequest() != Request.readRoomById) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return (Room) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -88,8 +93,8 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public List<Room> readRoomList() throws StorageManagerException
 	{
@@ -104,14 +109,14 @@ public class StorageClient {
 			throw new StorageManagerException(" Client in readRoomList \n" + e.toString());
 		}
 	}
-	
+
 	public String updateRoom (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.updateRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -121,15 +126,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String deleteRoom(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.deleteRoom) || ( ! w.getContainer().getClass().isInstance(Room.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -140,13 +145,13 @@ public class StorageClient {
 		}
 	}
 
-//Action
+	//Action
 	public String createAction(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			//if ((w.getRequest() != Request.createAction) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
-			
+			if ((w.getRequest() != Request.createAction) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
+
 			w = this.exchangeWrapper(w);
 			if (w.getString().equals(msgOK)) return msgOK;
 			else return ((Message) w.getContainer()).getMessage();
@@ -157,16 +162,16 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public Action readActionById (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 
 			if ((w.getRequest() != Request.readActionById) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return (Action) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -176,16 +181,16 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public Action readActionByName(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 
 			if ((w.getRequest() != Request.readActionByName) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return (Action) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -195,7 +200,7 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Action> readActionList() throws StorageManagerException
 	{
@@ -210,15 +215,15 @@ public class StorageClient {
 			throw new StorageManagerException(" Client in readActionList \n" + e.toString());
 		}
 	}
-	
+
 	public String updateAction(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.updateAction) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -228,14 +233,14 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String deleteAction(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.deleteAction) || ( ! w.getContainer().getClass().isInstance(Action.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -246,14 +251,14 @@ public class StorageClient {
 		}
 	}
 
-//Agenda
+	//Agenda
 	public String createAgenda(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.createAgenda) || ( ! w.getContainer().getClass().isInstance(Agenda.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -263,16 +268,16 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Agenda> readAgendaByDayNumber(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.readAgendaByDayNumber) || ( ! w.getContainer().getClass().isInstance(Agenda.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-			
+
 			if (w.getString().equals(msgOK)) return (List<Agenda>) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -281,7 +286,7 @@ public class StorageClient {
 			throw new StorageManagerException(" Client in readAgendaByDayNumber \n" + e.toString());
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Agenda> readAgendaByRoomId(Wrapper w) throws StorageManagerException
 	{
@@ -297,10 +302,10 @@ public class StorageClient {
 			throw new StorageManagerException(" Client in readAgendaByRoomId \n" + e.toString());
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Agenda> readWeekAgenda() throws StorageManagerException
-	{ 
+	{
 		try
 		{
 			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readWeekAgenda));
@@ -312,14 +317,14 @@ public class StorageClient {
 			throw new StorageManagerException(" Client in readWeekAgenda \n" + e.toString());
 		}
 	}
-	
+
 	public String deleteAgenda(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.deleteAgenda) || ( ! w.getContainer().getClass().isInstance(Agenda.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -330,14 +335,14 @@ public class StorageClient {
 		}
 	}
 
-//Spice
+	//Spice
 	public String createSpice(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.createSpice) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -347,7 +352,7 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public Spice readSpiceById(Wrapper w) throws StorageManagerException
 	{
 		try
@@ -355,7 +360,7 @@ public class StorageClient {
 			if ((w.getRequest() != Request.readSpiceById) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return (Spice) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -365,15 +370,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public Spice readSpiceByName (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.readSpiceByName) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
-			
-			 w = this.exchangeWrapper(w);
-		
+
+			w = this.exchangeWrapper(w);
+
 			if (w.getString().equals(msgOK)) return (Spice) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -383,15 +388,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Spice> readSpiceList() throws StorageManagerException
 	{
 		try
 		{
 			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readSpiceList));
-			
-			if (w.getString().equals(msgOK)) {System.out.println(w.getContainer().toString()); return (List<Spice>) w.getContainer();}
+
+			if (w.getString().equals(msgOK)) return (List<Spice>) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
 		catch (StorageManagerException | ClassCastException e)
@@ -399,14 +404,14 @@ public class StorageClient {
 			throw new StorageManagerException(" Client in readSpiceList \n" + e.toString());
 		}
 	}
-	
+
 	public String updateSpice(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.updateSpice) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -416,14 +421,14 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String deleteSpice(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.deleteSpice) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -434,14 +439,14 @@ public class StorageClient {
 		}
 	}
 
-//Parameter
+	//Parameter
 	public String createParameter(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.createParameter) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -451,7 +456,7 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String readParameterByKey(Wrapper w) throws StorageManagerException
 	{
 		try
@@ -459,7 +464,7 @@ public class StorageClient {
 			if ((w.getRequest() != Request.readParameterByKey) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
 
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return ((Parameter) w.getContainer()).getParam();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -469,15 +474,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String updateParameter(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.updateParameter) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -487,15 +492,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String deleteParameterByKey(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.deleteParameterByKey) || ( ! w.getContainer().getClass().isInstance(Parameter.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -506,15 +511,15 @@ public class StorageClient {
 		}
 	}
 
-//SpiceBox
+	//SpiceBox
 	public Spice readSpiceBoxContent(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.readSpiceBoxContent) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals("Full_Box")) return (Spice) w.getContainer();
 			else if (w.getString().equals("Empty_Box")) return new Spice("Empty", "Empty", "Empty", "Empty");
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -525,15 +530,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String updateSpiceBoxContent(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.updateSpiceBoxContent) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals("Full_Box")) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -543,15 +548,15 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	public String deleteSpiceBoxContent(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if ((w.getRequest() != Request.deleteSpiceBoxContent) || (! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals("Full_Box")) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -562,14 +567,14 @@ public class StorageClient {
 		}
 	}
 
-// LightSensor
+	// LightSensor
 	public String createLightSensorMonitoring(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			if ((w.getRequest() != Request.createLightSensorMonitoring) || (! w.getContainer().getClass().isInstance(LightSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.createLightSensorMonitoring) || (! w.getContainer().getClass().isInstance(LightSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -579,14 +584,14 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<LightSensorMonitoring> readLightSensorMonitoringList() throws StorageManagerException
 	{
 		try
 		{
 			Wrapper w = this.exchangeWrapper(new Wrapper(Request.readLightSensorMonitoringList));
-			
+
 			if (w.getString().equals(msgOK)) return (List<LightSensorMonitoring>) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -596,14 +601,14 @@ public class StorageClient {
 		}
 	}
 
-//TemperatureSensor
+	//TemperatureSensor
 	public String createTemperatureSensorMonitoring(Wrapper w) throws StorageManagerException
 	{
 		try
 		{
-			if ((w.getRequest() != Request.createTemperatureSensorMonitoring) || (! w.getContainer().getClass().isInstance(TemperatureSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
+			//if ((w.getRequest() != Request.createTemperatureSensorMonitoring) || (! w.getContainer().getClass().isInstance(TemperatureSensorMonitoring.class))) throw new StorageManagerException("invalid wrapper !");
 			w = this.exchangeWrapper(w);
-		
+
 			if (w.getString().equals(msgOK)) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -613,16 +618,16 @@ public class StorageClient {
 			throw e;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<TemperatureSensorMonitoring> readTemperatureSensorMonitoringList (Wrapper w) throws StorageManagerException
 	{
 		try
 		{
 			if (w.getRequest() != Request.readTemperatureSensorMonitoringList) throw new StorageManagerException("invalid wrapper !");
-			
+
 			w = this.exchangeWrapper(new Wrapper(Request.readTemperatureSensorMonitoringList));
-			
+
 			if (w.getString().equals(msgOK)) return (List<TemperatureSensorMonitoring>) w.getContainer();
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
 		}
@@ -631,91 +636,86 @@ public class StorageClient {
 			throw new StorageManagerException(" Client in readTemperatureSensorMonitoringList \n" + e.toString());
 		}
 	}
-	
-// m�thodes utilitaires :
 
-	private synchronized void loadParametersFromFile() throws StorageManagerException
+// méthodes utilitaires :
+
+	private synchronized void loadParametersFromFile(String path) throws StorageManagerException
 	{
-		//String path = "./../StorageClient.properties";
-		String path = "C:\\Users\\Axel\\Unamur\\Synchro\\scala-web-server\\src\\main\\scala\\StorageClient.properties";
 		Properties properties = new Properties();
-
 		InputStream input = null;
 
-
 		try
-		{	
-			logger.info("TECHNICAL PIECES OF INFORMATION :");
-			logger.info("---------------------------------");
-			logger.info("  -> java.class.path : " + System.getProperty("java.class.path"));
-			logger.info("  -> java.home : " + System.getProperty("java.home"));
-			logger.info("  -> Operating system : " + System.getProperty("os.arch") + ", " + System.getProperty("os.version"));
-			logger.info("  -> Working directory : " +  System.getProperty("user.dir"));
-			logger.info("  -> User's name : " + System.getProperty("user.name"));
-			logger.info("  -> Path : " + path);
-			logger.info("  -> input :" + input);
+		{
+
+			logger.debug("TECHNICAL PIECES OF INFORMATION :");
+			logger.debug("---------------------------------");
+			logger.debug("  -> java.class.path : " + System.getProperty("java.class.path"));
+			logger.debug("  -> java.home : " + System.getProperty("java.home"));
+			logger.debug("  -> Operating system : " + System.getProperty("os.arch") + ", " + System.getProperty("os.version"));
+			logger.debug("  -> Working directory : " +  System.getProperty("user.dir"));
+			logger.debug("  -> User's name : " + System.getProperty("user.name"));
+			logger.debug("  -> Path to configuration file : " + path );
 			logger.debug("----------------------------------");
 			logger.debug("");
 
-
 			//input = StorageClient.class.getResourceAsStream(path);
+			input = StorageClient.this.getClass().getClassLoader().getResourceAsStream(path);
 			properties.load(input);
 
-
-			// chargement des param�tres :
+			// chargement des paramètres :
 			logger.info("LOADED PARAMETERS :");
 			logger.info("-------------------");
-			
+
 			this.name = properties.getProperty("name");
 			logger.info("  -> Name : " + this.name);
-			
+
 			this.ip = InetAddress.getByName(properties.getProperty("ip"));
 			logger.info("  -> IP : " + this.ip);
-			
+
 			this.port = Integer.parseInt(properties.getProperty("port"));
 			logger.info("  -> Port : " + this.port);
-				
+
 			logger.info("-------------------");
 			logger.info("");
-			
+
 		}
 		catch (FileNotFoundException e)
 		{
 			throw new StorageManagerException(""
-			+ " The  file '"+ path +"' was not found."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
+					+ " The  file '"+ path +"' was not found."
+					+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
 		}
 		catch (UnknownHostException e)
 		{
 			throw new StorageManagerException(""
-			+ " Unknown IP address specified in the file '"+ path +"'."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
+					+ " Unknown IP address specified in the file '"+ path +"'."
+					+ " Abording creation of Storage client '" + name + "': \n" + e.toString() );
 		}
 		catch (IOException e)
 		{
 			throw new StorageManagerException(""
-			+ " Input/Output error(s) with the file '"+ path +"' while opening the file."
-			+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
+					+ " Input/Output error(s) with the file '"+ path +"' while opening the file."
+					+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
 		}
 		catch (NullPointerException e)
 		{
 			throw new StorageManagerException(""
-			+ " Null pointer with the file '"+ path +"' while opening the file."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
+					+ " Null pointer with the file '"+ path +"' while opening the file."
+					+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
 		}
 		catch (NumberFormatException e)
 		{
 			throw new StorageManagerException(""
-			+ " Null pointer with the file '"+ path +"' during conversion of parameters from string to int."
-			+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
+					+ " Null pointer with the file '"+ path +"' during conversion of parameters from string to int."
+					+ " Abording creation of Storage client '" + name + "': \n" + e.toString());
 		}
 		catch (Exception e)
 		{
 			throw new StorageManagerException(""
-			+ " Global error with the file '"+ path +"'."
-			+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
+					+ " Global error with the file '"+ path +"'."
+					+ " Abording creation of Storage client'" + name + "': \n" + e.toString());
 		}
-		
+
 		finally
 		{
 			if (input != null)
@@ -727,44 +727,44 @@ public class StorageClient {
 				catch (IOException e)
 				{
 					throw new StorageManagerException(""
-					+ " Input/Output error(s) with the file '"+ path +"' while closing the file."
-					+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage());
+							+ " Input/Output error(s) with the file '"+ path +"' while closing the file."
+							+ " Abording creation of Storage client '" + name + "': \n" + e.getMessage());
 				}
 			}
 		}
 	}
-	
+
 	private Wrapper exchangeWrapper(Wrapper wrapper) throws StorageManagerException
 	{
-		
+
 		if (wrapper == null) throw new StorageManagerException("Client try to send a null value to Storage Server.");
-		  
-		try 
+
+		try
 		{
 			Socket socket;
 			socket = new Socket(ip, port);
-		
-			System.out.println("Socket client: " + socket);
+
+			//System.out.println("Socket client: " + socket);
 
 			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
-			
+
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			logger.info("["+this.name +"] Requierd streams to exchange data created");
-			
+
 			out.writeObject(wrapper);
 			out.flush();
 			logger.info("["+this.name +"] Request sended to server");
-			
+
 			wrapper = (Wrapper) in.readObject();
 			logger.info("["+this.name +"] Answer got from server");
-			
+
 			in.close();
 			out.close();
 			socket.close();
-		
+
 			return wrapper;
-		} 
+		}
 		catch (IOException | ClassNotFoundException e)
 		{
 			throw new StorageManagerException(e.getMessage());
