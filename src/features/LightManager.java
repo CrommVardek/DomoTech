@@ -175,6 +175,10 @@ public class LightManager {
 		return String.valueOf(sensorValue);
 	}
 	
+	public int getIntSensorValue(){
+		return sensorValue;
+	}
+	
 	public String getSimplifiedValue() {
 		return String.valueOf(simplifiedSensorValue);
 	}

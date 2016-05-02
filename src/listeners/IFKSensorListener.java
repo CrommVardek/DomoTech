@@ -31,6 +31,7 @@ public class IFKSensorListener implements SensorChangeListener{
 		switch (sce.getIndex()){
 			case 1: 
 				int val = sce.getValue();
+				recoveryDI(val, hm.getTemp());
 				lm.onChangeLight(val);
 				lm.turnOnLeds();
 				break;
@@ -38,6 +39,7 @@ public class IFKSensorListener implements SensorChangeListener{
 				//Convert temp
 				int val2 = sce.getValue();
 				double roomtemp = Math.round(((val2 * 0.22222) - 61.11));
+				recoveryDI(lm.getIntSensorValue(), roomtemp);
 				hm.onChangingTemp(roomtemp);
 				System.out.println(hm.getDesiredTemp());
 				break;
@@ -50,6 +52,17 @@ public class IFKSensorListener implements SensorChangeListener{
 				System.out.println("Index = " + sce.getIndex());
 				System.out.println("changing sensor val: " + sce);
 				break;
+		}
+	}
+	
+	
+	//Système de robustesse de l'alarme incendie valueLight est la valeur du senseur (entre 0 et 999) et valueTemp est la valeur en °C)
+	
+	public void recoveryDI(int valueLight, double valueTemp){
+		if(valueLight <= lm.getIntSensorValue() && valueLight < 299){
+			if(valueTemp >= hm.getTemp() && valueTemp > 40){
+				di.switchAlarmOn();
+			}
 		}
 	}
 	

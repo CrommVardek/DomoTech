@@ -158,6 +158,14 @@ public class DetecteurIncendie {
 		}
 	}
 	
+	public void switchAlarmOn(){
+		try {
+			ifkp.setOutputState(7, false);
+		} catch (PhidgetException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//Permet simplement d'arrêter l'alarme sans la désactiver.
 	public void switchAlarmOff() {
 		
