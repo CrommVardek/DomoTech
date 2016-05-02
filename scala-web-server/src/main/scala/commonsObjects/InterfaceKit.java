@@ -11,10 +11,10 @@ import listeners.IFKSensorListener;
  */
 public class InterfaceKit {
 
-    public InterfaceKit(HeatManager heatManager, LightManager lightManager){
+    public InterfaceKit(HeatManager heatManager, LightManager lightManager, DetecteurIncendie detecteurIncendie){
         // TODO: Add Fire Alarm
 
-        IFKSensorListener ifkce = new IFKSensorListener(heatManager, lightManager);
+        IFKSensorListener ifkce = new IFKSensorListener(heatManager, lightManager, detecteurIncendie);
         IFKOutputListener ifkol = new IFKOutputListener();
         //IFKInputListener ifkil = new IFKInputListener(alarme);
 

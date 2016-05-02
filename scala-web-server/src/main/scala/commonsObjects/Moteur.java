@@ -44,7 +44,7 @@ public class Moteur {
 
     public Moteur() throws PhidgetException
     {
-        this(0.0, 220.0, 250.0, 30.0);
+        this(0.0, 220.0, 250.0, 20.0);
     }
 
 /*
@@ -90,7 +90,6 @@ public class Moteur {
     public double getPositionActuelle() throws PhidgetException
     {
         return servo.getPosition(0);
-
     }
 
     public double getPositionActuelleEcoutee()

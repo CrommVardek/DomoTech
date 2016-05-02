@@ -23,7 +23,11 @@ public class Spice implements Container {
 	
 	public Spice()
 	{
-		this("0", "Empty_Name", "Empty_Description", "Empty_barCode");
+		this.setSpiceId("0");
+		this.name = "Empty_Name";
+		this.description="Test";
+		this.barCode = "Test";
+		//this("0", "Empty_Name", "Empty_Description", "Empty_barCode");
 	}
 
 /* GETTERS ET SETTERS */

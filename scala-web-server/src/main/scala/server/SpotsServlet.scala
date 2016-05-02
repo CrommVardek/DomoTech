@@ -1,5 +1,7 @@
 package server
 
+import commonsObjects.ManagersConfig
+import exception.SpiceNotPresentException
 import org.scalatra.json.JacksonJsonSupport
 import org.slf4j.LoggerFactory
 
@@ -18,7 +20,7 @@ class SpotsServlet extends ScalaWebServerStack with JacksonJsonSupport {
   }
 
   get("/") {
-    logger.info("Get Request on /rest/spices")
+    logger.info("Get Request on /rest/spots")
 
     response.getWriter.write("{\"value\" : \"6\"}")
 
@@ -27,14 +29,19 @@ class SpotsServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
 
   post("/"){
-    logger.info("POST Request on /rest/insideLuminosity")
+    logger.info("POST Request on /rest/spots")
 
     val json = readJsonFromBody(request.body)
     val value = json.children.head.extract[String]
 
     logger.info("The extracted value from the JSON is: " +value)
 
-    // TODO: Send data to manager
+    try{
+      ManagersConfig.getInstance().getRoueEpices.goToEmplacement(Integer.valueOf(value))
+      response.setStatus(200)
+    } catch{
+      case e:SpiceNotPresentException=> response.setStatus(501)
+    }
 
     logger.info("POST Request done (Actor killed)")
   }
