@@ -87,11 +87,11 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
 
 
         // Asynchronous tasks
-        //new GetNumberSpotsAsyncTask().execute(listSpots);
-        //new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
-        //new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
-        //new GetListSpicesAsyncTask().execute(listeEpices);
-        new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
+        new GetNumberSpotsAsyncTask().execute(listSpots);
+        new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
+        new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
+        new GetListSpicesAsyncTask().execute(listeEpices);
+        //new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
     }
 
 
@@ -213,7 +213,15 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
 
 
     public void onItemClick(AdapterView<?> l, View view, int position, long id){
-        Toast.makeText(Room_Details_Activity.this, "Item "+id+" clicked at position "+position, Toast.LENGTH_SHORT).show();
+        String item = (String) l.getAdapter().getItem(position);
+        if (findViewById(((ListView) l).getId()).equals(listeEpices)){
+            PostDesiredSpiceAsyncTask task = new PostDesiredSpiceAsyncTask(Room_Details_Activity.this);
+            task.execute(item);
+        } else if (findViewById(((ListView) l).getId()).equals(listSpots))
+        {
+            Integer value = Integer.valueOf(item.split(" ")[1]);
+            new PostDesiredSpotAsyncTask().execute(Integer.valueOf(value));
+        }
     }
 
 

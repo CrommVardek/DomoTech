@@ -8,7 +8,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
 
 /**
  * Created by Axel on 13-04-16.
@@ -16,6 +15,7 @@ import org.json.JSONObject;
 public class PostDesiredSpotAsyncTask extends AsyncTask<Integer, Void, Boolean> {
 
     private String LOGGER_TAG = "PostSpotAsyncTask";
+
 
     protected Boolean doInBackground(Integer... args){
         try{
@@ -41,7 +41,6 @@ public class PostDesiredSpotAsyncTask extends AsyncTask<Integer, Void, Boolean> 
     }
 
     protected void onProgressUpdate(Void... progress){
-
     }
 
     protected void onPostExecute(Boolean result){
