@@ -91,7 +91,6 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
         new GetInsideLuminosityAsyncTask().execute(currentInsideLuminosity);
         new GetInsideTemperatureAsyncTask().execute(currentInsideTemperature);
         new GetListSpicesAsyncTask().execute(listeEpices);
-        //new PostDesiredLuminosityAsyncTask().execute(new Integer(5));
     }
 
 
@@ -240,10 +239,25 @@ public class Room_Details_Activity extends Template_Activity implements AdapterV
     }
 
 
-    public void submitTemperature(View view){
-        desiredTemperatureValue.getText().toString();
-        // Add check
-        // TODO: send to server
+    public void submitValue(View view){
+        if (view.getId() == R.id.submitLuminosity){
+            if (desiredLightValue != null && desiredLightValue.getText() != null && desiredLightValue.getText().toString() != "" ){
+                new PostDesiredLuminosityAsyncTask().execute(Integer.valueOf(desiredLightValue.getText().toString()));
+            } else{
+                Toast.makeText(Room_Details_Activity.this, "Veuillez entrer une valeur de luminosité.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (view.getId() == R.id.submitTemperature){
+            if (desiredTemperatureValue != null && desiredTemperatureValue.getText() != null && desiredTemperatureValue.getText().toString() != "" ){
+                new PostDesiredTemperatureAsyncTask().execute(Double.valueOf(desiredTemperatureValue.getText().toString()));
+            } else{
+                Toast.makeText(Room_Details_Activity.this, "Veuillez entrer une valeur de température.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            // Error
+            Toast.makeText(Room_Details_Activity.this, "An error occured in submit value....", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 

@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/confirm"
-                android:id="@+id/submitTemperature"/>
+                android:id="@+id/submitTemperature"
+                android:onClick="submitValue"/>
     </LinearLayout>
 </LinearLayout>

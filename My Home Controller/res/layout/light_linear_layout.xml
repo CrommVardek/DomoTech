@@ -87,5 +87,14 @@
                         android:text="@string/default_luminosity"/>
         </LinearLayout>
 
+        <Space  android:layout_width="fill_parent"
+                android:layout_height="@dimen/small_space_height"/>
+
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/confirm"
+                android:id="@+id/submitLuminosity"
+                android:onClick="submitValue"/>
     </LinearLayout>
 </LinearLayout>
