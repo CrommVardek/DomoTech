@@ -1,7 +1,7 @@
 package server
 
 import akka.actor.Props
-import actors.{DatabaseSpiceActor, SpiceActor}
+import actors.DatabaseSpiceActor
 import commonsObjects._
 import exception.SpiceNotPresentException
 
@@ -11,7 +11,6 @@ import akka.pattern.ask
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.parsing.json.JSONObject
-
 
 
 /**
@@ -26,9 +25,6 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
   // Logger used for debugging
   private val logger = LoggerFactory.getLogger(getClass)
-  // Actor to do the job
-  private def actor = actorSystem.actorOf(Props[SpiceActor])
-
 
   before(){
     contentType=formats("json")
@@ -48,7 +44,6 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
     logger.info("Result received!")
     logger.info(res.size().toString)
 
-
     var json = "["
 
     val iterator = res.iterator()
@@ -61,7 +56,6 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
     }
     json += "]"
 
-    // TODO: Parse JSON
     response.getWriter.write(json)
     actor ! "Kill"
 
@@ -79,7 +73,7 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
     try{
       logger.info("Asking the spice")
-      val res = ManagersConfig.getInstance().getRoueEpices.askEpice(value);
+      val res = ManagersConfig.getInstance().getRoueEpices.askEpice(value)
       if (res) {response.setStatus(200);}
       else{ response.setStatus(666); response.getWriter.write("L'épice n'est pas sur la roue.")}
     } catch{case e:SpiceNotPresentException=> logger.info("Not present"); response.setStatus(501)}

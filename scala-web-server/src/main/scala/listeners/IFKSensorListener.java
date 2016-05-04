@@ -1,7 +1,5 @@
 package listeners;
 
-//import alarmeIncendie.DetecteurIncendie;
-
 import commonsObjects.DetecteurIncendie;
 import com.phidgets.event.SensorChangeEvent;
 import com.phidgets.event.SensorChangeListener;
@@ -66,6 +64,4 @@ public class IFKSensorListener implements SensorChangeListener{
 			}
 		}
 	}
-
-
 }

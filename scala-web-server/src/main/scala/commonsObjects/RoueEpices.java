@@ -12,6 +12,7 @@ import java.net.InetAddress;
  */
 public class RoueEpices {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private final int MAXEPICES = 999;
     private final int MAX = 6;
     private final int MIN = 1;
@@ -22,8 +23,9 @@ public class RoueEpices {
     //Base de Connaissances Epices / RFID ==> A récupérer de la BDD en priori.
     private Spice[] BDCEpices = new Spice[MAXEPICES];
     private boolean activatedRFID =false;
+    private boolean init = false;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     public RoueEpices()
     {
@@ -78,21 +80,27 @@ public class RoueEpices {
             logger.info(e.toString());
         }
 
-
-
         //Initialisation des épices de la roue.
+        init = true;
         try {
             activateRFID();
+            Thread.sleep(1000);
+
             initialisationEmplacements();
-            desactivateRFID();
+            //desactivateRFID();
         } catch (Exception e) {
             logger.info("initialisationEmplacements() Failed!");
             e.printStackTrace();
             logger.info(e.toString());
+        } finally {
+            init = false;
         }
-
     }
 
+    /**
+     * Activate the Spice wheel before use.
+     * The Activation consists in activating the servo motor.
+     */
     public void activer()
     {
         if (servo == null) System.out.println("Erreur moteur, impossible de l'activer : référence invalide !");
@@ -110,6 +118,10 @@ public class RoueEpices {
         }
     }
 
+    /**
+     * Deactivate the Spice wheel after use.
+     * The deactivation of the wheel is a simple deactivation of the servo motor.
+     */
     public void desactiver()
     {
         if (servo == null) System.out.println("Erreur moteur, impossible de le désactiver : référence invalide !");
@@ -157,7 +169,13 @@ public class RoueEpices {
             return;
         }
         else emplacements[emplacement - 1] = new Spice();
-        //TODO: MàJ BDD
+
+        try{
+            Wrapper wrapper = new Wrapper(Request.updateSpiceBoxContent, emplacements[emplacement - 1], String.valueOf(emplacement));
+            StorageClient storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"));
+            storageClient.updateSpiceBoxContent(wrapper);}
+        catch(Exception e){logger.info(e.getMessage());}
+
     }
 
     public void attribuerEpiceEmplacement(int emplacement, Spice epice)
@@ -257,6 +275,16 @@ public class RoueEpices {
         return " ";
     }
 
+
+    public String getSpiceIdBDCE(String tagRFID){
+        for(int i=0; i < MAXEPICES; i++){
+            if (BDCEpices[i].getBarCode().equals(tagRFID) ){
+                return BDCEpices[i].getSpiceId();
+            }
+        }
+        return " ";
+    }
+
 	/*
 	 * Initialisation de la roue à épices, s'utilise à la création de la roue à épices et lors de mise à niveau de la roue
 	 */
@@ -277,11 +305,16 @@ public class RoueEpices {
                 emplacements[i].setName(getNomBDCE(tag));
                 emplacements[i].setDescription(getDescBDCE(tag));
                 emplacements[i].setBarCode(tag);
+                emplacements[i].setSpiceId(getSpiceIdBDCE(tag));
             }
             logger.info("exited isInBDC");
-            //TODO: MàJ BDD
-        }
 
+            try{
+                Wrapper wrapper = new Wrapper(Request.updateSpiceBoxContent, emplacements[i], String.valueOf(i+1));
+                StorageClient storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"));
+                storageClient.updateSpiceBoxContent(wrapper);}
+            catch(Exception e){logger.info(e.getMessage());}
+        }
     }
 
 	/*
@@ -298,7 +331,12 @@ public class RoueEpices {
             System.out.println("Impossible de mettre à jour l'emplacement actuel");
             e.printStackTrace();
         }
-        //TODO: MàJ BDD
+
+        try{
+            Wrapper wrapper = new Wrapper(Request.updateSpiceBoxContent, emplacements[getEmplActuel()-1], String.valueOf(getEmplActuel()));
+            StorageClient storageClient = new StorageClient("test", 8001, InetAddress.getByName("192.168.43.127"));
+            storageClient.updateSpiceBoxContent(wrapper);}
+        catch(Exception e){logger.info(e.getMessage());}
     }
 
 	/*
@@ -307,10 +345,12 @@ public class RoueEpices {
 
     public void activateRFID(){
         activatedRFID = true;
+        rfid.activate();
     }
 
     public void desactivateRFID(){
         activatedRFID = false;
+        rfid.deactivate();
     }
 
     public boolean isRFIDActivated(){
@@ -322,45 +362,34 @@ public class RoueEpices {
 	 */
 
     public boolean askEpice(String name) throws SpiceNotPresentException{
-        //desactivateRFID();
-try {
-    logger.info("Asking for spice: " + name);
-    for (int i = 0; i < MAX; i++) {
-        logger.info("Contenu du tableau");
-        logger.info(emplacements.toString());
+        desactivateRFID();
+        try {
+            logger.info("Asking for spice: " + name);
+            for (int i = 0; i < MAX; i++) {
+                logger.info("Contenu du tableau");
+                logger.info(emplacements[i].toString());
 
-        if (emplacements[i].getName().equalsIgnoreCase(name) ) {
-            try {
-                goToEmplacement(i + 1);
-                return true;
-            } catch (Exception e) {
-                logger.info("Error while moving toward the spice");
-                return false;
+                if (emplacements[i].getName().equalsIgnoreCase(name) ) {
+                    try {
+                        goToEmplacement(i + 1);
+                        activateRFID();
+                        return true;
+                    } catch (Exception e) {
+                        logger.info("Error while moving toward the spice");
+                        activateRFID();
+                        return false;
+                    }
+                }
             }
+            activateRFID();
+            return false;
         }
-    }
-    return false;
-}
-catch (Exception e) {e.printStackTrace(); return false;}
-
-/*            logger.info(emplacements[i].toString());
-            if (emplacements[i].getName().equals(name)){
-
-                try {
-                    goToEmplacement(i+1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            else{
-                if(i == MAX - 1){
-                    throw new SpiceNotPresentException();
-                }
-            }
-        }*/
-        //activateRFID();
+        catch (Exception e) {e.printStackTrace();}
+        return false;
     }
 
 
     public RFIDReader getRfidReader(){return rfid;}
+
+    public boolean isInInitMode(){return init;}
 }

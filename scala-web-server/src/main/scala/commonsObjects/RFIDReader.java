@@ -21,14 +21,33 @@ public class RFIDReader {
     private Logger logger= LoggerFactory.getLogger(RFIDReader.class);
 
     public RFIDReader (RoueEpices re) throws PhidgetException{
-
-        this.re = re;
-        logger.info("Begining of initialisation (RFID)");
-        rfid = new RFIDPhidget();
-        rfid.openAny();
-        rfid.waitForAttachment(1000);
-        addListeners();
+        try {
+            this.re = re;
+            logger.info("Begining of initialisation (RFID)");
+            rfid = new RFIDPhidget();
+            rfid.openAny();
+            rfid.waitForAttachment(1000);
+            addListeners();
+        } catch (Exception e){
+            logger.info(e.getMessage());
+        }
     }
+
+    public void activate(){
+        try{
+            rfid.setAntennaOn(true);
+            rfid.setLEDOn(true);
+        }
+        catch(Exception e){logger.info(e.getMessage());}
+    }
+
+    public void deactivate(){
+        try{
+            rfid.setAntennaOn(false);
+            rfid.setLEDOn(false);
+        } catch(Exception e){logger.info(e.getMessage());}
+    }
+
 
     public void addListeners(){
 
@@ -40,11 +59,18 @@ public class RFIDReader {
         rfid.addTagGainListener(rfidtgl);
         rfid.addTagLossListener(rfidtll);
         rfid.addAttachListener(new AttachListener() {
-            @Override
-            public void attached(AttachEvent attachEvent) {
-                logger.info("RFID Reader attached");
-            }
-        });
+                                   @Override
+                                   public void attached(AttachEvent attachEvent) {
+                                       try {
+                                           ((RFIDPhidget) attachEvent.getSource()).setAntennaOn(true);
+                                           ((RFIDPhidget) attachEvent.getSource()).setLEDOn(true);
+                                       } catch (PhidgetException ex) {
+                                       }
+                                       System.out.println("attachment of " + attachEvent);
+                                   }
+                               });
+
+
         rfid.addDetachListener(new DetachListener() {
             @Override
             public void detached(DetachEvent detachEvent) {
@@ -61,9 +87,11 @@ public class RFIDReader {
     }
 
     public String getTag() throws PhidgetException{
+
         if (rfid.getTagStatus() == true ){
             logger.info("getTagStatus = true");
             logger.info(rfid.getLastTag());
+            try{Thread.sleep(1000);}catch(Exception e){logger.info(e.getMessage());}
             return rfid.getLastTag();
         }
         else return "";

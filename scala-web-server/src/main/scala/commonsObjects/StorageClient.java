@@ -535,9 +535,10 @@ public class StorageClient {
 	{
 		try
 		{
-			if ((w.getRequest() != Request.updateSpiceBoxContent) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
-
+			//if ((w.getRequest() != Request.updateSpiceBoxContent) || ( ! w.getContainer().getClass().isInstance(Spice.class))) throw new StorageManagerException("invalid wrapper !");
+			logger.info("preparing to exchange");
 			w = this.exchangeWrapper(w);
+			logger.info("done");
 
 			if (w.getString().equals("Full_Box")) return msgOK;
 			else throw new StorageManagerException(((Message) w.getContainer()).getMessage());
@@ -661,6 +662,7 @@ public class StorageClient {
 			//input = StorageClient.class.getResourceAsStream(path);
 			input = StorageClient.this.getClass().getClassLoader().getResourceAsStream(path);
 			properties.load(input);
+
 
 			// chargement des paramètres :
 			logger.info("LOADED PARAMETERS :");

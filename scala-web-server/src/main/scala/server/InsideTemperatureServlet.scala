@@ -63,13 +63,16 @@ class InsideTemperatureServlet extends ScalaWebServerStack with JacksonJsonSuppo
     val json = readJsonFromBody(request.body)
     val value = json.children.head.extract[String]
 
+    logger.info("The extracted value from the JSON is: " +value)
+
     val heatManagerActor = actorSystem.actorOf(Props[HeatManagerActor], "heatManagerActor")
 
-
-    logger.info("The extracted value from the JSON is: " +value)
+    logger.info("Contacting actor...")
 
     heatManagerActor ! "Increase Temperature " +value
     heatManagerActor ! "Kill"
+
+    logger.info("Actor notified...")
 
     logger.info("POST Request done (Actor killed)")
   }
