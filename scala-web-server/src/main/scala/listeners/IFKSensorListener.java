@@ -59,7 +59,7 @@ public class IFKSensorListener implements SensorChangeListener{
 
 	public void recoveryDI(int valueLight, double valueTemp){
 		if(valueLight <= lm.getIntSensorValue() && valueLight < 299){
-			if(valueTemp >= hm.getTemp() && valueTemp > 40){
+			if(valueTemp >= hm.getTemp() && valueTemp > 40.0){
 				di.switchAlarmOn();
 			}
 		}

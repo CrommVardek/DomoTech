@@ -244,7 +244,6 @@ public class LightManager {
 					ifk.setOutputState(4,false);
 					ifk.setOutputState(5,false);
 					ifk.setOutputState(6,false);
-					ifk.setOutputState(7,false);
 
 				}
 
