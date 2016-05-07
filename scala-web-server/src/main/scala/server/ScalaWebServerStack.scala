@@ -9,7 +9,7 @@ import scalate.ScalateSupport
 trait ScalaWebServerStack extends ScalatraServlet with ScalateSupport {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
-  protected implicit val defaultTimeout = Timeout(60000)
+  protected implicit val defaultTimeout = Timeout(6000)
 
   val actorSystem = ActorSystem("Domotic")
 

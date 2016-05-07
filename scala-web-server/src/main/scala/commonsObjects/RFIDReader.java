@@ -88,10 +88,9 @@ public class RFIDReader {
 
     public String getTag() throws PhidgetException{
 
-        if (rfid.getTagStatus() == true ){
+        if (rfid.getTagStatus()){
             logger.info("getTagStatus = true");
             logger.info(rfid.getLastTag());
-            try{Thread.sleep(1000);}catch(Exception e){logger.info(e.getMessage());}
             return rfid.getLastTag();
         }
         else return "";

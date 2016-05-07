@@ -2,8 +2,8 @@ package listeners;
 
 import com.phidgets.event.TagLossEvent;
 import com.phidgets.event.TagLossListener;
-import commonsObjects.RFIDReader;
 import commonsObjects.RoueEpices;
+import commonsObjects.Spice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,29 +18,34 @@ public class RFIDTagLossListener implements TagLossListener {
 	}
 
 	public void tagLost(TagLossEvent tle) {
+		// Set the tag read as the last one read in the spice wheel.
+		re.setListenerTag(tle.getValue());
+		re.setListenerTagGain(false);
 
-		try{Thread.sleep(3500);}catch(Exception e){}
-
-		if (re.isInInitMode()){
-			logger.info("Init mode: tag lost not treated");
-		} else{
-			logger.info("Tag is lost... Preparing to reset");
-
-			RFIDReader reader = re.getRfidReader();
-
+		// If the Wheel is in init mode; nothing to do.
+		if(!re.isInInitMode()){
 			try{
-				String tag = reader.getTag();
-				logger.info("The tag is: "+tag);
-				if (tag == null || tag.equals("")){
-					int emplacement = re.getEmplActuel();
-					Thread.sleep(2000);
-					re.marquerEmplacementVide(emplacement);
+				logger.info("Wheel not in init mode - Tag loss in treatment");
+				//Thread.sleep(500);
 
-					logger.info("Spice at " + emplacement+ " removed --> reset");
-				} else {logger.info("Still here");}
+				if (!re.getListenerTagGain() && re.getListenerTag().equals(tle.getValue())){
+					re.majEmplacements(new Spice().getBarCode());
+					logger.info("Tag: \""+tle.getValue()+"\" removed.");
+				}
+				else if(re.getListenerTagGain() && re.getListenerTag().equals(tle.getValue())){
+					re.majEmplacements(tle.getValue());
+					logger.info("Tag: \""+tle.getValue()+"\" put back.");
+				}
+				else{
+					logger.info("RFID Tag Gain not treated....");
+					logger.info("Tag = "+tle.getValue()+"; Tag gain = "+String.valueOf(re.getListenerTagGain()));
+				}
 			} catch (Exception e){
+				logger.info("Error in RFIDTagGainListener...");
 				e.printStackTrace();
 			}
+		} else{
+			logger.debug("Spice Wheel in init mode: Tag Gained not treated");
 		}
 	}
 }
