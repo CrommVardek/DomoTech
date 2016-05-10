@@ -34,7 +34,7 @@ object ScalaWebServerBuild extends Build {
         "org.scalatra" %% "scalatra-json" % "2.3.0",
         "org.json4s" %% "json4s-native" % "3.2.9",
         "org.json4s" %% "json4s-jackson" % "3.3.0",
-        "org.eclipse.jetty" % "jetty-webapp" % "9.2.15.v20160210" % "container",
+        "org.eclipse.jetty" % "jetty-webapp" % "9.2.15.v20160210" % "container;compile",
         "ch.qos.logback" % "logback-classic" % "1.1.1" % "runtime",
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
         "joda-time" % "joda-time" % "2.9.3"

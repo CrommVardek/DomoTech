@@ -418,7 +418,6 @@ public class RoueEpices {
 
     public boolean isInInitMode(){return init;}
 
-
     public String getListenerTag(){return listenerTag;}
     public boolean getListenerTagGain(){return listenerTagGain;}
     public void setListenerTag(String listenerTag){this.listenerTag = listenerTag;}
