@@ -80,4 +80,11 @@ class SpicesServlet extends ScalaWebServerStack with JacksonJsonSupport {
 
     logger.info("POST Request done (Actor killed)")
   }
+
+
+  post("/init"){
+    logger.info("Post Request on /rest/spice/init")
+    ManagersConfig.getInstance().getRoueEpices.initialisationEmplacements()
+    logger.info("Spots initialised!")
+  }
 }

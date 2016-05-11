@@ -52,7 +52,6 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
   }
 
 
-  // TODO
   post("/"){
     logger.info("POST Request on /rest/insideLuminosity")
 
@@ -67,6 +66,12 @@ class InsideLuminosityServlet extends ScalaWebServerStack with JacksonJsonSuppor
     lightManagerActor ! "Kill"
 
     logger.info("POST Request done (Actor killed)")
+  }
+
+  post("/autoSwitch"){
+    logger.info("Post Request on /rest/insideLuminosity/autoSwitch")
+
+
   }
 }
 

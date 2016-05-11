@@ -130,7 +130,7 @@ public class SensorReader implements Runnable {
                 {
                     LightSensorMonitoring lightSensorMonitoring = new LightSensorMonitoring();
                     String light = ManagersConfig.getInstance().getLightManager().getSimplifiedValue();
-                    lightSensorMonitoring.setInsideLight("999");
+                    lightSensorMonitoring.setInsideLight(light);
                     lightSensorMonitoring.setOutsideLight(light);
                     lightSensorMonitoring.setRoom("1");
                     logger.info(lightSensorMonitoring.toString());

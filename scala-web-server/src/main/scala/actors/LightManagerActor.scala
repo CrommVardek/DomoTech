@@ -28,6 +28,7 @@ class LightManagerActor extends Actor{
                                 // Retrieve the integer at the end of the message
                                 val intensity = message.split(" ").last
                                 manager.setLedPower(false, intensity.toInt)
+                                manager.turnOnLeds()
                                 logger.info("Message treated - Light was adjusted.")
                               }
                               else{

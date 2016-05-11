@@ -21,6 +21,7 @@ public class ManagersConfig {
         heatManager = new HeatManager(1, 0.0);
         lightManager = new LightManager(1, 0);
         detecteurIncendie = new DetecteurIncendie(20);
+        detecteurIncendie.activer();
         interfaceKit = new InterfaceKit(heatManager, lightManager, detecteurIncendie);
         roueEpices = new RoueEpices();
     }
