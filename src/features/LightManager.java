@@ -13,6 +13,7 @@ public class LightManager {
 	int ledPower = 0;
 	//Light On or Off
 	boolean lightOn = false;
+	boolean autoMode = true;
 	
 	InterfaceKitPhidget ifk = null;
 
@@ -128,6 +129,7 @@ public class LightManager {
 			
 	}
 	
+	//Called only when going into manual mode
 	public void setLedPower(boolean night, int power){
 		if(!lightOn){
 			
@@ -144,15 +146,24 @@ public class LightManager {
 		else{
 			ledPower = power;
 		}
+		setManual();
+	}
+	
+	public void setAuto(){
+		autoMode = true;
+	}
+	
+	public void setManual(){
+		autoMode = false;
 	}
 	
 	public void onChangeLight(int lightVal){
-		
-		sensorValue = lightVal;
-		simplifiedSensorValue = SimplifyValue(sensorValue);
-		ledPower = setLedPower(isNightTime());
-		System.out.println("Led Power is at " + ledPower);
-		
+		if(autoMode){
+			sensorValue = lightVal;
+			simplifiedSensorValue = SimplifyValue(sensorValue);
+			ledPower = setLedPower(isNightTime());
+			System.out.println("Led Power is at " + ledPower);
+		}
 	}
 	
 	public boolean isNightTime(){
@@ -244,7 +255,6 @@ public class LightManager {
 				ifk.setOutputState(4,false);
 				ifk.setOutputState(5,false);
 				ifk.setOutputState(6,false);
-				ifk.setOutputState(7,false);
 			
 			}
 			
