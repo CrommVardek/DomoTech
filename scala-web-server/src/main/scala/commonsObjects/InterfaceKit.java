@@ -3,6 +3,7 @@ package commonsObjects;
 import com.phidgets.InterfaceKitPhidget;
 import com.phidgets.PhidgetException;
 import com.phidgets.event.*;
+import listeners.IFKInputListener;
 import listeners.IFKOutputListener;
 import listeners.IFKSensorListener;
 
@@ -16,7 +17,7 @@ public class InterfaceKit {
 
         IFKSensorListener ifkce = new IFKSensorListener(heatManager, lightManager, detecteurIncendie);
         IFKOutputListener ifkol = new IFKOutputListener();
-        //IFKInputListener ifkil = new IFKInputListener(alarme);
+        IFKInputListener ifkil = new IFKInputListener(detecteurIncendie);
 
         InterfaceKitPhidget ifk = null;
         try {
@@ -44,7 +45,7 @@ public class InterfaceKit {
         });
 
         ifk.addSensorChangeListener(ifkce);
-        //ifk.addInputChangeListener(ifkil);
+        ifk.addInputChangeListener(ifkil);
         ifk.addOutputChangeListener(ifkol);
 
         //319110 is the serial number.
@@ -54,12 +55,10 @@ public class InterfaceKit {
         //Ajout des ifk aux managers ayant un output.
         lightManager.addIFK(ifk);
 
-        //
-        // Thread.sleep(2000);
 
-        //    alarme.setIFK(ifk);
+        try{Thread.sleep(2000);}catch(Exception e){e.printStackTrace();}
 
-          //  alarme.switchAlarmOff();
-
+        detecteurIncendie.setIFK(ifk);
+        detecteurIncendie.switchAlarmOff();
     }
 }

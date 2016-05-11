@@ -232,7 +232,7 @@ public class RoueEpices {
             logger.info("PosAct brute= "+posAct);
 
             for(int i =0; i<MAX; i++){
-                if (posAct <= positions[i]+5){
+                if (posAct <= positions[i]){
                     return i+1;
                 }
             }
